@@ -5,3 +5,5 @@ sudo apt-get install emacs22-nox
 #Local Server#
 #Download Tomcat 6.0 (not 7.0 which requires java 1.6 and isn't compatible with MacOSX 10.6)
 curl http://apache.mirrors.redwire.net//tomcat/tomcat-6/v6.0.29/bin/apache-tomcat-6.0.29.zip
+chmod 744 apache-tomcat-6.0.29/bin/*.sh
+export JAVA_HOME="/Library/Java/Home"
