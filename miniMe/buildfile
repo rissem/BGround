@@ -12,6 +12,7 @@ repositories.remote << "http://download.java.net/maven/2/"
 repositories.remote << "http://www.ibiblio.org/maven2/"
 
 Project.local_task :deploy
+Project.local_task :templates
 
 desc "The Minime project"
 define "miniMe" do
@@ -23,5 +24,11 @@ define "miniMe" do
 
   task :deploy => :package do
     FileUtils.cp("target/miniMe-1.0.0.war", "/Users/mike/BGround/apache-tomcat-6.0.29/webapps/miniMe.war")
+  end
+
+  task :templates do
+    #TODO make building the site dependent on this
+    #TODO only recompile the templates that need it
+    system "java -jar dep/SoyToJsSrcCompiler.jar --outputPathFormat src/main/webapp/js/templates.js jsTemplates/*soy"
   end
 end

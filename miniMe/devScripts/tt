@@ -1,9 +1,0 @@
-#! /usr/bin/env bash
-
-if [ $BGROUND ]
-then 
-    tail -F $BGROUND/apache-tomcat-6.0.29/logs/catalina.out
-else
-    echo 'You need to define the $BGROUND environment variable'
-fi
-

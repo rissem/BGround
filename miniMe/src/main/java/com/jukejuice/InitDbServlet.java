@@ -23,6 +23,7 @@ public class InitDbServlet extends HttpServlet {
 		Db db = new Db();
 		try {
 			db.createSongTable();
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
