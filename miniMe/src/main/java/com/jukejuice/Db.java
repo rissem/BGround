@@ -10,6 +10,8 @@ import java.util.List;
 import org.jaudiotagger.tag.FieldKey;
 
 public class Db {
+	private String sqliteFilePath;
+	
 	private void exec (String sql) throws ClassNotFoundException, SQLException
 	{
 		Connection conn = getConnection();
@@ -49,11 +51,27 @@ public class Db {
 		exec("create table if not exists song (artist, title, length)");
 	}
 	
+	
+	public void dropSongTable() throws ClassNotFoundException, SQLException
+	{
+		exec("drop table if exists song");
+	}
+	
 	private Connection getConnection() throws ClassNotFoundException, SQLException
 	{
 		Class.forName("org.sqlite.JDBC");
         Connection conn =
-        	DriverManager.getConnection("jdbc:sqlite:test.db");
+        	DriverManager.getConnection("jdbc:sqlite:" + sqliteFilePath);
         return conn;
+	}
+	
+	public String getSqliteFilePath() {
+		if (sqliteFilePath == null)
+			sqliteFilePath ="live.db"; 
+		return sqliteFilePath;
+	}
+	
+	public void setSqliteFilePath(String sqliteFilePath) {
+		this.sqliteFilePath = sqliteFilePath;
 	}
 }

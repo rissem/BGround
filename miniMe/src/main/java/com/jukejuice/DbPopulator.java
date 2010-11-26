@@ -12,30 +12,49 @@ import org.jaudiotagger.tag.TagException;
 
 public class DbPopulator {
 	private String musicDirectory;
-	
-	public DbPopulator(String musicDirectory)
-	{
-		this.musicDirectory = musicDirectory;
-	}
-	
-	public DbPopulator() {}
+	private Db db;
 	
 	public void init () throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, ClassNotFoundException, SQLException
 	{
-		//drop song table if it exists
-		//create song table
-		
-		if (musicDirectory == null)
-			musicDirectory = System.getProperty("user.home") + "/Music";
-		
-		String [] songFilenames = Util.exec("find " + musicDirectory + " -name *mp3").split("\n");
+		String [] mp3SongFilenames = Util.exec("find " + getMusicDirectory() + " -name *mp3").split("\n");
+		String [] m4aSongFilenames = Util.exec("find " + getMusicDirectory() + " -name *m4a").split("\n");
+		String[] songFilenames = new String[mp3SongFilenames.length + m4aSongFilenames.length];
+		System.arraycopy(mp3SongFilenames, 0, songFilenames, 0, mp3SongFilenames.length);
+		System.arraycopy(m4aSongFilenames, 0, songFilenames, mp3SongFilenames.length, m4aSongFilenames.length);
+
 		List<SongFileInfo> songInfos = new ArrayList<SongFileInfo>();
 		for (String songFilename: songFilenames)
 		{
-			songInfos.add(new SongFileInfo(songFilename));
+			if (! "".equals(songFilename))
+				songInfos.add(new SongFileInfo(songFilename));
 		}
-		Db db = new Db();
+		Db db = getDb();
+		db.dropSongTable();
 		db.createSongTable();
 		db.addSongs(songInfos);
-	}	
+	}
+	
+	public Db getDb()
+	{
+		if (db == null)
+			db = new Db();
+		return db;
+	}
+	
+	public void setDb(Db db)
+	{
+		this.db = db;
+	}
+	
+	public String getMusicDirectory()
+	{
+		if (musicDirectory == null)
+			musicDirectory = System.getProperty("user.home") + "/Music";			
+		return musicDirectory;
+	}
+	
+	public void setMusicDirectory(String musicDirectory)
+	{
+		this.musicDirectory = musicDirectory;
+	}
 }

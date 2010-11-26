@@ -44,4 +44,9 @@ public class Util {
 			return "";
 		}
 	}
+	
+	public static String resource (String filename)
+	{
+		return ClassLoader.getSystemClassLoader().getResource(filename).getFile();
+	}
 }

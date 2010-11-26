@@ -1,14 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="src" path="src/main/java" excluding="**/.svn/|**/CVS/"/>
-  <classpathentry kind="src" output="target/test/classes" path="src/test/java" excluding="**/.svn/|**/CVS/"/>
-  <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/org/apache/openejb/javaee-api/5.0-3/javaee-api-5.0-3-javadoc.jar" path="M2_REPO/org/apache/openejb/javaee-api/5.0-3/javaee-api-5.0-3.jar" sourcepath="M2_REPO/org/apache/openejb/javaee-api/5.0-3/javaee-api-5.0-3-sources.jar"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/org/jaudiotagger/2.0.3/jaudiotagger-2.0.3-javadoc.jar" path="M2_REPO/org/jaudiotagger/2.0.3/jaudiotagger-2.0.3.jar" sourcepath="M2_REPO/org/jaudiotagger/2.0.3/jaudiotagger-2.0.3-sources.jar"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/org/xerial/sqlite-jdbc/3.7.2/sqlite-jdbc-3.7.2-javadoc.jar" path="M2_REPO/org/xerial/sqlite-jdbc/3.7.2/sqlite-jdbc-3.7.2.jar" sourcepath="M2_REPO/org/xerial/sqlite-jdbc/3.7.2/sqlite-jdbc-3.7.2-sources.jar"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/junit/junit/4.7/junit-4.7-javadoc.jar" path="M2_REPO/junit/junit/4.7/junit-4.7.jar" sourcepath="M2_REPO/junit/junit/4.7/junit-4.7-sources.jar"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/org/jmock/jmock/2.5.1/jmock-2.5.1-javadoc.jar" path="M2_REPO/org/jmock/jmock/2.5.1/jmock-2.5.1.jar" sourcepath="M2_REPO/org/jmock/jmock/2.5.1/jmock-2.5.1-sources.jar"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/org/jmock/jmock-junit4/2.5.1/jmock-junit4-2.5.1-javadoc.jar" path="M2_REPO/org/jmock/jmock-junit4/2.5.1/jmock-junit4-2.5.1.jar" sourcepath="M2_REPO/org/jmock/jmock-junit4/2.5.1/jmock-junit4-2.5.1-sources.jar"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-javadoc.jar" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>
-  <classpathentry kind="var" javadocpath="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-javadoc.jar" path="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-sources.jar"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" path="src/main/java"/>
+	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" output="target/test/classes" path="src/test/java"/>
+	<classpathentry excluding="**/.svn/|**/CVS/" kind="src" output="target/test/resources" path="src/test/resources"/>
+	<classpathentry javadocpath="M2_REPO/org/apache/openejb/javaee-api/5.0-3/javaee-api-5.0-3-javadoc.jar" kind="var" path="M2_REPO/org/apache/openejb/javaee-api/5.0-3/javaee-api-5.0-3.jar" sourcepath="M2_REPO/org/apache/openejb/javaee-api/5.0-3/javaee-api-5.0-3-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/org/jaudiotagger/2.0.3/jaudiotagger-2.0.3-javadoc.jar" kind="var" path="M2_REPO/org/jaudiotagger/2.0.3/jaudiotagger-2.0.3.jar" sourcepath="M2_REPO/org/jaudiotagger/2.0.3/jaudiotagger-2.0.3-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/org/xerial/sqlite-jdbc/3.7.2/sqlite-jdbc-3.7.2-javadoc.jar" kind="var" path="M2_REPO/org/xerial/sqlite-jdbc/3.7.2/sqlite-jdbc-3.7.2.jar" sourcepath="/M2_REPO/org/xerial/sqlite-jdbc/3.7.2/sqlite-jdbc-3.7.2-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/log4j/log4j/1.2.9/log4j-1.2.9-javadoc.jar" kind="var" path="M2_REPO/log4j/log4j/1.2.9/log4j-1.2.9.jar" sourcepath="M2_REPO/log4j/log4j/1.2.9/log4j-1.2.9-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/junit/junit/4.7/junit-4.7-javadoc.jar" kind="var" path="M2_REPO/junit/junit/4.7/junit-4.7.jar" sourcepath="M2_REPO/junit/junit/4.7/junit-4.7-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/org/jmock/jmock/2.5.1/jmock-2.5.1-javadoc.jar" kind="var" path="M2_REPO/org/jmock/jmock/2.5.1/jmock-2.5.1.jar" sourcepath="M2_REPO/org/jmock/jmock/2.5.1/jmock-2.5.1-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/org/jmock/jmock-junit4/2.5.1/jmock-junit4-2.5.1-javadoc.jar" kind="var" path="M2_REPO/org/jmock/jmock-junit4/2.5.1/jmock-junit4-2.5.1.jar" sourcepath="M2_REPO/org/jmock/jmock-junit4/2.5.1/jmock-junit4-2.5.1-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-javadoc.jar" kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>
+	<classpathentry javadocpath="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-javadoc.jar" kind="var" path="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
