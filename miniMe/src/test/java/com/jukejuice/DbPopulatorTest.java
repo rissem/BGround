@@ -10,7 +10,7 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.TagException;
 import org.junit.Test;
 
-public class HelloWorldTest {
+public class DbPopulatorTest {
 	
 	@Test
 	public void sampleTest() throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, ClassNotFoundException, SQLException {
