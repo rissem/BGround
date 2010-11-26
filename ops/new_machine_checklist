@@ -1,5 +1,9 @@
 #Development
 git clone git@github.com:rissem/BGround.git
+export BGROUND=wherevery you checked out source repository 
+export PATH="$PATH:$BGROUND/devScripts"
+chmod -R 744 $PATH:$BGROUND/devScripts
+set M2_REPO environemnt variable
 
 #Central Server#
 sudo apt-get install emacs22-nox

@@ -1,3 +1,12 @@
 Setup my own maven repository
 Integrate Log4J
 Eliminate exploded Tomcat from source control
+Get rid of need for clean on every deploy
+Remove hardcoded paths to WAR in buildfile
+
+try and debug this mysterious errror, seems worrisome..
+java.lang.UnsatisfiedLinkError: /Users/mike/BGround/apache-tomcat-6.0.29/temp/sqlite-3.7.2-libsqlitejdbc.jnilib:  no suitable image found.  Did find:  /Users/mike/BGround/apache-tomcat-6.0.29/temp/sqlite-3.7.2-libsqlitejdbc.jnilib: unknown required load command 0x80000022
+
+deal with this error
+validateJarFile(/Users/mike/BGround/apache-tomcat-6.0.29/webapps/miniMe/WEB-INF/lib/javaee-api-5.0-3.jar) - jar not loaded
+caused by deploying the same jar twice
