@@ -13,6 +13,7 @@ repositories.remote << "http://www.ibiblio.org/maven2/"
 
 Project.local_task :deploy
 Project.local_task :templates
+Project.local_task :vlc
 
 desc "The Minime project"
 define "miniMe" do
@@ -42,5 +43,9 @@ define "miniMe" do
     #TODO make building the site dependent on this
     #TODO only recompile the templates that need it
     system "java -jar dep/SoyToJsSrcCompiler.jar --outputPathFormat src/main/webapp/js/templates.js jsTemplates/*soy"
+  end
+
+  task :vlc do
+    system "/Applications/VLC.app/Contents/MacOS/VLC -I http --http-src ../vlcHttpInterface --http-host 127.0.0.1:8081"
   end
 end
