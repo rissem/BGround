@@ -1,0 +1,8 @@
+<vlc id="rpn" param1="title TITLE vlc_get_meta store" />
+<vlc id="rpn" param1="artist ARTIST vlc_get_meta store" />
+<vlc id="rpn" param1="album ALBUM vlc_get_meta store" />
+
+<vlc id="rpn" param1="songName 'songName' url_extract store" />
+<vlc id="value" param1="songName" />
+<vlc id="value" param1="artist" />
+<vlc id="rpn" param1="songName value songName value playlist_add" />

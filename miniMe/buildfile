@@ -46,6 +46,6 @@ define "miniMe" do
   end
 
   task :vlc do
-    system "/Applications/VLC.app/Contents/MacOS/VLC -I http --http-src ../vlcHttpInterface --http-host 127.0.0.1:8081"
+    system "/Applications/VLC.app/Contents/MacOS/VLC -I http --http-src ../vlcHttpInterface --http-host 127.0.0.1:8081 ~/music/*mp3"
   end
 end

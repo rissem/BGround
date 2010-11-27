@@ -1,0 +1,2 @@
+<vlc id="foreach" param1="pl" param2="playlist" /><vlc id="value" param1="pl.uri" />
+<vlc id="end" />
