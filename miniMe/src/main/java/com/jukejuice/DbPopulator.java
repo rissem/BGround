@@ -14,7 +14,7 @@ public class DbPopulator {
 	private String musicDirectory;
 	private Db db;
 	
-	public void init () throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, ClassNotFoundException, SQLException
+	public void init () throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
 	{
 		String [] mp3SongFilenames = Util.exec("find " + getMusicDirectory() + " -name *mp3").split("\n");
 		String [] m4aSongFilenames = Util.exec("find " + getMusicDirectory() + " -name *m4a").split("\n");

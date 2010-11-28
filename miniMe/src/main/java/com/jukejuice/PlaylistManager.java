@@ -5,23 +5,27 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 public class PlaylistManager 
 {
+	private static String PLAYLIST_MANAGER = "playlistManager";
 	private List<Song> playlist = new ArrayList<Song>();
+	private Db db;
 	
-	public void enqueue(List<Song> songs){
-		playlist.addAll(songs);
+	public static PlaylistManager getInstance(ServletContext context)
+	{
+		PlaylistManager playlistManager = (PlaylistManager) context.getAttribute(PLAYLIST_MANAGER);
+		if (playlistManager == null)
+			playlistManager = new PlaylistManager();
+		return playlistManager;
 	}
 	
 	public List<Song> getPlaylist()
 	{
-		return getPlaylist(0,100);
+		return playlist;
 	}
-	
-	public List<Song> getPlaylist(int limit, int offset){
-		return playlist.subList(offset, offset+limit);
-	}
-	
+
 	public Song findSong(int songId)
 	{
 		for (Song song: playlist)
@@ -48,6 +52,10 @@ public class PlaylistManager
 		playlist.add(song);
 	}
 	
+	public void enqueue(int songId){
+		
+	}
+	
 	private void resort() {
 		Collections.sort(playlist, new Comparator<Song>()
 		{
@@ -57,5 +65,17 @@ public class PlaylistManager
 			}
 		}
 		);
+	}
+	
+	public Db getDb()
+	{
+		if (db == null)
+			db = new Db();
+		return db;
+	}
+	
+	public void setDb(Db db)
+	{
+		this.db = db;
 	}	
 }

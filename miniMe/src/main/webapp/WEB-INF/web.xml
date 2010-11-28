@@ -32,10 +32,19 @@
         <servlet-name>InitDbServlet</servlet-name>
         <servlet-class>com.jukejuice.InitDbServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>SearchSongsServlet</servlet-name>
+        <servlet-class>com.jukejuice.SearchSongsServlet</servlet-class>
+    </servlet>    
 
-    <servlet-mapping>
+	<servlet-mapping>
         <servlet-name>InitDbServlet</servlet-name>
         <url-pattern>/initDb</url-pattern>
-    </servlet-mapping>
+	</servlet-mapping>
 
+	<servlet-mapping>
+        <servlet-name>SearchSongsServlet</servlet-name>
+        <url-pattern>/searchSongs</url-pattern>
+	</servlet-mapping>
 </web-app>
