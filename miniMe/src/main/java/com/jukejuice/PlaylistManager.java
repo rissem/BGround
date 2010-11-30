@@ -1,5 +1,6 @@
 package com.jukejuice;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,8 +18,21 @@ public class PlaylistManager
 	{
 		PlaylistManager playlistManager = (PlaylistManager) context.getAttribute(PLAYLIST_MANAGER);
 		if (playlistManager == null)
+		{
 			playlistManager = new PlaylistManager();
+			context.setAttribute(PLAYLIST_MANAGER, playlistManager);
+		}
 		return playlistManager;
+	}
+	
+	public String toHtml()
+	{
+		StringBuffer html = new StringBuffer();
+		for (Song song: playlist)
+		{
+			html.append(song.getTitle() + " - " + song.getArtist() + " (" + song.getId() + ")" + "<br />");
+		}
+		return html.toString();
 	}
 	
 	public List<Song> getPlaylist()
@@ -52,8 +66,9 @@ public class PlaylistManager
 		playlist.add(song);
 	}
 	
-	public void enqueue(int songId){
-		
+	public void enqueue(int songId) throws SQLException
+	{
+		enqueue(getDb().findSongById(songId));
 	}
 	
 	private void resort() {

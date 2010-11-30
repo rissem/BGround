@@ -29,7 +29,7 @@ public class Db {
 	{
 		Connection conn = getConnection();
 		//TODO add filename here
-		PreparedStatement preparedStatement = conn.prepareStatement("insert into song (artist, title, length) values (?, ?, ?)");
+		PreparedStatement preparedStatement = conn.prepareStatement("insert into song (artist, title, length, filename) values (?, ?, ?, ?)");
 		for (SongFileInfo info: songInfos)
 		{
 			try
@@ -37,6 +37,7 @@ public class Db {
 				preparedStatement.setString(1, info.tag.getFirst(FieldKey.ARTIST));
 				preparedStatement.setString(2, info.tag.getFirst(FieldKey.TITLE));
 				preparedStatement.setInt(3, info.header.getTrackLength());
+				preparedStatement.setString(4, info.filename);
 				preparedStatement.addBatch();
 			}
 			catch (Exception e)
@@ -127,8 +128,9 @@ public class Db {
 			int id = resultSet.getInt("id");
 			String artist = resultSet.getString("artist");
 			String title = resultSet.getString("title");
-			int length = resultSet.getInt("length");
-			Song song = new Song(id,artist,title);
+			//int length = resultSet.getInt("length");
+			String filename = resultSet.getString("filename");
+			Song song = new Song(id,filename,artist,title);
 			songs.add(song);
 		}
 		return songs;

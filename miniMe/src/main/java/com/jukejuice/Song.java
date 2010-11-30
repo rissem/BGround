@@ -7,11 +7,13 @@ public class Song
 	private int id;
 	private String artist;
 	private String title;
-	private String filePath;
+	private String filename;
 	
-	public Song(int id, String artist, String title)
+	public Song(int id, String filename, String artist, String title)
 	{
+		System.out.println("id = " + id);
 		this.id = id;
+		this.setFilename(filename);
 		this.artist = artist;
 		this.title = title;
 	}
@@ -47,14 +49,6 @@ public class Song
 		return title;
 	}
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
-	public String getFilePath() {
-		return filePath;
-	}
-	
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -67,6 +61,14 @@ public class Song
 	}
 	//	public JSONObject toJson()
 //	{
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
 		
 //	}
 }

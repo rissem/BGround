@@ -42,7 +42,7 @@ public class PlaylistManagerTest {
 	{
 		PlaylistManager playlistManager = new PlaylistManager();
 		int songId = 128;
-		Song song = new Song(songId,"Mike Risse", "The Greatest Song Ever");
+		Song song = new Song(songId,"file.mp3", "Mike Risse", "The Greatest Song Ever");
 		playlistManager.enqueue(song);
 		Assert.assertTrue(playlistManager.getPlaylist().size() == 1);
 		Assert.assertTrue(playlistManager.findSong(songId).equals(song));

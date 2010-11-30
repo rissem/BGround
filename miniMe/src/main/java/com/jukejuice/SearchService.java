@@ -15,7 +15,7 @@ public class SearchService
 		List<Song> songs = getDb().search(query);
 		for (Song song: songs)
 		{
-			sb.append(song.getTitle() + "<br />");
+			sb.append("<a href='enqueue?songId=" + song.getId() + "'>" + song.getTitle() + "</a>");
 		}
 		return sb.toString();
 	}

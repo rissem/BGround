@@ -38,6 +38,22 @@
         <servlet-class>com.jukejuice.SearchSongsServlet</servlet-class>
     </servlet>    
 
+    <servlet>
+        <servlet-name>EnqueueServlet</servlet-name>
+        <servlet-class>com.jukejuice.EnqueueServlet</servlet-class>
+    </servlet> 
+
+	<servlet>
+		<servlet-name>PlaylistServlet</servlet-name>
+		<servlet-class>com.jukejuice.PlaylistServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+	    <servlet-name>ServletInitializer</servlet-name>
+    	<servlet-class>com.jukejuice.StartupServlet</servlet-class>
+	    <load-on-startup>1</load-on-startup>
+	 </servlet>	
+		
 	<servlet-mapping>
         <servlet-name>InitDbServlet</servlet-name>
         <url-pattern>/initDb</url-pattern>
@@ -46,5 +62,15 @@
 	<servlet-mapping>
         <servlet-name>SearchSongsServlet</servlet-name>
         <url-pattern>/searchSongs</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>EnqueueServlet</servlet-name>
+        <url-pattern>/enqueue</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>PlaylistServlet</servlet-name>
+		<url-pattern>/playlist</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -16,6 +16,7 @@ public class SongFileInfo {
 	public AudioHeader header;
 	public AudioFile f;
 	public Tag tag;
+	public String filename;
 	
 	public SongFileInfo(){}
 	
@@ -25,5 +26,6 @@ public class SongFileInfo {
 		f = AudioFileIO.read(new File(filename));
 		header = f.getAudioHeader();
 		tag = f.getTag();
+		this.filename = filename;
 	}
 }
