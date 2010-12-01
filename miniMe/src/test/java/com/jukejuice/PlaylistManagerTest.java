@@ -20,8 +20,8 @@ public class PlaylistManagerTest {
 	public void setup() throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, ClassNotFoundException, SQLException
 	{
 		Db db = new Db();
-		db.dropSongTable();
 		db.setSqliteFilePath(Db.TESTING_DB);
+		db.dropSongTable();
 		dbPopulator = new DbPopulator();
 		dbPopulator.setDb(db);
 		File markerFile = new File(Util.resource("testMusicMarker"));
