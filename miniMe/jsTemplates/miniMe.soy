@@ -1,0 +1,21 @@
+{namespace miniMe}
+
+/**
+* @param playlist
+*/
+{template .playlist}
+	  <strong>{$playlist.nowPlaying.title} - {$playlist.nowPlaying.title} </strong><br />
+	  /* different message is playlist is null */
+	  {foreach $song in $playlist.songs}
+	  	   {$song.title} - {$song.artist}<br />
+	  {/foreach}
+{/template}
+
+/**
+* @param results
+*/
+{template .search}
+	  {foreach $song in $results}
+	  	   <a onclick="enqueue({$song.id})" href="#">{$song.title} - {$song.artist}</a> <br />
+	  {/foreach}
+{/template}

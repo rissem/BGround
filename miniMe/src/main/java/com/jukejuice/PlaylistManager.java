@@ -8,10 +8,15 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class PlaylistManager 
 {
 	private static String PLAYLIST_MANAGER = "playlistManager";
 	private List<Song> playlist = new ArrayList<Song>();
+	private Song nowPlaying = null;
 	private Db db;
 	
 	public static PlaylistManager getInstance(ServletContext context)
@@ -25,14 +30,25 @@ public class PlaylistManager
 		return playlistManager;
 	}
 	
-	public String toHtml()
+	public JSONObject toJson()
 	{
-		StringBuffer html = new StringBuffer();
-		for (Song song: playlist)
-		{
-			html.append(song.getTitle() + " - " + song.getArtist() + " (" + song.getId() + ")" + "<br />");
+		JSONObject playlistJson = null;
+		try {
+			playlistJson = new JSONObject();
+			if (nowPlaying != null) 
+				playlistJson.put("nowPlaying", nowPlaying.toJson());
+			JSONArray songs = new JSONArray();
+			for (Song song: playlist)
+			{
+				songs.put(song.toJson());
+			}
+			playlistJson.put("songs", songs);
 		}
-		return html.toString();
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+		return playlistJson;
 	}
 	
 	public List<Song> getPlaylist()
@@ -62,13 +78,21 @@ public class PlaylistManager
 		resort();
 	}	
 
-	public void enqueue(Song song){
+	public JSONObject enqueue(Song song){
 		playlist.add(song);
+		JSONObject result = new JSONObject();
+		try {
+			result.put("status", "success");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
-	public void enqueue(int songId) throws SQLException
+	public JSONObject enqueue(int songId) throws SQLException
 	{
-		enqueue(getDb().findSongById(songId));
+		return enqueue(getDb().findSongById(songId));
+
 	}
 	
 	private void resort() {
@@ -80,6 +104,16 @@ public class PlaylistManager
 			}
 		}
 		);
+	}
+	
+	public Song getNowPlaying()
+	{
+		return nowPlaying;
+	}
+	
+	public void setNowPlaying(Song song)
+	{
+		this.nowPlaying = song;
 	}
 	
 	public Db getDb()

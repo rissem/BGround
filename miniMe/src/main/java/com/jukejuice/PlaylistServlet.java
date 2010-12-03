@@ -19,6 +19,6 @@ public class PlaylistServlet
 		PlaylistManager playlistManager = PlaylistManager.getInstance(getServletContext());
 		System.out.println("Size = " + playlistManager.getPlaylist().size());
 		resp.getWriter().append(PlaylistManager.getInstance
-				(getServletContext()).toHtml());
+				(getServletContext()).toJson().toString());
 	}
 }

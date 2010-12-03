@@ -14,13 +14,14 @@ repositories.remote << "http://www.ibiblio.org/maven2/"
 Project.local_task :deploy
 Project.local_task :templates
 Project.local_task :vlc
+Project.local_task :dp
 
 desc "The Minime project"
 define "miniMe" do
   project.version = VERSION_NUMBER
   project.group = GROUP
   manifest["Implementation-Vendor"] = COPYRIGHT
-  compile.with "org.apache.openejb:javaee-api:jar:5.0-3", "org:jaudiotagger:jar:2.0.3", "org.xerial:sqlite-jdbc:jar:3.7.2", "log4j:log4j:jar:1.2.9"
+  compile.with "org.apache.openejb:javaee-api:jar:5.0-3", "org:jaudiotagger:jar:2.0.3", "org.xerial:sqlite-jdbc:jar:3.7.2", "log4j:log4j:jar:1.2.9", "org.json:json:jar:20080701"
   package(:war)
 
   check package(:war), 'should contain a web.xml' do
@@ -42,10 +43,15 @@ define "miniMe" do
   task :templates do
     #TODO make building the site dependent on this
     #TODO only recompile the templates that need it
-    system "java -jar dep/SoyToJsSrcCompiler.jar --outputPathFormat src/main/webapp/js/templates.js jsTemplates/*soy"
+    system "java -jar dep/SoyToJsSrcCompiler.jar --outputPathFormat src/main/webapp/js/templates.js jsTemplates/miniMe.soy"
   end
 
   task :vlc do
     system "/Applications/VLC.app/Contents/MacOS/VLC -I http --http-src ../vlcHttpInterface --http-host 127.0.0.1:8081"
+  end
+
+  task :dp => :templates do
+    system "cp /Users/mike/BGround/miniMe/src/main/webapp/js/*js /Users/mike/BGround/apache-tomcat-6.0.29/webapps/miniMe/js"
+    system "cp /Users/mike/BGround/miniMe/src/main/webapp/index.html /Users/mike/BGround/apache-tomcat-6.0.29/webapps/miniMe/"
   end
 end

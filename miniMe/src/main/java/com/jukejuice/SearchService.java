@@ -3,22 +3,14 @@ package com.jukejuice;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 
 public class SearchService
 
 {
 	private Db db;
-	
-	public String getHtmlResults(String query) throws ClassNotFoundException, SQLException
-	{
-		StringBuffer sb = new StringBuffer();
-		List<Song> songs = getDb().search(query);
-		for (Song song: songs)
-		{
-			sb.append("<a href='enqueue?songId=" + song.getId() + "'>" + song.getTitle() + "</a>");
-		}
-		return sb.toString();
-	}
 	
 	public Db getDb()
 	{
@@ -30,5 +22,25 @@ public class SearchService
 	public void setDb(Db db)
 	{
 		this.db = db;
+	}
+
+	public JSONArray getJsonResults(String query) {
+		JSONArray results = new JSONArray();
+		try {
+			List<Song> songs = getDb().search(query);
+			results = new JSONArray();
+			for (Song song: songs)
+			{
+				try {
+					results.put(song.toJson());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		return results;
 	}	
 }

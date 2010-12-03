@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+
 public class SearchSongsServlet 
 	extends HttpServlet
 {
@@ -19,10 +21,9 @@ public class SearchSongsServlet
 		resp.setContentType("text/html");
 		PrintWriter writer = resp.getWriter();
 		SearchService ss = new SearchService();
-		String html;
 		try {
-			html = ss.getHtmlResults(req.getParameter("search"));
-			writer.write(html);
+			JSONArray results = ss.getJsonResults(req.getParameter("search"));
+			writer.write(results.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

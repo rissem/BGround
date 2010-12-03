@@ -1,5 +1,19 @@
 <script type="text/javascript" src="js/soyutils.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
-<script type="text/javascript">
-  document.write(example.templates.welcome2({greeting:"Greetings", year:2010}));
-</script>
+<script type="text/javascript" src="js/jquery-1.4.4.js"></script>
+<script type="text/javascript" src="js/miniMe.js"></script>
+
+<div id="playlist" style="width:250px; float:left">
+</div>
+
+<div id="search" style="width:600px; float:left">
+<input type="text" id="searchBox">
+</input>
+
+<input type="button" value="search" onclick="updateSearch()"></input>
+<div id="searchResults">
+</div>
+
+</div>
+
+

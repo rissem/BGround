@@ -1,5 +1,8 @@
 package com.jukejuice;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class Song 
 {
@@ -68,6 +71,17 @@ public class Song
 
 	public String getFilename() {
 		return filename;
+	}
+	
+	public JSONObject toJson() throws JSONException
+	{
+		JSONObject song = new JSONObject();
+		song.put("score", getScore());
+		song.put("id", getId());
+		song.put("artist", getArtist());
+		song.put("title", getTitle());
+		song.put("filename", getFilename());
+		return song;
 	}
 		
 //	}

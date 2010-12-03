@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 public class EnqueueServlet 
 	extends HttpServlet
 {
@@ -18,13 +20,14 @@ public class EnqueueServlet
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		resp.setContentType("text/html");
+
+		resp.setContentType("text/plain");
 		PrintWriter writer = resp.getWriter();
 		
 		try {
-			PlaylistManager.getInstance(getServletContext()).
+			JSONObject result = PlaylistManager.getInstance(getServletContext()).
 				enqueue(Integer.parseInt(req.getParameter("songId")));
-			writer.write("success");
+			writer.write(result.toString());
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
