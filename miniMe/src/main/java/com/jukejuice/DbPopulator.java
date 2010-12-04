@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
@@ -13,6 +14,8 @@ import org.jaudiotagger.tag.TagException;
 public class DbPopulator {
 	private String musicDirectory;
 	private Db db;
+	private Logger log = Logger.getLogger(DbPopulator.class);
+
 	
 	public void init () throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
 	{
@@ -26,7 +29,10 @@ public class DbPopulator {
 		for (String songFilename: songFilenames)
 		{
 			if (! "".equals(songFilename))
+			{
 				songInfos.add(new SongFileInfo(songFilename));
+				log.info("added song " + songFilename);
+			}
 		}
 		Db db = getDb();
 		db.dropSongTable();
