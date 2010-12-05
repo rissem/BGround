@@ -15,6 +15,7 @@ Project.local_task :deploy
 Project.local_task :templates
 Project.local_task :vlc
 Project.local_task :dp
+Project.local_task :dist
 
 desc "The Minime project"
 define "miniMe" do
@@ -48,6 +49,21 @@ define "miniMe" do
 
   task :vlc do
     system "/Applications/VLC.app/Contents/MacOS/VLC -I http --http-src ../vlcHttpInterface --http-host 127.0.0.1:8081"
+  end
+
+  task :dist => :deploy do
+    #TODO clear out tomcat logs
+
+    #copy over VLC
+    FileUtils.cp_r("../dep/VLC.app", "dist")
+    #copy over VLC html interface pages
+    FileUtils.cp_r("../vlcHttpInterface", "dist")
+    #copy over tomcat server
+    FileUtils.cp_r("../apache-tomcat-6.0.29", "dist")
+    #copy over the shell script that will start vlc and tomcat
+    FileUtils.cp("startUp.sh", "dist")
+    system "zip -r jbox.zip dist"
+    #zip it up intos omething for distribution
   end
 
   task :dp => :templates do
