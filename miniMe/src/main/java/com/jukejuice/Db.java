@@ -195,8 +195,7 @@ public class Db {
 	public void updateUser(User user) {
 		try {
 			Connection conn = getConnection();
-			PreparedStatement preparedStatement;
-			preparedStatement = conn.prepareStatement(
+			PreparedStatement preparedStatement = conn.prepareStatement(
 					"update user set ip_address = ?, used_energy = ?, max_energy = ? where id = ?");
 			preparedStatement.setString(1, user.getIpAddress());
 			preparedStatement.setInt(2, user.getUsedEnergy());
@@ -208,6 +207,19 @@ public class Db {
 		} catch (SQLException e) {
 			log.error("", e);
 		}
-
+	}
+	
+	public void regenerateEnergy()
+	{
+		Connection conn = getConnection();
+		try {
+			PreparedStatement increaseEnergyStatement = conn.prepareStatement(
+					"update user set used_energy = used_energy - 1 where id in " +
+					"(select id from user where used_energy != 0)");
+			increaseEnergyStatement.execute();
+		} catch (SQLException e) {
+			log.error("", e);
+		}
+		
 	}
 }

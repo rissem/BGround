@@ -30,6 +30,7 @@ public class StartupServlet
 		audioPlayer = new AudioPlayer();
 		Timer timer = new Timer();
 		timer.schedule(new VlcTask(), 0, 5000);
+		timer.schedule(new EnergyTask(), 0, 40000);		
 	}
 	
 	class VlcTask extends TimerTask
@@ -37,6 +38,17 @@ public class StartupServlet
 		@Override
 		public void run() {
 			audioPlayer.updatePlaylist(PlaylistManager.getInstance(getServletContext()));
+		}
+	}
+	
+	class EnergyTask extends TimerTask
+	{
+		@Override
+		public void run() {
+
+			
+			Db db = new Db();
+			db.regenerateEnergy();
 		}
 	}
 }

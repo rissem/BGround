@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class EnqueueServlet 
@@ -16,6 +18,7 @@ public class EnqueueServlet
 {
 
 	private static final long serialVersionUID = 3095537533171813026L;
+	private static final Logger log = Logger.getLogger(EnqueueServlet.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -27,13 +30,19 @@ public class EnqueueServlet
 		try {
 			JSONObject result = PlaylistManager.getInstance(getServletContext()).
 				enqueue(Integer.parseInt(req.getParameter("songId")), (User) req.getAttribute("user"));
-			writer.write(result.toString());
+			if (result != null)
+				writer.write(result.toString());
+			else {
+				JSONObject obj = new JSONObject();
+				obj.put("outOfEnergy", true);
+				writer.write(obj.toString());
+			}
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("", e);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("", e);
+		} catch (JSONException e) {
+			log.error("", e);
 		}
 	}
 }
