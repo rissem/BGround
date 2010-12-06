@@ -1,37 +1,28 @@
 package com.jukejuice;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
 //TODO extract an interface so that it would be easy to switch to another media playing application
 public class AudioPlayer {
-	public void play() {
-
-	}
-
+	
 	public void pause() {
-
+		Util.fetchUrl("http://localhost:8081/pause.html");		
 	}
 
 	public void skip() {
-
+		Util.fetchUrl("http://localhost:8081/skip.html");
 	}
 	
 	public void volumeUp() {
-		
+		Util.fetchUrl("http://localhost:8081/requests/status.xml?command=volume&val=%2B20");
 	}
 	
 	public void volumeDown(){
-		
+		Util.fetchUrl("http://localhost:8081/requests/status.xml?command=volume&val=-20");
 	}
 
 	public void updatePlaylist(PlaylistManager playlistManager) {
-		//if status is stopped this means
-		// is a song currently playing?
-		// if pop the top of the playlist and play in vlc
+		//if status is stopped then a song should immediately be added to the playlist
 		System.out.println("status = *" + getStatus() + "*");
 		List<Song> playlist = playlistManager.getPlaylist();
 		System.out.println("playlist size = *" + playlist.size() + "*");		
@@ -45,33 +36,11 @@ public class AudioPlayer {
 	}	
 
 	private String getStatus() {
-		String content = null;
-		try
-		{
-			URL url = new URL("http://localhost:8081/status.html");
-			URLConnection conn = url.openConnection();
-			content = Util.convertStreamToString(conn.getInputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return content;
+		return Util.fetchUrl("http://localhost:8081/status.html");
 	}
 	
 	private void playSong(Song song) {
 		String escapedFilename = song.getFilename().replaceAll(" ", "%20");
-		System.out.println("url = " + " http://localhost:8081/addPlay.html?songName=" + escapedFilename);
-		System.out.println(escapedFilename);
-		try {
-			URL url = new URL("http://localhost:8081/addPlay.html?songName=" + escapedFilename);
-			URLConnection conn = url.openConnection();
-			String content = Util.convertStreamToString(conn.getInputStream());
-			System.out.print(content);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		song.getFilename();
+		Util.fetchUrl("http://localhost:8081/addPlay.html?songName=" + escapedFilename);
 	}
 }

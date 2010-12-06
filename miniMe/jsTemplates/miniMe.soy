@@ -19,3 +19,11 @@
 	  	   <a onclick="enqueue({$song.id})" href="#">{$song.title} - {$song.artist}</a> <br />
 	  {/foreach}
 {/template}
+
+/**
+* @param maxEnergy
+* @param currentEnergy
+*/
+{template .energy}
+{$currentEnergy} / {$maxEnergy}	  
+{/template}

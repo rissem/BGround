@@ -37,6 +37,8 @@ public class PlaylistManager
 			playlistJson = new JSONObject();
 			if (nowPlaying != null) 
 				playlistJson.put("nowPlaying", nowPlaying.toJson());
+			else
+				playlistJson.put("nowPlaying", Song.mysterySong());
 			JSONArray songs = new JSONArray();
 			for (Song song: playlist)
 			{

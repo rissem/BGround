@@ -14,6 +14,7 @@ function updatePlaylist()
 	  function(data) {
 	      data = JSON.parse(data);
 	      $("#playlist").html(miniMe.playlist({playlist:data}));
+	      $("#energy").html(miniMe.energy({maxEnergy:data.maxEnergy, currentEnergy:data.currentEnergy}));
 	  }		  
 	 );
 }

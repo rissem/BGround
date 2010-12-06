@@ -83,6 +83,16 @@ public class Song
 		song.put("filename", getFilename());
 		return song;
 	}
+
+	public static JSONObject mysterySong() throws JSONException {
+		JSONObject song = new JSONObject();
+		song.put("score", 0);
+		song.put("id", 31415927);
+		song.put("artist", "???");
+		song.put("title", "???");
+		song.put("filename", "???");
+		return song;
+	}
 		
 //	}
 }

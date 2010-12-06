@@ -43,7 +43,7 @@ define "miniMe" do
 
   task :templates do
     #TODO make building the site dependent on this
-    #TODO only recompile the templates that need it
+    #TODO only recompile the templates if they've changed..
     system "java -jar dep/SoyToJsSrcCompiler.jar --outputPathFormat src/main/webapp/js/templates.js jsTemplates/miniMe.soy"
   end
 

@@ -28,3 +28,10 @@ miniMe.search = function(opt_data, opt_sb) {
   }
   if (!opt_sb) return output.toString();
 };
+
+
+miniMe.energy = function(opt_data, opt_sb) {
+  var output = opt_sb || new soy.StringBuilder();
+  output.append(soy.$$escapeHtml(opt_data.currentEnergy), ' / ', soy.$$escapeHtml(opt_data.maxEnergy));
+  if (!opt_sb) return output.toString();
+};

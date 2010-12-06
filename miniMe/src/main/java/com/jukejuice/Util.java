@@ -7,9 +7,15 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.apache.log4j.Logger;
 
 public class Util {
 
+	private static final Logger log = Logger.getLogger(Util.class);
+	
 	public static String exec(String command) throws IOException
 	{
 		Process process = null;
@@ -43,6 +49,20 @@ public class Util {
 		} else {
 			return "";
 		}
+	}
+	
+	public static String fetchUrl (String urlString)
+	{
+		try
+		{
+			URL url = new URL(urlString);
+			URLConnection conn = url.openConnection();
+			String content = Util.convertStreamToString(conn.getInputStream());
+			return content;
+		} catch (IOException e) {
+			log.error("", e);
+		}
+		return null;		
 	}
 	
 	public static String resource (String filename)

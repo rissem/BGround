@@ -57,11 +57,16 @@
         <servlet-class>com.jukejuice.EnqueueServlet</servlet-class>
     </servlet> 
 
-	<servlet>
-		<servlet-name>PlaylistServlet</servlet-name>
-		<servlet-class>com.jukejuice.PlaylistServlet</servlet-class>
-	</servlet>
+    <servlet>
+      <servlet-name>PlaylistServlet</servlet-name>
+      <servlet-class>com.jukejuice.PlaylistServlet</servlet-class>
+    </servlet>
 	
+    <servlet>
+      <servlet-name>AdminServlet</servlet-name>
+      <servlet-class>com.jukejuice.AdminServlet</servlet-class>
+    </servlet>
+
 	<servlet>
 	    <servlet-name>ServletInitializer</servlet-name>
     	<servlet-class>com.jukejuice.StartupServlet</servlet-class>
@@ -86,5 +91,10 @@
 	<servlet-mapping>
 		<servlet-name>PlaylistServlet</servlet-name>
 		<url-pattern>/playlist</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AdminServlet</servlet-name>
+		<url-pattern>/admin</url-pattern>
 	</servlet-mapping>
 </web-app>
