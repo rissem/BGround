@@ -36,7 +36,7 @@ public class DbPopulator {
 		}
 		Db db = getDb();
 		db.dropSongTable();
-		db.createSongTable();
+		db.initDb();
 		db.addSongs(songInfos);
 	}
 	

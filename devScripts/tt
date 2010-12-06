@@ -2,7 +2,7 @@
 
 if [ $BGROUND ]
 then 
-    tail -F $BGROUND/apache-tomcat-6.0.29/logs/catalina.out
+    tail -F $BGROUND/apache-tomcat-6.0.29/logs/tomcat.log
 else
     echo 'You need to define the $BGROUND environment variable'
 fi

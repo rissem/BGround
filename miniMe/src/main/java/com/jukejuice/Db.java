@@ -8,13 +8,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.log4j.Logger;
 import org.jaudiotagger.tag.FieldKey;
 
 public class Db {
 	private String sqliteFilePath;
 	public static final String PROD_DB = "prod.db";
 	public static final String TESTING_DB = "testing.db";		
+	
+	private static final Logger log = Logger.getLogger(Db.class);
 	
 	private void exec (String sql) throws SQLException
 	{
@@ -52,9 +56,10 @@ public class Db {
 		conn.close();
 	}
 	
-	public void createSongTable() throws SQLException
+	public void initDb() throws SQLException
 	{
 		exec("create table if not exists song (id integer primary key, artist, title, length, filename)");
+		exec("create table if not exists user (id integer primary key, ip_address, used_energy, max_energy)");
 	}
 	
 	public void dropSongTable() throws SQLException
@@ -120,6 +125,35 @@ public class Db {
 		return null;
 	}
 	
+	public User findUserById (int uuid)
+	{
+		Connection conn = getConnection();
+		ResultSet resultSet;
+		try {
+			PreparedStatement statement = conn.prepareStatement(
+				"select * from user where id = ?");
+			statement.setInt(1, uuid);
+			statement.execute();
+			resultSet = statement.getResultSet();
+
+			String ipAddress = resultSet.getString("ip_address"); 
+			int usedEnergy = resultSet.getInt("used_energy");
+			int maxEnergy = resultSet.getInt("max_energy");
+			conn.close();
+			
+			User user = new User();
+			user.setId(uuid);
+			user.setIpAddress(ipAddress);
+			user.setMaxEnergy(maxEnergy);
+			user.setUsedEnergy(usedEnergy);
+			return user;			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	private List<Song> resultSetToSongs(ResultSet resultSet) throws SQLException
 	{
 		List<Song> songs = new ArrayList<Song>();
@@ -134,5 +168,46 @@ public class Db {
 			songs.add(song);
 		}
 		return songs;
+	}
+
+	public User createUser(String ipAddress) {
+		try {
+			log.info("creating user " + ipAddress);
+			
+			Connection conn = getConnection();
+			int uuid = UUID.randomUUID().hashCode(); 
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"insert into user (id, ip_address, used_energy, max_energy) values (?,?,?,?)");
+			preparedStatement.setInt(1, uuid);
+			preparedStatement.setString(2, ipAddress);
+			preparedStatement.setInt(3, 0);
+			preparedStatement.setInt(4, 5);
+			preparedStatement.execute();
+			conn.close();
+			
+			return findUserById(uuid);
+		} catch (SQLException e) {
+			log.error("", e);
+		}
+		return null;
+	}
+
+	public void updateUser(User user) {
+		try {
+			Connection conn = getConnection();
+			PreparedStatement preparedStatement;
+			preparedStatement = conn.prepareStatement(
+					"update user set ip_address = ?, used_energy = ?, max_energy = ? where id = ?");
+			preparedStatement.setString(1, user.getIpAddress());
+			preparedStatement.setInt(2, user.getUsedEnergy());
+			preparedStatement.setInt(3, user.getMaxEnergy());
+			preparedStatement.setInt(4, user.getId());
+			preparedStatement.execute();
+			conn.close();			
+			
+		} catch (SQLException e) {
+			log.error("", e);
+		}
+
 	}
 }

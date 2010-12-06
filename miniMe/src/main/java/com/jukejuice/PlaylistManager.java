@@ -89,10 +89,15 @@ public class PlaylistManager
 		return result;
 	}
 	
-	public JSONObject enqueue(int songId) throws SQLException
+	public JSONObject enqueue(int songId, User user) throws SQLException
 	{
-		return enqueue(getDb().findSongById(songId));
-
+		if (user.getEnergy() > 0)
+		{
+			user.useEnergy(1);
+			user.persist();
+			return enqueue(getDb().findSongById(songId));
+		}
+		return null;
 	}
 	
 	private void resort() {

@@ -26,6 +26,20 @@
     </description>
     <display-name>Mini Me</display-name>
 
+    <filter>
+        <filter-name>GlobalFilter</filter-name>
+        <filter-class>com.jukejuice.GlobalFilter</filter-class>
+	<init-param>
+	    <param-name>attribute</param-name>
+	    <param-value>filters.ExampleFilter.PATH_MAPPED</param-value>
+	</init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>GlobalFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- Define servlets that are included in the example application -->
 
     <servlet>

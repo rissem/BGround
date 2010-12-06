@@ -26,7 +26,7 @@ public class EnqueueServlet
 		
 		try {
 			JSONObject result = PlaylistManager.getInstance(getServletContext()).
-				enqueue(Integer.parseInt(req.getParameter("songId")));
+				enqueue(Integer.parseInt(req.getParameter("songId")), (User) req.getAttribute("user"));
 			writer.write(result.toString());
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block

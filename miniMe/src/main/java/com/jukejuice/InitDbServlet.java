@@ -14,7 +14,7 @@ public class InitDbServlet extends HttpServlet {
 	@Override
 	public void doGet (HttpServletRequest request, HttpServletResponse response)
 	{
-		response.setContentType("plain/text");
+		response.setContentType("text/html");
 		DbPopulator dbPopulator = new DbPopulator();
 		try {
 			log.info("initializing database");
