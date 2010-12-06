@@ -1,2 +1,5 @@
 target
 reports
+dist
+jbox.zip
+testing.db
