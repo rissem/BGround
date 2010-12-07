@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Allow the pausing of songs, increasing/decraseing volume etc.
+ * Allow the pausing of songs, increasing/decreasing volume etc.
  * This class should only be accessible by employees or privileged patrons
  * @author mike
  *

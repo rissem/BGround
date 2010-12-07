@@ -23,6 +23,12 @@ public class Util {
 		return convertStreamToString(process.getInputStream());
 	}
 	
+	/**
+	 * taken from http://www.kodejava.org/examples/266.html
+	 * @param is
+	 * @return
+	 * @throws IOException
+	 */
 	public static String convertStreamToString(InputStream is)
 			throws IOException {
 		/*

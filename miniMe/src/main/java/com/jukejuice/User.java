@@ -20,6 +20,11 @@ public class User
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
 	}
+
+	/**
+	 * 
+	 * @return energy available to the user
+	 */
 	public int getEnergy() {
 		return maxEnergy - usedEnergy;
 	}

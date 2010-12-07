@@ -4,7 +4,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-//TODO extract an interface so that it would be easy to switch to another audio player
+/**
+ * This class is responsible for all interactions with the VLC media player.
+ * TODO extract an interface so that it would be easy to switch to another audio player
+ * 
+ * @author mike
+ */
 public class AudioPlayer {
 	
 	private static final Logger log = Logger.getLogger(AudioPlayer.class);
@@ -25,16 +30,20 @@ public class AudioPlayer {
 		Util.fetchUrl("http://localhost:8081/requests/status.xml?command=volume&val=-20");
 	}
 
+	/**
+	 * This interface assumes whenever VLC has stopped the end of VLC's playlist has been reached
+	 * and it is time to begin playing the song currently on the top of tomcat's playlist
+	 * @param playlistManager
+	 */
 	public void updatePlaylist(PlaylistManager playlistManager) {
-		//if status is stopped then a song should immediately be added to the playlist
-		log.info("status = *" + getStatus() + "*");
+		log.debug("VLC status = *" + getStatus() + "*");
 		List<Song> playlist = playlistManager.getPlaylist();
-		log.info("playlist size = *" + playlist.size() + "*");		
+		log.debug("playlist size = *" + playlist.size() + "*");		
 		if ((getStatus().startsWith("stop")) && playlist.size() != 0)
 		{
 			Song song = playlist.remove(0);
 			playlistManager.setNowPlaying(song);
-			log.info("playing the song " + song.getFilename());
+			log.debug("playing the song " + song.getFilename());
 			playSong(song);
 		}
 	}	

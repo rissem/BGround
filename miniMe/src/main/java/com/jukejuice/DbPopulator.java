@@ -16,7 +16,15 @@ public class DbPopulator {
 	private Db db;
 	private Logger log = Logger.getLogger(DbPopulator.class);
 
-	
+	/**
+	 * find all of the mp3s and m4as in the musicDirectory, parse their ID3 tags and add them to the database
+	 * @throws CannotReadException
+	 * @throws IOException
+	 * @throws TagException
+	 * @throws ReadOnlyFileException
+	 * @throws InvalidAudioFrameException
+	 * @throws SQLException
+	 */
 	public void init () throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
 	{
 		String [] mp3SongFilenames = Util.exec("find " + getMusicDirectory() + " -name *mp3").split("\n");

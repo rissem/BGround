@@ -23,7 +23,6 @@ public class Song
 		this.artist = artist;
 		this.title = title;
 	}
-	//object storing interaction from user: boosts, slams, queues, 
 	
 	public void boost(int amount)
 	{

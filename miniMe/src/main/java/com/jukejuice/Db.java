@@ -20,6 +20,11 @@ public class Db {
 	
 	private static final Logger log = Logger.getLogger(Db.class);
 	
+	/**
+	 * Executes a string of SQL, useful if you don't need a ResultSet
+	 * @param sql
+	 * @throws SQLException
+	 */
 	private void exec (String sql) throws SQLException
 	{
 		Connection conn = getConnection();
@@ -56,6 +61,10 @@ public class Db {
 		conn.close();
 	}
 	
+	/**
+	 * Create all the tables needed by the application if they don't already exist
+	 * @throws SQLException
+	 */
 	public void initDb() throws SQLException
 	{
 		exec("create table if not exists song (id integer primary key, artist, title, length, filename)");
@@ -74,14 +83,17 @@ public class Db {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:" + getSqliteFilePath());
 	        return conn;
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			log.error("", e);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("", e);
 		}
 		return null;
 	}
 	
+	/**
+	 * return the live database file if a different db file hasn't been set 
+	 * @return
+	 */
 	public String getSqliteFilePath() {
 		if (sqliteFilePath == null)
 			sqliteFilePath ="live.db"; 
@@ -92,6 +104,12 @@ public class Db {
 		this.sqliteFilePath = sqliteFilePath;
 	}
 	
+	/**
+	 * return a list of songs with matching title or artist
+	 * @param search 
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<Song> search(String search) throws SQLException
 	{
 		Connection connection = getConnection();
@@ -170,6 +188,11 @@ public class Db {
 		return songs;
 	}
 
+	/**
+	 * create a user in the database with default energy attributes and random UUID
+	 * @param ipAddress
+	 * @return
+	 */
 	public User createUser(String ipAddress) {
 		try {
 			log.info("creating user " + ipAddress);
@@ -209,6 +232,9 @@ public class Db {
 		}
 	}
 	
+	/**
+	 * give one energy back to everybody
+	 */
 	public void regenerateEnergy()
 	{
 		Connection conn = getConnection();

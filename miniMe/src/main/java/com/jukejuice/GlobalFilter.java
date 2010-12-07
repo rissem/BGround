@@ -23,6 +23,9 @@ public class GlobalFilter
 		log.info("destroying filter");
 	}
 
+	/**
+	 * create a cookie and user if they are not present
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
