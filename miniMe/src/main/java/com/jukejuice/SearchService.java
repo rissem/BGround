@@ -3,6 +3,7 @@ package com.jukejuice;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -11,6 +12,7 @@ public class SearchService
 
 {
 	private Db db;
+	private static final Logger log = Logger.getLogger(SearchService.class);
 	
 	public Db getDb()
 	{
@@ -34,11 +36,11 @@ public class SearchService
 				try {
 					results.put(song.toJson());
 				} catch (JSONException e) {
-					e.printStackTrace();
+					log.error("", e);
 				}
 			}			
 		} catch (SQLException e1) {
-			e1.printStackTrace();
+			log.error("", e1);
 		}
 
 		return results;

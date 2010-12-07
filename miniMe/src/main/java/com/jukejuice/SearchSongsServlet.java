@@ -8,13 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 
 public class SearchSongsServlet 
 	extends HttpServlet
 {
 	private static final long serialVersionUID = -11188561767380050L;
-
+	private static final Logger log = Logger.getLogger(SearchSongsServlet.class);
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -25,8 +27,7 @@ public class SearchSongsServlet
 			JSONArray results = ss.getJsonResults(req.getParameter("search"));
 			writer.write(results.toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("", e);
 		}
 	}
 	

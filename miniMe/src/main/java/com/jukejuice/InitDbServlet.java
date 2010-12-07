@@ -25,7 +25,7 @@ public class InitDbServlet extends HttpServlet {
 		} 
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			log.error("", e);
 		}
 	}
 }

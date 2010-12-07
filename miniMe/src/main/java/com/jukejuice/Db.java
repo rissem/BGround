@@ -52,7 +52,6 @@ public class Db {
 			catch (Exception e)
 			{
 				log.error("Failure on songInfo " + info.f.getFile().toString(), e);
-				e.printStackTrace();
 			}
 		}
 		conn.setAutoCommit(false);
@@ -243,6 +242,7 @@ public class Db {
 					"update user set used_energy = used_energy - 1 where id in " +
 					"(select id from user where used_energy != 0)");
 			increaseEnergyStatement.execute();
+			conn.close();
 		} catch (SQLException e) {
 			log.error("", e);
 		}

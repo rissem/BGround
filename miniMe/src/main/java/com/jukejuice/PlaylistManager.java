@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +19,8 @@ public class PlaylistManager
 	private List<Song> playlist = new ArrayList<Song>();
 	private Song nowPlaying = null;
 	private Db db;
+	
+	private static final Logger log = Logger.getLogger(PlaylistManager.class);
 	
 	public static PlaylistManager getInstance(ServletContext context)
 	{
@@ -48,7 +51,7 @@ public class PlaylistManager
 		}
 		catch (JSONException e)
 		{
-			e.printStackTrace();
+			log.error("", e);
 		}
 		return playlistJson;
 	}
@@ -86,7 +89,7 @@ public class PlaylistManager
 		try {
 			result.put("status", "success");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			log.error("", e);
 		}
 		return result;
 	}
