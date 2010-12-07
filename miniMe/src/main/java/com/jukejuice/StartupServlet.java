@@ -18,7 +18,7 @@ public class StartupServlet
 	
 	public void init()
 	{
-		System.out.println("Server has been initialized.");
+		log.info("Server has been initialized.");
 		
 		Db db = new Db();
 		try {
@@ -30,7 +30,8 @@ public class StartupServlet
 		audioPlayer = new AudioPlayer();
 		Timer timer = new Timer();
 		timer.schedule(new VlcTask(), 0, 5000);
-		timer.schedule(new EnergyTask(), 0, 40000);		
+		timer.schedule(new EnergyTask(), 0, 40000);	
+		timer.schedule(new PlaylistTask(), 0, 120000);
 	}
 	
 	class VlcTask extends TimerTask
@@ -45,10 +46,16 @@ public class StartupServlet
 	{
 		@Override
 		public void run() {
-
-			
 			Db db = new Db();
 			db.regenerateEnergy();
+		}
+	}
+	
+	class PlaylistTask extends TimerTask
+	{
+		@Override
+		public void run() {
+			PlaylistManager.getInstance(getServletContext()).addRandomSongIfEmpty();
 		}
 	}
 }

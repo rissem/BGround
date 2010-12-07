@@ -133,5 +133,14 @@ public class PlaylistManager
 	public void setDb(Db db)
 	{
 		this.db = db;
+	}
+
+	public void addRandomSongIfEmpty() {
+		if (getPlaylist().size() == 0)
+		{
+			Db db = new Db();
+			Song song = db.getRandomSong();
+			playlist.add(song);
+		}
 	}	
 }

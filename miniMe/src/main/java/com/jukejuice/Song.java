@@ -1,5 +1,6 @@
 package com.jukejuice;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,10 +12,12 @@ public class Song
 	private String artist;
 	private String title;
 	private String filename;
+
+	private static final Logger log = Logger.getLogger(Song.class);
 	
 	public Song(int id, String filename, String artist, String title)
 	{
-		System.out.println("id = " + id);
+		log.debug("song instantiated with id = " + id);
 		this.id = id;
 		this.setFilename(filename);
 		this.artist = artist;

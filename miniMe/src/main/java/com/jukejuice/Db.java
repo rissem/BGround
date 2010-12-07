@@ -46,7 +46,7 @@ public class Db {
 			}
 			catch (Exception e)
 			{
-				System.out.println("Failure on songInfo " + info.f.getFile().toString());
+				log.error("Failure on songInfo " + info.f.getFile().toString(), e);
 				e.printStackTrace();
 			}
 		}
@@ -120,7 +120,7 @@ public class Db {
 		if (songs.size() == 0)
 			return null;
 		else
-			System.err.println("One song per ID constraint not being respected");
+			log.error("One song per ID constraint not being respected");
 
 		return null;
 	}
@@ -149,7 +149,7 @@ public class Db {
 			return user;			
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.error("", e);
 		}
 		return null;
 	}
@@ -221,5 +221,24 @@ public class Db {
 			log.error("", e);
 		}
 		
+	}
+
+	public Song getRandomSong() {
+		Connection conn = getConnection();
+		try {
+			PreparedStatement increaseEnergyStatement = conn.prepareStatement(
+			"select count(*) from song;");
+			increaseEnergyStatement.execute();
+			int songCount = increaseEnergyStatement.getResultSet().getInt(1);
+			conn.close();
+			int randomSongId = ((Double) Math.ceil(Math.random() * songCount)).intValue();
+			Song song = findSongById(randomSongId);
+			if (song == null)
+				return getRandomSong();
+			return song;
+		} catch (SQLException e) {
+			log.error("", e);
+		} 
+		return null;
 	}
 }

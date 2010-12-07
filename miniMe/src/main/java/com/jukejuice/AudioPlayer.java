@@ -2,8 +2,12 @@ package com.jukejuice;
 
 import java.util.List;
 
-//TODO extract an interface so that it would be easy to switch to another media playing application
+import org.apache.log4j.Logger;
+
+//TODO extract an interface so that it would be easy to switch to another audio player
 public class AudioPlayer {
+	
+	private static final Logger log = Logger.getLogger(AudioPlayer.class);
 	
 	public void pause() {
 		Util.fetchUrl("http://localhost:8081/pause.html");		
@@ -23,14 +27,14 @@ public class AudioPlayer {
 
 	public void updatePlaylist(PlaylistManager playlistManager) {
 		//if status is stopped then a song should immediately be added to the playlist
-		System.out.println("status = *" + getStatus() + "*");
+		log.info("status = *" + getStatus() + "*");
 		List<Song> playlist = playlistManager.getPlaylist();
-		System.out.println("playlist size = *" + playlist.size() + "*");		
+		log.info("playlist size = *" + playlist.size() + "*");		
 		if ((getStatus().startsWith("stop")) && playlist.size() != 0)
 		{
 			Song song = playlist.remove(0);
 			playlistManager.setNowPlaying(song);
-			System.out.println("playing the song " + song.getFilename());
+			log.info("playing the song " + song.getFilename());
 			playSong(song);
 		}
 	}	
