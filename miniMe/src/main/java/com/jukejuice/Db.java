@@ -38,15 +38,30 @@ public class Db {
 	{
 		Connection conn = getConnection();
 		//TODO add filename here
-		PreparedStatement preparedStatement = conn.prepareStatement("insert into song (artist, title, length, filename) values (?, ?, ?, ?)");
+		PreparedStatement preparedStatement = conn.prepareStatement("insert into song (artist, title, album, year, length, filename) values (?, ?, ?, ?, ?, ?)");
 		for (SongFileInfo info: songInfos)
 		{
 			try
 			{
+				for (FieldKey fieldKey: FieldKey.values())
+				{
+					try
+					{
+						log.info(info.filename + " " + fieldKey.name() + " " + info.tag.getFirst(fieldKey)); 
+						log.info(info.tag.getFirstArtwork());
+					}
+					catch (Exception e)
+					{
+						log.warn(e);
+					}
+				}
+				
 				preparedStatement.setString(1, info.tag.getFirst(FieldKey.ARTIST));
 				preparedStatement.setString(2, info.tag.getFirst(FieldKey.TITLE));
-				preparedStatement.setInt(3, info.header.getTrackLength());
-				preparedStatement.setString(4, info.filename);
+				preparedStatement.setString(3, info.tag.getFirst(FieldKey.ALBUM));
+				preparedStatement.setInt(4, Integer.parseInt(info.tag.getFirst(FieldKey.YEAR)));
+				preparedStatement.setInt(5, info.header.getTrackLength());
+				preparedStatement.setString(6, info.filename);
 				preparedStatement.addBatch();
 			}
 			catch (Exception e)
@@ -66,13 +81,14 @@ public class Db {
 	 */
 	public void initDb() throws SQLException
 	{
-		exec("create table if not exists song (id integer primary key, artist, title, length, filename)");
+		exec("create table if not exists song (id integer primary key, artist, title, album, year, length, filename)");
 		exec("create table if not exists user (id integer primary key, ip_address, used_energy, max_energy)");
 	}
 	
-	public void dropSongTable() throws SQLException
+	public void dropTables() throws SQLException
 	{
 		exec("drop table if exists song");
+		exec("drop table if exists user");
 	}
 	
 	private Connection getConnection() 
@@ -179,9 +195,11 @@ public class Db {
 			int id = resultSet.getInt("id");
 			String artist = resultSet.getString("artist");
 			String title = resultSet.getString("title");
-			//int length = resultSet.getInt("length");
+			String album = resultSet.getString("album");
+			int year= resultSet.getInt("year");
 			String filename = resultSet.getString("filename");
-			Song song = new Song(id,filename,artist,title);
+			int length = resultSet.getInt("length");
+			Song song = new Song(id,filename,artist,title,album,year,length);
 			songs.add(song);
 		}
 		return songs;
