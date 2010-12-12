@@ -2,7 +2,7 @@ $(document).ready(
     function() {
 	updatePlaylist();
 	updateSearch();
-	window.setInterval("updatePlaylist();", 1000);
+	window.setInterval("updatePlaylist();", 10000);
 	//limit the # of results that can be returned, make sure request come back in order
 	$("#search").keypress(updateSearch);
     }
@@ -13,7 +13,7 @@ function updatePlaylist()
     $.get("playlist",
 	  function(data) {
 	      data = JSON.parse(data);
-	      $("#playlist").html(miniMe.playlist({playlist:data}));
+	      $("#nowPlaying").html(miniMe.playlist({playlist:data}));
 	      $("#energy").html(miniMe.energy({maxEnergy:data.maxEnergy, currentEnergy:data.currentEnergy}));
 	  }		  
 	 );
@@ -33,6 +33,7 @@ function updateSearch()
 	 function(data) {
 	     data = JSON.parse(data);
 	     $("#searchResults").html(miniMe.search({results:data}));
+	     $("#collectionTitle").html("Search Results for \"" + query + "\"");
 	 }
 	 );
 }

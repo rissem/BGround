@@ -4,20 +4,40 @@
 * @param playlist
 */
 {template .playlist}
-	  <strong>{$playlist.nowPlaying.title} - {$playlist.nowPlaying.title} </strong><br />
-	  /* different message is playlist is null */
-	  {foreach $song in $playlist.songs}
-	  	   {$song.title} - {$song.artist}<br />
-	  {/foreach}
+<div class="grid_6 nowplaying">
+  <p class="nowplaying-title">Now Playing</p>
+  <div class="center">
+    <img src="images/heroes.jpg"/>
+    <p class="med-text-white">{$playlist.nowPlaying.artist}<br />
+      {$playlist.nowPlaying.title}<br/>
+      <span class="med-text-white">From the album Heroes</span>
+    </p>
+    /*TODO add count<p class="list-white">played <span class="green-plus">261</span>times</p>*/
+  </div><br/>
+  <p class="nowplaying-title">Coming Up</p>
+  <ul class="body-text-white">
+    {foreach $song in $playlist.songs}
+      <li>
+        <span class="band-w">{$song.artist}<img src="images/purple-star.png" class="right"/></span><br/>
+        {$song.title}<br />
+        <span class="album">From the album Oracular Spectacular</span>
+      </li><br />
+    {/foreach}
+  </ul>
+</div>
 {/template}
 
 /**
 * @param results
 */
 {template .search}
-	  {foreach $song in $results}
-	  	   <a onclick="enqueue({$song.id})" href="#">{$song.title} - {$song.artist}</a> <br />
-	  {/foreach}
+  <ul>
+    <li class="nowplaying-title2">Search Results for "..."</li>
+    {foreach $song in $results}
+      <li onclick="enqueue({$song.id})">
+        <span class="band">{$song.artist} &#8194;</span>{$song.title}&#8194;<span class="green-plus">+</span></li>
+    {/foreach}
+  </ul>
 {/template}
 
 /**
