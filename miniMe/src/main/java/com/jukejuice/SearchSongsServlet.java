@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class SearchSongsServlet 
 	extends HttpServlet
@@ -24,7 +24,7 @@ public class SearchSongsServlet
 		PrintWriter writer = resp.getWriter();
 		SearchService ss = new SearchService();
 		try {
-			JSONArray results = ss.getJsonResults(req.getParameter("search"));
+			JSONObject results = ss.getJsonResults(req.getParameter("search"));
 			writer.write(results.toString());
 		} catch (Exception e) {
 			log.error("", e);

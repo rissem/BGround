@@ -32,8 +32,8 @@
 */
 {template .search}
   <ul>
-    <li class="nowplaying-title2">Search Results for "..."</li>
-    {foreach $song in $results}
+    <li class="nowplaying-title2">Search Results for "{$results.query}"</li>
+    {foreach $song in $results.songs}
       <li onclick="enqueue({$song.id})">
         <span class="band">{$song.artist} &#8194;</span>{$song.title}&#8194;<span class="green-plus">+</span></li>
     {/foreach}

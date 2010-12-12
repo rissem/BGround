@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class SearchService
@@ -26,15 +27,15 @@ public class SearchService
 		this.db = db;
 	}
 
-	public JSONArray getJsonResults(String query) {
-		JSONArray results = new JSONArray();
+	public JSONObject getJsonResults(String query) {
+		JSONObject results = new JSONObject();
+		JSONArray jsonSongs = new JSONArray();
 		try {
 			List<Song> songs = getDb().search(query);
-			results = new JSONArray();
 			for (Song song: songs)
 			{
 				try {
-					results.put(song.toJson());
+					jsonSongs.put(song.toJson());
 				} catch (JSONException e) {
 					log.error("", e);
 				}
@@ -42,7 +43,13 @@ public class SearchService
 		} catch (SQLException e1) {
 			log.error("", e1);
 		}
-
+		try {
+			results.put("songs", jsonSongs);
+			results.put("query", query);
+		}
+		catch (JSONException e){
+			log.error("", e);
+		}
 		return results;
 	}	
 }

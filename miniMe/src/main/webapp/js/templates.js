@@ -20,12 +20,12 @@ miniMe.playlist = function(opt_data, opt_sb) {
 
 miniMe.search = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<ul><li class="nowplaying-title2">Search Results for "..."</li>');
-  var songList22 = opt_data.results;
-  var songListLen22 = songList22.length;
-  for (var songIndex22 = 0; songIndex22 < songListLen22; songIndex22++) {
-    var songData22 = songList22[songIndex22];
-    output.append('<li onclick="enqueue(', soy.$$escapeHtml(songData22.id), ')"><span class="band">', soy.$$escapeHtml(songData22.artist), ' &#8194;</span>', soy.$$escapeHtml(songData22.title), '&#8194;<span class="green-plus">+</span></li>');
+  output.append('<ul><li class="nowplaying-title2">Search Results for "', soy.$$escapeHtml(opt_data.results.query), '"</li>');
+  var songList24 = opt_data.results.songs;
+  var songListLen24 = songList24.length;
+  for (var songIndex24 = 0; songIndex24 < songListLen24; songIndex24++) {
+    var songData24 = songList24[songIndex24];
+    output.append('<li onclick="enqueue(', soy.$$escapeHtml(songData24.id), ')"><span class="band">', soy.$$escapeHtml(songData24.artist), ' &#8194;</span>', soy.$$escapeHtml(songData24.title), '&#8194;<span class="green-plus">+</span></li>');
   }
   output.append('</ul>');
   if (!opt_sb) return output.toString();
