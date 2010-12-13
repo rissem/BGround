@@ -18,6 +18,10 @@ public class Song
 
 	private static final Logger log = Logger.getLogger(Song.class);
 	
+	//TODO song objects should be able to be instantiated from the database
+	//or from a filename which will use id3 tags to instantiate all the attributes
+	//public Song(String filename)
+	
 	public Song(int id, String filename, String artist, String title, String album, int year, int length)
 	{
 		log.debug("song instantiated with id = " + id);

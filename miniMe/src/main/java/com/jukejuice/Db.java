@@ -83,6 +83,8 @@ public class Db {
 	{
 		exec("create table if not exists song (id integer primary key, artist, title, album, year, length, filename)");
 		exec("create table if not exists user (id integer primary key, ip_address, used_energy, max_energy)");
+		exec("create table if not exists song_set (id integer primary key, name)");
+		exec("create table if not exists set_membership (id integer primary key, song_id, set_id)");
 	}
 	
 	public void dropTables() throws SQLException
@@ -285,4 +287,68 @@ public class Db {
 		} 
 		return null;
 	}
+	
+	public List<Song> getSet(int setId) {
+		Connection conn = getConnection();
+		try {
+			PreparedStatement stmt = conn.prepareStatement(
+					"select * from song where id in " +
+					"(select song_id from set_membership where set_id = ?)");
+			stmt.setInt(1, setId);
+			ResultSet resultSet = stmt.executeQuery();
+			List<Song> results = resultSetToSongs(resultSet);
+			conn.close();
+			return results;
+		}
+		catch (SQLException e)
+		{
+			log.error("", e);
+		}
+		return null;
+	}
+	
+	public int createSet(String setName) {
+		System.out.println("inserting set " + setName);
+		Connection conn = getConnection();
+		try {
+			PreparedStatement insertSetStmt = conn.prepareStatement(
+					"insert into song_set (name) values (?)");
+			insertSetStmt.setString(1, setName);
+			insertSetStmt.execute();
+			
+			PreparedStatement getSetIdStmt = conn.prepareStatement(
+					"select * from song_set where name = ?");
+			getSetIdStmt.setString(1, setName);
+			ResultSet resultSet = getSetIdStmt.executeQuery();
+			int id = resultSet.getInt("id");
+			conn.close();
+			return id;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public SongSet findSetById(int setId) {
+		Connection conn = getConnection();
+		PreparedStatement stmt;
+		SongSet songSet = null;
+		try {
+			stmt = conn.prepareStatement(
+					"select * from song_set where id = ?");
+			stmt.setInt(1, setId);
+			ResultSet resultSet = stmt.executeQuery();
+			String name = resultSet.getString("name");
+			songSet = new SongSet();
+			songSet.setName(name);
+			//TODO find all the songs in the set
+			conn.close();
+		} catch (SQLException e) {
+			log.error("", e);
+		}
+		return songSet;
+	}
+	
+	
 }
