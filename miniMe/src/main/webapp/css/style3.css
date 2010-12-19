@@ -1,37 +1,66 @@
 @charset "UTF-8";
 /* CSS Document */
 
-.header {
-	background-color:#003;
-	margin-top:0px;
-	background-image:url(../images/header-image2.png);
-	height:90px;
-}
+.bglogo{
+	margin-top:55px;
+	margin-left:25px;
+	}
 
-.headline{
+
+.title {
+	font-size:14px;
+	color:#03436A;
+	line-height:18px;
+	text-transform:uppercase;
+	letter-spacing: 1px;
+	font-weight:600;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	border-bottom:dotted 1px #03436A;
 	margin-bottom:10px;
-	padding-bottom:10px;
-	border-bottom:dotted 1px #A6ACB9;
+	padding-bottom:3px;
 }
 
 
-.playlist {
-	background-color:#d9dee7;
-	padding:10px;
-	line-height:28px;
-	height:1000px;
-
+.headline {
+	font-size:28px;
+	color:#03436A;
+	font-weight:200;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin-bottom:20px;
 }
 
-.search-box {
-	line-height:28px;
-	padding:10px;
 
+
+.title-w {
+	font-size:14px;
+	color:#FFF;
+	line-height:18px;
+	text-transform:uppercase;
+	text-shadow:#FFF;
+	letter-spacing: 1px;
+	font-weight:600;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	border-bottom:dotted 1px #FFF;
+	margin-bottom:10px;
+	padding-bottom:3px;
+}
+
+.header {
+	background-color:#003c68;
+	margin-top:0px;
+	height:40px;
+}
+
+.purple-box {
+	margin-top:10px;
 }
 
 
 .songlist {
-	line-height:28px;
+	line-height:32px;
+	padding:10px;
+	margin-top:5px;
+	margin-right:35px;
 }
 
 
@@ -51,95 +80,25 @@
 }
 
 
-.headline-text {
-	font-size:48px;
-	color:#606F8C;
-	line-height:18px;
-	text-shadow:#FFF;
-	font-weight:200;
-	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	margin-top:60px;
-	margin-bottom:10px;
-	padding-left:7px;
+.rollover{
+	background-color:#EAF7F7;
+	height:65px;
+	line-height:30px;
 }
 
-
-.headline-white {
-	font-size:54px;
-	color:#FFF;
-	line-height:18px;
-	font-weight:200;
-	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	margin-top:25px;
-}
-
-
-.playlist-title {
-	font-size:14px;
-	color:#606F8C;
-	line-height:18px;
-	text-transform:uppercase;
-	text-shadow:#FFF;
-	letter-spacing: 1px;
-	font-weight:600;
-	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	margin-top:10px;
-	margin-bottom:10px;
-}
-
-
-.songlist-title {
-	font-size:20px;
-	color:#606F8C;
-	line-height:18px;
-	text-transform:uppercase;
-	letter-spacing: 1px;
-	font-weight:200;
-	margin-top:10px;
-	margin-bottom:10px;
-	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
-
-
-.nowplaying-title {
-	font:Arial, Helvetica, sans-serif;
-	font-size:16px;
-	color:#FFF;
-	line-height:18px;
-	text-transform:uppercase;
-	letter-spacing: 1px;
-	font-weight:400;
-	margin-top:10px;
-	margin-bottom:20px;
-	padding-left:7px;
-	padding-bottom:7px;
-	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-	border-bottom: dotted 1px #A6ACB9;
-
-}
-
-.nowplaying-title2 {
-	font:Arial, Helvetica, sans-serif;
-	font-size:20px;
-	color:#606F8C;
-	line-height:18px;
-	text-transform:uppercase;
-	letter-spacing: 1px;
-	font-weight:400;
-	margin-top:10px;
-	padding:10px;
-	margin-left:-7px;
-	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-
-}
 
 .band {
 	font-weight:700;
 }
 
-.band-w {
-	font-weight:700;
-	color:#FFF;
+.venue {
+	margin-left:15px;
+}
+
+.small-gray {
+	font-weight:400;
+	font-size:12px;
+	color:#666;
 }
 
 .band2 {
@@ -159,11 +118,19 @@
 }
 
 
-.nowplaying {
-	background-color:#003;
-	margin-top:0px;
+.comingup {
+	background-color:#057197;
 	padding:10px;
+}
 
+.playlist {
+background-color:#e9e9e9;
+padding:10px;
+}
+
+.nowplaying {
+background-color:#003c68;
+padding:10px;
 }
 
 
@@ -177,10 +144,7 @@
 	font:Arial, Helvetica, sans-serif;
 	font-size:14px;
 	color:#FFF;
-	text-transform:uppercase;
-	letter-spacing:1px;
 }
-
 
 .album {
 	color:#666;
@@ -188,71 +152,15 @@
 }
 
 .album-w {
-	color:#FFF;
+	color:#CCC;
 	font-style:italic;
 }
-
-.album-name {
-	font-style:italic
-}
-
-
-.purple-box {
-	margin-top:35px;
-}
-
-
-.feedback{
-	margin-top:150px;
-	padding-top:10px;
-	background-color:#FAFBF5;
-	padding-bottom:25px;
-}
-
-
-
-.bkg {
-	background-image:url(../images/bkg-image.png);
-	background-position:bottom right;
-	background-repeat:no-repeat;
-}
-
-.clientname{
-	margin-top:20px;
-}
-
-.main{
-	margin-top:50px;
-}
-
-
-.title-1 {
-	font: Arial, Helvetica, sans-serif;
-	font-size:36px;
-	color:#A7BE39;
-	font-weight:300;
-}
-
-.title-2white {
-	font:Arial, Helvetica, sans-serif;
-	font-size:24px;
-	color:#FFF;
-}
-
-.hr-title {
-	margin-left: -10px;
-	margin-top:-10px;
-}
-
 
 
 .right {
 	float:right;
 	margin-right:15px;
 }
-
-
-
 
 
 .med-text-grey {
@@ -274,29 +182,7 @@
 	font:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	color:#FFF;
-	line-height:18px;
-	margin-left:7px;
 }
-
-
-
-
-#playlist {
-padding-left:15px;
-line-height:18px;
-}
-
-
-#playlist2 {
-padding-left:15px;
-line-height:38px;
-}
-
-
-
-
-
-
 
 
 * {
@@ -307,23 +193,8 @@ html{
 	height: 100%;
 }
 
-
 	
 #nav li ul {
 	padding-left:20px;
 	line-height:16px;
-}
-
-	
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -423px; /* the bottom margin is the negative value of the footer's height */
-	background-image:url(../images/bkg-image.png);
-	background-position:bottom right;
-	background-repeat:no-repeat;
-}
-.footer, .push {
-	height: 423px; /* .push must be the same height as .footer */
 }
