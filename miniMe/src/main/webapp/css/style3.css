@@ -1,0 +1,329 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.header {
+	background-color:#003;
+	margin-top:0px;
+	background-image:url(../images/header-image2.png);
+	height:90px;
+}
+
+.headline{
+	margin-bottom:10px;
+	padding-bottom:10px;
+	border-bottom:dotted 1px #A6ACB9;
+}
+
+
+.playlist {
+	background-color:#d9dee7;
+	padding:10px;
+	line-height:28px;
+	height:1000px;
+
+}
+
+.search-box {
+	line-height:28px;
+	padding:10px;
+
+}
+
+
+.songlist {
+	line-height:28px;
+}
+
+
+.list {
+	font:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000;
+	line-height:22px;
+}
+
+
+.list-white {
+	font:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#FFF;
+	line-height:22px;
+}
+
+
+.headline-text {
+	font-size:48px;
+	color:#606F8C;
+	line-height:18px;
+	text-shadow:#FFF;
+	font-weight:200;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin-top:60px;
+	margin-bottom:10px;
+	padding-left:7px;
+}
+
+
+.headline-white {
+	font-size:54px;
+	color:#FFF;
+	line-height:18px;
+	font-weight:200;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin-top:25px;
+}
+
+
+.playlist-title {
+	font-size:14px;
+	color:#606F8C;
+	line-height:18px;
+	text-transform:uppercase;
+	text-shadow:#FFF;
+	letter-spacing: 1px;
+	font-weight:600;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+
+.songlist-title {
+	font-size:20px;
+	color:#606F8C;
+	line-height:18px;
+	text-transform:uppercase;
+	letter-spacing: 1px;
+	font-weight:200;
+	margin-top:10px;
+	margin-bottom:10px;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+
+.nowplaying-title {
+	font:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color:#FFF;
+	line-height:18px;
+	text-transform:uppercase;
+	letter-spacing: 1px;
+	font-weight:400;
+	margin-top:10px;
+	margin-bottom:20px;
+	padding-left:7px;
+	padding-bottom:7px;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	border-bottom: dotted 1px #A6ACB9;
+
+}
+
+.nowplaying-title2 {
+	font:Arial, Helvetica, sans-serif;
+	font-size:20px;
+	color:#606F8C;
+	line-height:18px;
+	text-transform:uppercase;
+	letter-spacing: 1px;
+	font-weight:400;
+	margin-top:10px;
+	padding:10px;
+	margin-left:-7px;
+	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+
+}
+
+.band {
+	font-weight:700;
+}
+
+.band-w {
+	font-weight:700;
+	color:#FFF;
+}
+
+.band2 {
+	font-weight:700;
+	text-transform:uppercase;
+	color:#666;
+	line-height:36px;
+	font-size:12px;
+	border-bottom: dotted 1px #A6ACB9;
+}
+
+
+.green-plus {
+	font-size:16px;
+	font-weight:700;
+	color:#A6ACB9;
+}
+
+
+.nowplaying {
+	background-color:#003;
+	margin-top:0px;
+	padding:10px;
+
+}
+
+
+.center{
+	background-position:center;
+	text-align:center;
+}
+
+
+.med-text-white {
+	font:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#FFF;
+	text-transform:uppercase;
+	letter-spacing:1px;
+}
+
+
+.album {
+	color:#666;
+	font-style:italic;
+}
+
+.album-w {
+	color:#FFF;
+	font-style:italic;
+}
+
+.album-name {
+	font-style:italic
+}
+
+
+.purple-box {
+	margin-top:35px;
+}
+
+
+.feedback{
+	margin-top:150px;
+	padding-top:10px;
+	background-color:#FAFBF5;
+	padding-bottom:25px;
+}
+
+
+
+.bkg {
+	background-image:url(../images/bkg-image.png);
+	background-position:bottom right;
+	background-repeat:no-repeat;
+}
+
+.clientname{
+	margin-top:20px;
+}
+
+.main{
+	margin-top:50px;
+}
+
+
+.title-1 {
+	font: Arial, Helvetica, sans-serif;
+	font-size:36px;
+	color:#A7BE39;
+	font-weight:300;
+}
+
+.title-2white {
+	font:Arial, Helvetica, sans-serif;
+	font-size:24px;
+	color:#FFF;
+}
+
+.hr-title {
+	margin-left: -10px;
+	margin-top:-10px;
+}
+
+
+
+.right {
+	float:right;
+	margin-right:15px;
+}
+
+
+
+
+
+.med-text-grey {
+	font:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#666;
+	font-style:italic;
+}
+
+
+.med-text-black {
+	font:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#000;
+}
+
+
+.body-text-white {
+	font:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#FFF;
+	line-height:18px;
+	margin-left:7px;
+}
+
+
+
+
+#playlist {
+padding-left:15px;
+line-height:18px;
+}
+
+
+#playlist2 {
+padding-left:15px;
+line-height:38px;
+}
+
+
+
+
+
+
+
+
+* {
+	margin: 0;
+}
+
+html{
+	height: 100%;
+}
+
+
+	
+#nav li ul {
+	padding-left:20px;
+	line-height:16px;
+}
+
+	
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -423px; /* the bottom margin is the negative value of the footer's height */
+	background-image:url(../images/bkg-image.png);
+	background-position:bottom right;
+	background-repeat:no-repeat;
+}
+.footer, .push {
+	height: 423px; /* .push must be the same height as .footer */
+}
