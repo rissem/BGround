@@ -10,18 +10,28 @@ public class Song
 	private int score;
 	private int id;
 	private String artist;
+	private String album;
+	private int year; 
 	private String title;
 	private String filename;
+	private int length; //length of song in seconds
 
 	private static final Logger log = Logger.getLogger(Song.class);
 	
-	public Song(int id, String filename, String artist, String title)
+	//TODO song objects should be able to be instantiated from the database
+	//or from a filename which will use id3 tags to instantiate all the attributes
+	//public Song(String filename)
+	
+	public Song(int id, String filename, String artist, String title, String album, int year, int length)
 	{
 		log.debug("song instantiated with id = " + id);
 		this.id = id;
 		this.setFilename(filename);
 		this.artist = artist;
 		this.title = title;
+		this.album = album;
+		this.year = year;
+		this.length = length;
 	}
 	
 	public void boost(int amount)
@@ -53,6 +63,16 @@ public class Song
 	{
 		return title;
 	}
+	
+	public String getAlbum()
+	{
+		return album;
+	}
+	
+	public int getYear()
+	{
+		return year;
+	}
 
 	@Override
 	public boolean equals(Object obj)
@@ -64,8 +84,6 @@ public class Song
 			return true;
 		return false;
 	}
-	//	public JSONObject toJson()
-//	{
 
 	public void setFilename(String filename) {
 		this.filename = filename;
@@ -75,6 +93,10 @@ public class Song
 		return filename;
 	}
 	
+	public int getLength() {
+		return length;
+	}
+	
 	public JSONObject toJson() throws JSONException
 	{
 		JSONObject song = new JSONObject();
@@ -82,6 +104,9 @@ public class Song
 		song.put("id", getId());
 		song.put("artist", getArtist());
 		song.put("title", getTitle());
+		song.put("album", getAlbum());
+		song.put("year", getYear());
+		song.put("length", getLength());
 		song.put("filename", getFilename());
 		return song;
 	}
@@ -92,6 +117,9 @@ public class Song
 		song.put("id", 31415927);
 		song.put("artist", "???");
 		song.put("title", "???");
+		song.put("album", "???");
+		song.put("year", 10);
+		song.put("length", 260);
 		song.put("filename", "???");
 		return song;
 	}

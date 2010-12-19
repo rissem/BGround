@@ -10,7 +10,7 @@
     <img src="images/heroes.jpg"/>
     <p class="med-text-white">{$playlist.nowPlaying.artist}<br />
       {$playlist.nowPlaying.title}<br/>
-      <span class="med-text-white">From the album Heroes</span>
+      <span class="med-text-white">From the album {$playlist.nowPlaying.album}</span>
     </p>
     /*TODO add count<p class="list-white">played <span class="green-plus">261</span>times</p>*/
   </div><br/>
@@ -20,7 +20,7 @@
       <li>
         <span class="band-w">{$song.artist}<img src="images/purple-star.png" class="right"/></span><br/>
         {$song.title}<br />
-        <span class="album">From the album Oracular Spectacular</span>
+        <span class="album">From the album {$song.album}</span>
       </li><br />
     {/foreach}
   </ul>
@@ -32,8 +32,8 @@
 */
 {template .search}
   <ul>
-    <li class="nowplaying-title2">Search Results for "..."</li>
-    {foreach $song in $results}
+    <li class="nowplaying-title2">Search Results for "{$results.query}"</li>
+    {foreach $song in $results.songs}
       <li onclick="enqueue({$song.id})">
         <span class="band">{$song.artist} &#8194;</span>{$song.title}&#8194;<span class="green-plus">+</span></li>
     {/foreach}
