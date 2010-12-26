@@ -15,7 +15,7 @@ public class SetService {
 	
 	public SongSet getSet(int setId)
 	{
-		return getDb().findSetById(setId);
+		return getDb().findSetById(setId, true);
 	}
 	
 	public int createSet(String setName)
@@ -33,9 +33,9 @@ public class SetService {
 		this.db = db;
 	}
 
-	public void addSongToSet(int setId, int songId)
+	public void addSongToSet(int songId, int setId)
 	{
-		
+		getDb().addSongToSet(songId, setId);
 	}
 	
 	public void removeSongFromSet(int songId, int setId)
@@ -49,17 +49,24 @@ public class SetService {
 	}
 	
 	public JSONObject getJsonResults(int setId) {
+		log.info("fetching JSON results");
+		
 		JSONObject results = new JSONObject();
 		JSONArray jsonSongs = new JSONArray();
-		Db db = new Db();
-		List<Song> songs = db.getSet(setId);
-		for (Song song: songs)
+		SongSet songSet = getDb().findSetById(setId, true);
+		for (Song song: songSet.getSongs())
 		{
 			try {
 				jsonSongs.put(song.toJson());
 			} catch (JSONException e) {
 				log.error("", e);
 			}
+		}
+		try {
+			results.put("songs", jsonSongs);
+			results.put("name", songSet.getSetName());
+		} catch (JSONException e) {
+			log.error("", e);
 		}
 		return results;
 	}

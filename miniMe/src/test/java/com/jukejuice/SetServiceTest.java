@@ -17,12 +17,13 @@ import org.junit.Test;
 public class SetServiceTest {
 	public SetService setService;
 	public DbPopulator dbPopulator;
+	public Db db;
 	public static final Logger log = Logger.getLogger(SetServiceTest.class);
 	
 	@Before
 	public void setup() throws SQLException, CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException
 	{
-		Db db = new Db();
+		db = new Db();
 		db.setSqliteFilePath(Db.TESTING_DB);
 		db.dropTables();
 		dbPopulator = new DbPopulator();
@@ -36,15 +37,16 @@ public class SetServiceTest {
 	}
 	
 	@Test
-	public void testSetCreation()
+	public void testSetCreation() throws SQLException
 	{
 		int setId = setService.createSet("Jazz Legends");
+		System.out.println("SETID = " + setId);
 		Assert.assertNotNull(setService.getSet(setId));
-	}
-	
-	@Test
-	public void addSongToSet ()
-	{
-		//int setId = setService.createSet("Suite Songs");
+		Song song = db.findSongById(1);
+		setService.addSongToSet(song.getId(), setId);
+		SongSet set = setService.getSet(setId);
+		System.out.println(set);
+		System.out.println(set.getSongs());
+		Assert.assertTrue(set.getSongs().contains(song));
 	}
 }

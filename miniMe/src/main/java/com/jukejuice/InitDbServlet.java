@@ -16,6 +16,10 @@ public class InitDbServlet extends HttpServlet {
 	{
 		response.setContentType("text/html");
 		DbPopulator dbPopulator = new DbPopulator();
+		if (request.getParameter("dir") != null)
+		{
+			dbPopulator.setMusicDirectory(request.getParameter("dir"));
+		}
 		try {
 			log.info("initializing database");
 			dbPopulator.init();

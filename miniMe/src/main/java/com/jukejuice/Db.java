@@ -288,25 +288,6 @@ public class Db {
 		return null;
 	}
 	
-	public List<Song> getSet(int setId) {
-		Connection conn = getConnection();
-		try {
-			PreparedStatement stmt = conn.prepareStatement(
-					"select * from song where id in " +
-					"(select song_id from set_membership where set_id = ?)");
-			stmt.setInt(1, setId);
-			ResultSet resultSet = stmt.executeQuery();
-			List<Song> results = resultSetToSongs(resultSet);
-			conn.close();
-			return results;
-		}
-		catch (SQLException e)
-		{
-			log.error("", e);
-		}
-		return null;
-	}
-	
 	public int createSet(String setName) {
 		System.out.println("inserting set " + setName);
 		Connection conn = getConnection();
@@ -325,12 +306,12 @@ public class Db {
 			return id;
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			log.error("", e);
 			return -1;
 		}
 	}
 
-	public SongSet findSetById(int setId) {
+	public SongSet findSetById(int setId, boolean includeSongs) {
 		Connection conn = getConnection();
 		PreparedStatement stmt;
 		SongSet songSet = null;
@@ -342,12 +323,36 @@ public class Db {
 			String name = resultSet.getString("name");
 			songSet = new SongSet();
 			songSet.setName(name);
-			//TODO find all the songs in the set
+
+			if (includeSongs)
+			{
+				System.out.println(setId);
+				stmt = conn.prepareStatement(
+						"select * from song where id in (select song_id from set_membership where set_id = ?)");
+				stmt.setInt(1, setId);
+				List<Song> songs = resultSetToSongs(stmt.executeQuery());
+				songSet.setSongs(songs);
+			}	
 			conn.close();
 		} catch (SQLException e) {
 			log.error("", e);
 		}
 		return songSet;
+	}
+
+	public void addSongToSet(int songId, int setId) {
+		Connection conn = getConnection();
+		PreparedStatement stmt;
+		try {
+			stmt = conn.prepareStatement(
+					"insert into set_membership (song_id, set_id) values (?,?)");
+			stmt.setInt(1, songId);
+			stmt.setInt(2, setId);
+			stmt.execute();
+			conn.close();
+		} catch (SQLException e) {
+			log.error("", e);
+		}
 	}
 	
 	

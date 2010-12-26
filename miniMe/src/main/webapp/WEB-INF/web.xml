@@ -66,7 +66,17 @@
       <servlet-name>AdminServlet</servlet-name>
       <servlet-class>com.jukejuice.AdminServlet</servlet-class>
     </servlet>
-
+    
+    <servlet>
+    	<servlet-name>FetchSetServlet</servlet-name>
+    	<servlet-class>com.jukejuice.FetchSetServlet</servlet-class>
+    </servlet>
+    
+	<servlet>
+		<servlet-name>AddSongToSetServlet</servlet-name>
+		<servlet-class>com.jukejuice.AddSongToSetServlet</servlet-class>
+	</servlet>
+	
 	<servlet>
 	    <servlet-name>ServletInitializer</servlet-name>
     	<servlet-class>com.jukejuice.StartupServlet</servlet-class>
@@ -74,8 +84,18 @@
 	 </servlet>	
 		
 	<servlet-mapping>
+		<servlet-name>AddSongToSetServlet</servlet-name>
+		<url-pattern>/addSongToSet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
         <servlet-name>InitDbServlet</servlet-name>
         <url-pattern>/initDb</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>FetchSetServlet</servlet-name>
+		<url-pattern>/fetchSet</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
