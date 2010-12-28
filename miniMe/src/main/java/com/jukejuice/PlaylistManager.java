@@ -83,26 +83,20 @@ public class PlaylistManager
 		resort();
 	}	
 
-	public JSONObject enqueue(Song song){
+	public void enqueue(Song song){
 		playlist.add(song);
-		JSONObject result = new JSONObject();
-		try {
-			result.put("status", "success");
-		} catch (JSONException e) {
-			log.error("", e);
-		}
-		return result;
 	}
 	
-	public JSONObject enqueue(int songId, User user) throws SQLException
+	public String enqueue(int songId, User user) throws SQLException
 	{
 		if (user.getEnergy() > 0)
 		{
 			user.useEnergy(1);
 			user.persist();
-			return enqueue(getDb().findSongById(songId));
+			enqueue(getDb().findSongById(songId));
+			return "Song added";
 		}
-		return null;
+		return "Not enough credits";
 	}
 	
 	private void resort() {

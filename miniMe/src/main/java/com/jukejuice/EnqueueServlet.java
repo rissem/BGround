@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class EnqueueServlet 
 	extends HttpServlet
@@ -28,20 +26,12 @@ public class EnqueueServlet
 		PrintWriter writer = resp.getWriter();
 		
 		try {
-			JSONObject result = PlaylistManager.getInstance(getServletContext()).
-				enqueue(Integer.parseInt(req.getParameter("songId")), (User) req.getAttribute("user"));
-			if (result != null)
-				writer.write(result.toString());
-			else {
-				JSONObject obj = new JSONObject();
-				obj.put("outOfEnergy", true);
-				writer.write(obj.toString());
-			}
+			String result = PlaylistManager.getInstance(getServletContext()).
+			enqueue(Integer.parseInt(req.getParameter("songId")), (User) req.getAttribute("user"));
+			writer.write(result);
 		} catch (NumberFormatException e) {
 			log.error("", e);
 		} catch (SQLException e) {
-			log.error("", e);
-		} catch (JSONException e) {
 			log.error("", e);
 		}
 	}

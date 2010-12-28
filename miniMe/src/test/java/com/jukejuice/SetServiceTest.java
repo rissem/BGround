@@ -45,8 +45,7 @@ public class SetServiceTest {
 		Song song = db.findSongById(1);
 		setService.addSongToSet(song.getId(), setId);
 		SongSet set = setService.getSet(setId);
-		System.out.println(set);
-		System.out.println(set.getSongs());
 		Assert.assertTrue(set.getSongs().contains(song));
+		Assert.assertEquals(1, set.getSongs().size());
 	}
 }

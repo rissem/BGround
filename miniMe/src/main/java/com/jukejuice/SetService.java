@@ -1,6 +1,6 @@
 package com.jukejuice;
 
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -33,9 +33,12 @@ public class SetService {
 		this.db = db;
 	}
 
-	public void addSongToSet(int songId, int setId)
+	public void addSongToSet(int songId, int setId) throws SQLException
 	{
-		getDb().addSongToSet(songId, setId);
+		SongSet set = getDb().findSetById(setId, true);
+		Song song = getDb().findSongById(songId);
+		if (! set.getSongs().contains(song))
+			getDb().addSongToSet(songId, setId);
 	}
 	
 	public void removeSongFromSet(int songId, int setId)

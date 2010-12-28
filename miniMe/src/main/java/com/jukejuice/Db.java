@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -136,7 +138,7 @@ public class Db {
 		statement.setString(1, "%" + search + "%");
 		statement.setString(2, "%" + search + "%");
 		ResultSet resultSet = statement.executeQuery();
-		List<Song> results = resultSetToSongs(resultSet);
+		List<Song> results = resultSetToSongs(resultSet, connection);
 		connection.close();
 		return results;
 	}
@@ -148,7 +150,7 @@ public class Db {
 				"select * from song where id = ?");
 		preparedStatement.setInt(1, id);
 		preparedStatement.execute();
-		List<Song> songs = resultSetToSongs(preparedStatement.getResultSet());
+		List<Song> songs = resultSetToSongs(preparedStatement.getResultSet(), connection);
 		connection.close();
 		if (songs.size() == 1)
 			return songs.get(0);
@@ -189,7 +191,7 @@ public class Db {
 		return null;
 	}
 	
-	private List<Song> resultSetToSongs(ResultSet resultSet) throws SQLException
+	private List<Song> resultSetToSongs(ResultSet resultSet, Connection conn) throws SQLException
 	{
 		List<Song> songs = new ArrayList<Song>();
 		while (resultSet.next())
@@ -202,6 +204,20 @@ public class Db {
 			String filename = resultSet.getString("filename");
 			int length = resultSet.getInt("length");
 			Song song = new Song(id,filename,artist,title,album,year,length);
+			
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"select * from song_set where id in (select set_id from set_membership where song_id = ?)");
+			preparedStatement.setInt(1, id);
+			ResultSet songSetResults = preparedStatement.executeQuery();
+			Set<SongSet> songSets = new HashSet<SongSet>();
+			while (songSetResults.next())
+			{
+				SongSet songSet = new SongSet();
+				songSet.setName(songSetResults.getString("name"));
+				songSet.setId(songSetResults.getInt("id"));
+				songSets.add(songSet);
+			}
+			song.setSongSets(songSets);
 			songs.add(song);
 		}
 		return songs;
@@ -330,7 +346,7 @@ public class Db {
 				stmt = conn.prepareStatement(
 						"select * from song where id in (select song_id from set_membership where set_id = ?)");
 				stmt.setInt(1, setId);
-				List<Song> songs = resultSetToSongs(stmt.executeQuery());
+				List<Song> songs = resultSetToSongs(stmt.executeQuery(), conn);
 				songSet.setSongs(songs);
 			}	
 			conn.close();

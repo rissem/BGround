@@ -19,10 +19,10 @@ function updatePlaylist()
 	 );
 }
 
-function enqueue(songId)
+function enqueue(songId, alertFunction)
 {
     //TODO handle a bad request and change to post
-    $.get("enqueue?songId="+songId, function(){updatePlaylist();});
+    $.get("enqueue?songId="+songId, function(data){updatePlaylist(); alertFunction(data);});
     return false;
 }
 

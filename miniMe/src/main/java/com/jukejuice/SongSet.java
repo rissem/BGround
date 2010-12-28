@@ -3,6 +3,7 @@ package com.jukejuice;
 import java.util.List;
 
 public class SongSet {
+	private int id;
 	private List<Song> songs;
 	private String setName;
 	
@@ -25,5 +26,13 @@ public class SongSet {
 
 	public String getSetName() {
 		return setName;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

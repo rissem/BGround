@@ -25,7 +25,7 @@ miniMe.search = function(opt_data, opt_sb) {
   var songListLen24 = songList24.length;
   for (var songIndex24 = 0; songIndex24 < songListLen24; songIndex24++) {
     var songData24 = songList24[songIndex24];
-    output.append('<li onclick="enqueue(', soy.$$escapeHtml(songData24.id), ')"><span class="band">', soy.$$escapeHtml(songData24.artist), ' &#8194;</span>', soy.$$escapeHtml(songData24.title), '&#8194;<span class="green-plus">+</span></li>');
+    output.append('<li onclick="enqueue(', soy.$$escapeHtml(songData24.id), ', humanMsg.displayMsg);"><span class="band">', soy.$$escapeHtml(songData24.artist), ' &#8194;</span>', soy.$$escapeHtml(songData24.title), '&#8194;<span class="green-plus">+</span></li>');
   }
   output.append('</ul>');
   if (!opt_sb) return output.toString();

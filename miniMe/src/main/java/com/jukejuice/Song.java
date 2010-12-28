@@ -1,6 +1,9 @@
 package com.jukejuice;
 
+import java.util.Set;
+
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +18,7 @@ public class Song
 	private String title;
 	private String filename;
 	private int length; //length of song in seconds
+	private Set<SongSet> songSets;
 
 	private static final Logger log = Logger.getLogger(Song.class);
 	
@@ -96,6 +100,14 @@ public class Song
 	public int getLength() {
 		return length;
 	}
+
+	public void setSongSets(Set<SongSet> songSet) {
+		this.songSets = songSet;
+	}
+
+	public Set<SongSet> getSongSets() {
+		return songSets;
+	}	
 	
 	public JSONObject toJson() throws JSONException
 	{
@@ -108,6 +120,16 @@ public class Song
 		song.put("year", getYear());
 		song.put("length", getLength());
 		song.put("filename", getFilename());
+		
+		JSONArray songSets = new JSONArray();
+		for (SongSet songSet: getSongSets())
+		{
+			JSONObject jsonSongSet = new JSONObject();
+			jsonSongSet.put("name", songSet.getSetName());
+			jsonSongSet.put("id", songSet.getId());
+			songSets.put(jsonSongSet);
+		}
+		song.put("songSets", songSets);
 		return song;
 	}
 
@@ -123,6 +145,4 @@ public class Song
 		song.put("filename", "???");
 		return song;
 	}
-		
-//	}
 }

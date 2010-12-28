@@ -29,9 +29,9 @@ public class StartupServlet
 		
 		audioPlayer = new AudioPlayer();
 		Timer timer = new Timer();
-		timer.schedule(new VlcTask(), 0, 5000);
+		timer.schedule(new VlcTask(), 0, 1000);
 		timer.schedule(new EnergyTask(), 0, 5 * 60 * 1000);
-		timer.schedule(new PlaylistTask(), 0, 120000);
+		timer.schedule(new PlaylistTask(), 0, 5000);
 	}
 	
 	class VlcTask extends TimerTask
