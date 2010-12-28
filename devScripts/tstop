@@ -1,0 +1,2 @@
+#! /usr/bin/env bash
+$BGROUND/apache-tomcat-6.0.29/bin/shutdown.sh

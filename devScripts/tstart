@@ -1,0 +1,4 @@
+#! /usr/bin/env bash
+#is vlc running
+/Applications/VLC.app/Contents/MacOS/VLC -I http --http-src ../vlcHttpInterface --http-host 127.0.0.1:8081
+JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n" && $BGROUND/apache-tomcat-6.0.29/bin/startup.sh
