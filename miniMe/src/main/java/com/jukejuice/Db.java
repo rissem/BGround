@@ -162,35 +162,6 @@ public class Db {
 		return null;
 	}
 	
-	public User findUserById (int uuid)
-	{
-		Connection conn = getConnection();
-		ResultSet resultSet;
-		try {
-			PreparedStatement statement = conn.prepareStatement(
-				"select * from user where id = ?");
-			statement.setInt(1, uuid);
-			statement.execute();
-			resultSet = statement.getResultSet();
-
-			String ipAddress = resultSet.getString("ip_address"); 
-			int usedEnergy = resultSet.getInt("used_energy");
-			int maxEnergy = resultSet.getInt("max_energy");
-			conn.close();
-			
-			User user = new User();
-			user.setId(uuid);
-			user.setIpAddress(ipAddress);
-			user.setMaxEnergy(maxEnergy);
-			user.setUsedEnergy(usedEnergy);
-			return user;			
-
-		} catch (SQLException e) {
-			log.error("", e);
-		}
-		return null;
-	}
-	
 	private List<Song> resultSetToSongs(ResultSet resultSet, Connection conn) throws SQLException
 	{
 		List<Song> songs = new ArrayList<Song>();
@@ -223,17 +194,56 @@ public class Db {
 		return songs;
 	}
 
+	public User getUser (String ipAddress, int uuid)
+	{
+		Connection conn = getConnection();
+		ResultSet resultSet;
+		try {
+			PreparedStatement statement = conn.prepareStatement(
+				"select * from user where id = ?");
+			statement.setInt(1, uuid);
+			statement.execute();
+			resultSet = statement.getResultSet();
+
+			int usedEnergy, maxEnergy;
+			User user = new User();
+			if (resultSet.next()) {
+				ipAddress = resultSet.getString("ip_address"); 
+				usedEnergy = resultSet.getInt("used_energy");
+				maxEnergy = resultSet.getInt("max_energy");
+			}
+			else
+			{
+				createUser(ipAddress, uuid);
+				conn.close();
+				return getUser(ipAddress, uuid);
+			}
+			conn.close();
+			
+			user.setId(uuid);
+			user.setIpAddress(ipAddress);
+			user.setMaxEnergy(maxEnergy);
+			user.setUsedEnergy(usedEnergy);
+			return user;			
+
+		} catch (SQLException e) {
+			log.error("", e);
+		}
+		return null;
+	}
+	
 	/**
 	 * create a user in the database with default energy attributes and random UUID
 	 * @param ipAddress
 	 * @return
 	 */
-	public User createUser(String ipAddress) {
+	public User createUser(String ipAddress, Integer uuid) {
 		try {
 			log.info("creating user " + ipAddress);
 			
 			Connection conn = getConnection();
-			int uuid = UUID.randomUUID().hashCode(); 
+			if (uuid == null)
+				uuid = UUID.randomUUID().hashCode(); 
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"insert into user (id, ip_address, used_energy, max_energy) values (?,?,?,?)");
 			preparedStatement.setInt(1, uuid);
@@ -243,11 +253,10 @@ public class Db {
 			preparedStatement.execute();
 			conn.close();
 			
-			return findUserById(uuid);
 		} catch (SQLException e) {
 			log.error("", e);
 		}
-		return null;
+		return getUser(ipAddress, uuid);
 	}
 
 	public void updateUser(User user) {

@@ -33,12 +33,12 @@ public class GlobalFilter
 		String userCookie = getCookie(request, "user");
 		if (userCookie != null)
 		{
-			User user = db.findUserById(Integer.parseInt(userCookie));
+			User user = db.getUser(request.getRemoteAddr(), Integer.parseInt(userCookie));
 			request.setAttribute("user", user);
 		}
 		else
 		{
-			User user = db.createUser(request.getRemoteAddr());
+			User user = db.createUser(request.getRemoteAddr(), null);
 			addCookie(response, "user", "" + user.getId());
 			request.setAttribute("user", user);
 		}
