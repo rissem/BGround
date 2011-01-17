@@ -24,8 +24,8 @@ public class SetServiceTest {
 	public void setup() throws SQLException, CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException
 	{
 		db = new Db();
-		db.setSqliteFilePath(Db.TESTING_DB);
 		db.dropTables();
+		db.initDb();
 		dbPopulator = new DbPopulator();
 		dbPopulator.setDb(db);
 		File markerFile = new File(Util.resource("testMusicMarker"));
