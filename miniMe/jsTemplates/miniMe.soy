@@ -4,26 +4,23 @@
 * @param playlist
 */
 {template .playlist}
-<div class="grid_6 nowplaying">
-  <p class="nowplaying-title">Now Playing</p>
-  <div class="center">
-    <img src="images/heroes.jpg"/>
-    <p class="med-text-white">{$playlist.nowPlaying.artist}<br />
-      {$playlist.nowPlaying.title}<br/>
-      <span class="med-text-white">From the album {$playlist.nowPlaying.album}</span>
-    </p>
-    /*TODO add count<p class="list-white">played <span class="green-plus">261</span>times</p>*/
-  </div><br/>
-  <p class="nowplaying-title">Coming Up</p>
+<div class="grid_5 nowplaying">
+  <p class="title-w">Now Playing</p>
+  <img src="images/heroes.jpg"/>
+  <p class="list-white"><span class="band">{$playlist.nowPlaying.artist}</span>
+    <br />{$playlist.nowPlaying.title}
+    <br/><span class="album-w">From the album {$playlist.nowPlaying.album}</span>
+  </p>
+</div>
+<div class="grid_5 comingup">
+  <p class="title-w">COMING UP</p>
   <ul class="body-text-white">
     {foreach $song in $playlist.songs}
-      <li>
-        <span class="band-w">{$song.artist}<img src="images/purple-star.png" class="right"/></span><br/>
-        {$song.title}<br />
-        <span class="album">From the album {$song.album}</span>
-      </li><br />
+    <li><span class="band">{$song.artist}<img src="images/purple-star.png" class="right"/></span><br/>{$song.title}<br /><span class="album-w">From {$song.album}</span></li>
+    <br />
     {/foreach}
   </ul>
+</div>
 </div>
 {/template}
 
@@ -31,13 +28,14 @@
 * @param results
 */
 {template .search}
-  <ul>
-    <li class="nowplaying-title2">Search Results for "{$results.query}"</li>
-    {foreach $song in $results.songs}
-      <li onclick="enqueue({$song.id}, humanMsg.displayMsg);">
-        <span class="band">{$song.artist} &#8194;</span>{$song.title}&#8194;<span class="green-plus">+</span></li>
-    {/foreach}
-  </ul>
+   <ul> 
+      <li class="headline">Desi's List</li> 
+      {foreach $song in $results.songs}
+      <li onclick="enqueue({$song.id}, humanMsg.displayMsg);"><span class="band">{$song.artist} &#8194;</span>{$song.title}	&#8194;<span class="green-plus">+</span></li> 
+      {/foreach}
+    </ul>
+  </div>
+</div>
 {/template}
 
 /**
