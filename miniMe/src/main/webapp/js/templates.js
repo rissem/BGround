@@ -20,12 +20,16 @@ miniMe.playlist = function(opt_data, opt_sb) {
 
 miniMe.search = function(opt_data, opt_sb) {
   var output = opt_sb || new soy.StringBuilder();
-  output.append('<ul><li class="headline">Desi\'s List</li>');
-  var songList22 = opt_data.results.songs;
-  var songListLen22 = songList22.length;
-  for (var songIndex22 = 0; songIndex22 < songListLen22; songIndex22++) {
-    var songData22 = songList22[songIndex22];
-    output.append('<li onclick="enqueue(', soy.$$escapeHtml(songData22.id), ', humanMsg.displayMsg);"><span class="band">', soy.$$escapeHtml(songData22.artist), ' &#8194;</span>', soy.$$escapeHtml(songData22.title), '\t&#8194;<span class="green-plus">+</span>', (opt_data.results.admin) ? '<a href="/miniMe/ban?songId=' + soy.$$escapeHtml(songData22.id) + '"><img src="/miniMe/images/x.png"></a>' : '', '</li>');
+  output.append('<ul><li class="headline">Search Results for "', soy.$$escapeHtml(opt_data.results.query), '"</li>');
+  var songList24 = opt_data.results.songs;
+  var songListLen24 = songList24.length;
+  if (songListLen24 > 0) {
+    for (var songIndex24 = 0; songIndex24 < songListLen24; songIndex24++) {
+      var songData24 = songList24[songIndex24];
+      output.append('<li><span style="cursor:pointer" onclick="enqueue(', soy.$$escapeHtml(songData24.id), ', humanMsg.displayMsg);"><span class="band">', soy.$$escapeHtml(songData24.artist), ' &#8194;</span>', soy.$$escapeHtml(songData24.title), '\t&#8194;<span class="green-plus">+</span></span>', (opt_data.results.admin) ? '<a href="/miniMe/ban?songId=' + soy.$$escapeHtml(songData24.id) + '"><img src="/miniMe/images/x.png"></a>' : '', '</li>');
+    }
+  } else {
+    output.append('<li>No results were found</li>');
   }
   output.append('</ul></div></div>');
   if (!opt_sb) return output.toString();

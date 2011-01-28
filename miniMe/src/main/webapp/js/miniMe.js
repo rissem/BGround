@@ -38,4 +38,3 @@ function updateSearch()
 	 }
 	 );
 }
-updateSearch.searches = [];

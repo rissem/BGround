@@ -6,7 +6,6 @@
 {template .playlist}
 <div class="grid_5 nowplaying">
   <p class="title-w">Now Playing</p>
-  <img src="images/heroes.jpg"/>
   <p class="list-white"><span class="band">{$playlist.nowPlaying.artist}</span>
     <br />{$playlist.nowPlaying.title}
     <br/><span class="album-w">From the album {$playlist.nowPlaying.album}</span>
@@ -29,10 +28,13 @@
 */
 {template .search}
    <ul> 
-      <li class="headline">Desi's List</li> 
+      <li class="headline">Search Results for "{$results.query}"</li> 
       {foreach $song in $results.songs}
-      <li onclick="enqueue({$song.id}, humanMsg.displayMsg);"><span class="band">{$song.artist} &#8194;</span>{$song.title}	&#8194;<span class="green-plus">+</span></li> 
+      <li><span style="cursor:pointer" onclick="enqueue({$song.id}, humanMsg.displayMsg);"><span class="band">{$song.artist} &#8194;</span>{$song.title}	&#8194;<span class="green-plus">+</span></span>{if $results.admin}<a href="/miniMe/ban?songId={$song.id}"><img src="/miniMe/images/x.png"></a>{/if}</li>     
+      {ifempty}
+      <li>No results were found</li>
       {/foreach}
+
     </ul>
   </div>
 </div>
