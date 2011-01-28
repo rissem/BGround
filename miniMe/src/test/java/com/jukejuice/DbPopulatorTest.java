@@ -54,9 +54,9 @@ public class DbPopulatorTest {
 	@Test
 	public void testSongEquals()
 	{
-		Song song1 = new Song(1,"filename", "artist", "title","album",2007,190);
-		Song song2 = new Song(1,"filename", "artist", "title","album",2007,190);
-		Song song3 = new Song(2,"filename", "artist", "title","album",2007,190);
+		Song song1 = new Song(1,"filename", "artist", "title","album",2007,190,false);
+		Song song2 = new Song(1,"filename", "artist", "title","album",2007,190,false);
+		Song song3 = new Song(2,"filename", "artist", "title","album",2007,190,false);
 		Assert.assertTrue(song1.equals(song2));
 		Assert.assertFalse(song1.equals(song3));
 	}

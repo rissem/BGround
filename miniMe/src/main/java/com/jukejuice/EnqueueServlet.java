@@ -26,8 +26,11 @@ public class EnqueueServlet
 		PrintWriter writer = resp.getWriter();
 		
 		try {
+			boolean charge = true;
+			if (req.getLocalAddr().equals(req.getRemoteAddr()))
+				charge = false;
 			String result = PlaylistManager.getInstance(getServletContext()).
-			enqueue(Integer.parseInt(req.getParameter("songId")), (User) req.getAttribute("user"));
+						enqueue(Integer.parseInt(req.getParameter("songId")), (User) req.getAttribute("user"), charge);
 			writer.write(result);
 		} catch (NumberFormatException e) {
 			log.error("", e);

@@ -43,6 +43,11 @@
     <!-- Define servlets that are included in the example application -->
 
     <servlet>
+        <servlet-name>BanSongServlet</servlet-name>
+        <servlet-class>com.jukejuice.BanSongServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>InitDbServlet</servlet-name>
         <servlet-class>com.jukejuice.InitDbServlet</servlet-class>
     </servlet>
@@ -71,6 +76,11 @@
     	<servlet-name>FetchSetServlet</servlet-name>
     	<servlet-class>com.jukejuice.FetchSetServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+    	<servlet-name>ImportSetServlet</servlet-name>
+    	<servlet-class>com.jukejuice.ImportSetServlet</servlet-class>
+    </servlet>    
     
 	<servlet>
 		<servlet-name>AddSongToSetServlet</servlet-name>
@@ -112,9 +122,19 @@
 		<servlet-name>PlaylistServlet</servlet-name>
 		<url-pattern>/playlist</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ImportSetServlet</servlet-name>
+		<url-pattern>/importSet</url-pattern>
+	</servlet-mapping>	
 
 	<servlet-mapping>
 		<servlet-name>AdminServlet</servlet-name>
 		<url-pattern>/admin</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>BanSongServlet</servlet-name>
+		<url-pattern>/ban</url-pattern>
 	</servlet-mapping>
 </web-app>

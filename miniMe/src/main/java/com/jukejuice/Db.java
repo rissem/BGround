@@ -28,7 +28,7 @@ public class Db {
 			@Override
 			public Void exec() throws SQLException {
 				PreparedStatement preparedStatement = conn
-						.prepareStatement("insert into song (artist, title, album, year, length, filename) values (?, ?, ?, ?, ?, ?)");
+						.prepareStatement("insert into song (artist, title, album, year, length, filename, banned) values (?, ?, ?, ?, ?, ?, ?)");
 				for (SongFileInfo info : songInfos) {
 					try {
 						for (FieldKey fieldKey : FieldKey.values()) {
@@ -52,6 +52,7 @@ public class Db {
 						preparedStatement.setInt(5, info.header
 								.getTrackLength());
 						preparedStatement.setString(6, info.filename);
+						preparedStatement.setBoolean(7, false);						
 						preparedStatement.addBatch();
 					} catch (Exception e) {
 						log.error("Failure on songInfo "
@@ -80,7 +81,7 @@ public class Db {
 			public Void exec() throws SQLException {
 				Statement statement = conn.createStatement();
 				conn.setAutoCommit(true);
-				statement.execute("create table if not exists song (id integer primary key, artist, title, album, year, length, filename)");
+				statement.execute("create table if not exists song (id integer primary key, artist, title, album, year, length, filename, banned)");
 				statement.execute("create table if not exists user (id integer primary key, ip_address, used_energy, max_energy)");
 				statement.execute("create table if not exists song_set (id integer primary key, name)");
 				statement.execute("create table if not exists set_membership (id integer primary key, song_id, set_id)");				
@@ -132,9 +133,10 @@ public class Db {
 			@Override
 			public List<Song> exec() throws SQLException {
 				PreparedStatement statement = conn
-						.prepareStatement("select * from song where artist like ? or title like ?");
+						.prepareStatement("select * from song where (artist like ? or title like ?) and banned = ?");
 				statement.setString(1, "%" + search + "%");
 				statement.setString(2, "%" + search + "%");
+				statement.setBoolean(3, false);
 				ResultSet resultSet = statement.executeQuery();
 				return resultSetToSongs(resultSet, conn);
 			}
@@ -180,8 +182,9 @@ public class Db {
 					int year = resultSet.getInt("year");
 					String filename = resultSet.getString("filename");
 					int length = resultSet.getInt("length");
+					boolean banned = resultSet.getBoolean("banned");
 					Song song = new Song(id, filename, artist, title, album, year,
-							length);
+							length, banned);
 
 					PreparedStatement preparedStatement = conn
 							.prepareStatement("select * from song_set where id in (select set_id from set_membership where song_id = ?)");
@@ -355,30 +358,43 @@ public class Db {
 		return new DbTask<SongSet>() {
 			@Override
 			public SongSet exec() throws SQLException {
-				// TODO Auto-generated method stub
-				PreparedStatement stmt;
 				SongSet songSet = null;
-				try {
+				PreparedStatement stmt = conn
+						.prepareStatement("select * from song_set where id = ?");
+				stmt.setInt(1, setId);
+				ResultSet resultSet = stmt.executeQuery();
+				String name = resultSet.getString("name");
+				songSet = new SongSet();
+				songSet.setName(name);
+				songSet.setId(setId);
+
+				if (includeSongs) {
+					System.out.println(setId);
 					stmt = conn
-							.prepareStatement("select * from song_set where id = ?");
+							.prepareStatement("select * from song where id in (select song_id from set_membership where set_id = ?)");
 					stmt.setInt(1, setId);
-					ResultSet resultSet = stmt.executeQuery();
+					List<Song> songs = resultSetToSongs(
+							stmt.executeQuery(), conn);
+					songSet.setSongs(songs);
+				}
+				return songSet;
+			}
+		}.run();
+	}
+	
+	public SongSet findSetByName(final String name) {
+		return new DbTask<SongSet>() {
+			@Override
+			public SongSet exec() throws SQLException {
+				SongSet songSet = null;
+				PreparedStatement stmt = conn
+						.prepareStatement("select * from song_set where name = ?");
+				stmt.setString(1, name);
+				ResultSet resultSet = stmt.executeQuery();
+				if (resultSet.next()) {
 					String name = resultSet.getString("name");
 					songSet = new SongSet();
 					songSet.setName(name);
-
-					if (includeSongs) {
-						System.out.println(setId);
-						stmt = conn
-								.prepareStatement("select * from song where id in (select song_id from set_membership where set_id = ?)");
-						stmt.setInt(1, setId);
-						List<Song> songs = resultSetToSongs(
-								stmt.executeQuery(), conn);
-						songSet.setSongs(songs);
-					}
-					conn.close();
-				} catch (SQLException e) {
-					log.error("", e);
 				}
 				return songSet;
 			}
@@ -393,6 +409,67 @@ public class Db {
 				stmt.setInt(1, songId);
 				stmt.setInt(2, setId);
 				stmt.execute();
+				return null;
+			}
+		}.run();
+	}
+	
+	/**
+	 * function primarily for adding a list of filenames (easily obtained from an iTunes playlist) to a set 
+	 * @param filenames
+	 */
+	//TODO make sure this function can't be called by any user on the street
+	public void addFilenamesToSet(final List<String> filenames, final int setId)
+	{
+		//just run the query and select he songs one by one instead of getting fancy with comma separation
+		
+		new DbTask<Void>() {
+		
+			@Override
+			public Void exec() throws SQLException {
+				PreparedStatement stmt = conn.prepareStatement("select id from song where filename = ?");
+				PreparedStatement addSongStatement = conn.prepareStatement("insert into set_membership (song_id, set_id) values (?,?)");
+
+				for (String filename: filenames)
+				{
+					stmt.setString(1, filename);
+					ResultSet resultSet = stmt.executeQuery();
+					if (resultSet.next()) {
+						int songId = resultSet.getInt(1);
+						addSongStatement.setInt(1, songId);
+						addSongStatement.setInt(2, setId);
+						addSongStatement.execute();
+					}
+				}
+				return null;
+			}
+		}.run();
+	}
+	
+	public void emptySet(final SongSet songSet)
+	{
+		new DbTask<Void>(){
+		
+			@Override
+			public Void exec() throws SQLException {
+				if (songSet != null) {
+					PreparedStatement preparedStatement = conn.prepareStatement("delete from set_membership where set_id = ?");
+					preparedStatement.setInt(1, songSet.getId());
+				}
+				return null;
+			}
+		}.run();
+	}
+	
+	public void banSong(final int songId)
+	{
+		new DbTask<Void>() {
+			@Override
+			public Void exec() throws SQLException {
+				PreparedStatement preparedStatement = conn.prepareStatement("update song set banned = ? where id = ?");
+				preparedStatement.setBoolean(1, true);
+				preparedStatement.setInt(2, songId);
+				preparedStatement.execute();
 				return null;
 			}
 		}.run();

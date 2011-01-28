@@ -87,8 +87,13 @@ public class PlaylistManager
 		playlist.add(song);
 	}
 	
-	public String enqueue(int songId, User user) throws SQLException
+	public String enqueue(int songId, User user, boolean charge) throws SQLException
 	{
+		if (! charge) {
+			enqueue(getDb().findSongById(songId));
+			return "Song added (free because you're on the beatlist player)";
+		}
+		
 		if (user.getEnergy() > 0)
 		{
 			user.useEnergy(1);

@@ -36,8 +36,10 @@ public abstract class DbTask<T> {
 		}
 		catch (SQLException e) {
 			try {
-				if (closeConnection) 
+				if (closeConnection) {
+					log.error("", e);
 					conn.close();
+				}
 				return result;
 			} catch (SQLException e1) {
 				log.error("", e1);

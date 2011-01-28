@@ -18,6 +18,7 @@ public class Song
 	private String title;
 	private String filename;
 	private int length; //length of song in seconds
+	private boolean banned;
 	private Set<SongSet> songSets;
 
 	private static final Logger log = Logger.getLogger(Song.class);
@@ -26,7 +27,7 @@ public class Song
 	//or from a filename which will use id3 tags to instantiate all the attributes
 	//public Song(String filename)
 	
-	public Song(int id, String filename, String artist, String title, String album, int year, int length)
+	public Song(int id, String filename, String artist, String title, String album, int year, int length, boolean banned)
 	{
 		log.debug("song instantiated with id = " + id);
 		this.id = id;
@@ -36,6 +37,7 @@ public class Song
 		this.album = album;
 		this.year = year;
 		this.length = length;
+		this.banned = banned;
 	}
 	
 	public void boost(int amount)
@@ -144,5 +146,13 @@ public class Song
 		song.put("length", 260);
 		song.put("filename", "???");
 		return song;
+	}
+
+	public void setBanned(boolean banned) {
+		this.banned = banned;
+	}
+
+	public boolean isBanned() {
+		return banned;
 	}
 }

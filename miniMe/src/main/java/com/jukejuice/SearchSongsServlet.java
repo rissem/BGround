@@ -25,6 +25,9 @@ public class SearchSongsServlet
 		SearchService ss = new SearchService();
 		try {
 			JSONObject results = ss.getJsonResults(req.getParameter("search"));
+			if (req.getLocalAddr().equals(req.getRemoteAddr())) {
+				results.put("admin", true);
+			}	
 			writer.write(results.toString());
 		} catch (Exception e) {
 			log.error("", e);
