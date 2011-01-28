@@ -9,3 +9,9 @@
 <a href="#" onclick="$.get('admin?action=volumeUp', function(data){});">Volume Up</a><br />
 <a href="#" onclick="$.get('admin?action=volumeDown', function(data){});">Volume Down</a><br />
 </div>
+
+<form action="/miniMe/importSet" method="post" enctype="multipart/form-data">
+<input type="text" name="setName" />
+<input type="file" name="file" id="file" />
+<input type="submit" />
+</form>

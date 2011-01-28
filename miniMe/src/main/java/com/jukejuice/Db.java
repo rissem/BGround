@@ -1,12 +1,15 @@
 package com.jukejuice;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -79,7 +82,7 @@ public class Db {
 			public Void exec() throws SQLException {
 				Statement statement = conn.createStatement();
 				conn.setAutoCommit(true);
-				statement.execute("create table if not exists song (id integer primary key, artist, title, album, year, length, filename, banned)");
+				statement.execute("create table if not exists song (id integer primary key, artist, title, album, year, length, filename, banned, lastPlayed)");
 				statement.execute("create table if not exists user (id integer primary key, ip_address, used_energy, max_energy)");
 				statement.execute("create table if not exists song_set (id integer primary key, name)");
 				statement.execute("create table if not exists set_membership (id integer primary key, song_id, set_id)");				
@@ -97,7 +100,7 @@ public class Db {
 				conn.setAutoCommit(true);
 				statement.execute("drop table if exists song");
 				statement.execute("drop table if exists user");
-				statement.execute("drop table if exists song_st");
+				statement.execute("drop table if exists song_set");
 				statement.execute("drop table if exists set_membership");
 				return null;
 			}
@@ -183,6 +186,7 @@ public class Db {
 					boolean banned = resultSet.getBoolean("banned");
 					Song song = new Song(id, filename, artist, title, album, year,
 							length, banned);
+					song.setLastPlayed(resultSet.getDate("lastPlayed"));
 					songs.add(song);
 				}
 				return songs;
@@ -378,8 +382,10 @@ public class Db {
 				ResultSet resultSet = stmt.executeQuery();
 				if (resultSet.next()) {
 					String name = resultSet.getString("name");
+					int id = resultSet.getInt("id");
 					songSet = new SongSet();
 					songSet.setName(name);
+					songSet.setId(id);
 				}
 				return songSet;
 			}
@@ -440,6 +446,7 @@ public class Db {
 				if (songSet != null) {
 					PreparedStatement preparedStatement = conn.prepareStatement("delete from set_membership where set_id = ?");
 					preparedStatement.setInt(1, songSet.getId());
+					preparedStatement.execute();
 				}
 				return null;
 			}
@@ -455,6 +462,38 @@ public class Db {
 				preparedStatement.setBoolean(1, true);
 				preparedStatement.setInt(2, songId);
 				preparedStatement.execute();
+				return null;
+			}
+		}.run();
+	}
+	
+	public Map<Integer,String> getSetNames ()
+	{
+		return new DbTask<Map<Integer,String>>() {
+		
+			@Override
+			public Map<Integer,String> exec() throws SQLException {
+				Map<Integer,String> results = new HashMap<Integer,String>();
+				PreparedStatement preparedStatment = conn.prepareStatement("select id, name from song_set");
+				ResultSet resultSet = preparedStatment.executeQuery();
+				while (resultSet.next()) {
+					results.put(resultSet.getInt(1), resultSet.getString(2));
+				}
+				return results;
+			}
+		}.run();
+	}
+	
+	public void setLastPlayed (final Song song)
+	{
+		new DbTask<Void>() {
+		
+			@Override
+			public Void exec() throws SQLException {
+				PreparedStatement preparedStatment = conn.prepareStatement("update song set lastPlayed = ? where id = ?");
+				preparedStatment.setDate(1, new Date(System.currentTimeMillis()));
+				preparedStatment.setInt(2, song.getId());
+				preparedStatment.execute();
 				return null;
 			}
 		}.run();

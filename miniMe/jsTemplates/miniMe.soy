@@ -29,6 +29,7 @@
 {template .search}
    <ul> 
      {if $results.query }<li class="headline">Search Results for "{$results.query}"</li>{/if}
+     {if $results.title }<li class="headline">{$results.title}</li>{/if}
      {foreach $song in $results.songs}
       <li><span style="cursor:pointer" onclick="enqueue({$song.id}, humanMsg.displayMsg);"><span class="band">{$song.artist} &#8194;</span>{$song.title}	&#8194;<span class="green-plus">+</span></span>{if $results.admin}<a href="/miniMe/ban?songId={$song.id}"><img src="/miniMe/images/x.png"></a>{/if}</li>     
       {ifempty}
@@ -46,4 +47,16 @@
 */
 {template .energy}
 {$currentEnergy} / {$maxEnergy}	  
+{/template}
+
+/**
+* @param sets
+*/
+{template .sets}
+<p class="title">Sets</p>
+<ul>
+  {foreach $set in $sets.sets} 
+  <li class="band2" style="cursor:pointer" onclick="fetchSet({$set.id})">{$set.name}</li>
+  {/foreach}
+</ul>
 {/template}

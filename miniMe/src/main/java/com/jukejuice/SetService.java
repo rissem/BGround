@@ -17,6 +17,23 @@ public class SetService {
 	{
 		return getDb().findSetById(setId, true);
 	}
+
+	public JSONObject getSetNames() throws JSONException
+	{
+		Db db = new Db();
+		Map<Integer,String> idNameMap = db.getSetNames();
+		JSONArray jsonArray = new JSONArray();
+		for (Integer key: idNameMap.keySet())
+		{
+			JSONObject obj = new JSONObject();
+			obj.put("id", key);
+			obj.put("name", idNameMap.get(key));
+			jsonArray.put(obj);
+		}
+		JSONObject results = new JSONObject();
+		results.put("sets", jsonArray);
+		return results;
+	}
 	
 	public int createSet(String setName)
 	{
@@ -67,7 +84,7 @@ public class SetService {
 		}
 		try {
 			results.put("songs", jsonSongs);
-			results.put("name", songSet.getSetName());
+			results.put("title", songSet.getSetName());
 		} catch (JSONException e) {
 			log.error("", e);
 		}

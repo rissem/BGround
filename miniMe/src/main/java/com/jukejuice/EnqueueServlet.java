@@ -22,6 +22,7 @@ public class EnqueueServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		
 		resp.setContentType("text/plain");
 		PrintWriter writer = resp.getWriter();
 		
@@ -31,6 +32,7 @@ public class EnqueueServlet
 				charge = false;
 			String result = PlaylistManager.getInstance(getServletContext()).
 						enqueue(Integer.parseInt(req.getParameter("songId")), (User) req.getAttribute("user"), charge);
+			log.info("song " + req.getParameter("songId") + " added by user " +  ((User) req.getAttribute("user")).getId());
 			writer.write(result);
 		} catch (NumberFormatException e) {
 			log.error("", e);

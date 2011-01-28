@@ -2,8 +2,10 @@ package com.jukejuice;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -89,6 +91,15 @@ public class PlaylistManager
 	
 	public String enqueue(int songId, User user, boolean charge) throws SQLException
 	{
+		Song song = getDb().findSongById(songId);
+		Calendar cal= Calendar.getInstance();
+		cal.add(Calendar.MINUTE, -30);
+		Date thirtyMinutesAgo = cal.getTime();
+		if (song.getLastPlayed() != null && song.getLastPlayed().after(thirtyMinutesAgo))
+			return "Song was played too recently";
+		if (playlist.contains(song))
+			return "Song already on playlist";
+		
 		if (! charge) {
 			enqueue(getDb().findSongById(songId));
 			return "Song added (free because you're on the beatlist player)";

@@ -78,6 +78,11 @@
     </servlet>
     
     <servlet>
+    	<servlet-name>SetNamesServlet</servlet-name>
+    	<servlet-class>com.jukejuice.SetNamesServlet</servlet-class>
+    </servlet>    
+    
+    <servlet>
     	<servlet-name>ImportSetServlet</servlet-name>
     	<servlet-class>com.jukejuice.ImportSetServlet</servlet-class>
     </servlet>    
@@ -136,5 +141,10 @@
 	<servlet-mapping>
 		<servlet-name>BanSongServlet</servlet-name>
 		<url-pattern>/ban</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>SetNamesServlet</servlet-name>
+		<url-pattern>/sets</url-pattern>
 	</servlet-mapping>
 </web-app>

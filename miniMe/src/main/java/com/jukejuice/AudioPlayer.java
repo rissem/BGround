@@ -42,6 +42,8 @@ public class AudioPlayer {
 		if ((getStatus().startsWith("stop")) && playlist.size() != 0)
 		{
 			Song song = playlist.remove(0);
+			Db db = new Db();
+			db.setLastPlayed(song);
 			playlistManager.setNowPlaying(song);
 			log.debug("playing the song " + song.getFilename());
 			playSong(song);

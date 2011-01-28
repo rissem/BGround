@@ -1,6 +1,7 @@
 $(document).ready(
     function() {
 	updatePlaylist();
+	updateSets();
 	updateSearch();
 	window.setInterval("updatePlaylist();", 1000);
 	//limit the # of results that can be returned, make sure request come back in order
@@ -19,6 +20,15 @@ function updatePlaylist()
 	 );
 }
 
+function updateSets(){
+$.get("sets",
+      function(data) {
+	  data = JSON.parse(data);
+	  $("#sets").html(miniMe.sets({sets:data}));
+      }
+     );
+}
+
 function enqueue(songId, alertFunction)
 {
     //TODO handle a bad request and change to post
@@ -34,8 +44,17 @@ function updateSearch()
 	     data = JSON.parse(data);
 	     if (query == $("#searchBox").val()) {
 		 $("#searchResults").html(miniMe.search({results:data}));
-		 $("#collectionTitle").html("Search Results for \"" + query + "\"");		 
 	     }
+	 }
+	 );
+}
+
+function fetchSet(setId)
+{
+    $.get("fetchSet?setId=" + setId,
+	 function(data) {
+	     data = JSON.parse(data);
+	     $("#searchResults").html(miniMe.search({results:data}));
 	 }
 	 );
 }

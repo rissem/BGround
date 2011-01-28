@@ -1,5 +1,6 @@
 package com.jukejuice;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -19,6 +20,7 @@ public class Song
 	private int length; //length of song in seconds
 	private boolean banned;
 	private Set<SongSet> songSets;
+	private Date lastPlayed;
 
 	private static final Logger log = Logger.getLogger(Song.class);
 	
@@ -143,5 +145,13 @@ public class Song
 
 	public boolean isBanned() {
 		return banned;
+	}
+
+	public void setLastPlayed(Date lastPlayed) {
+		this.lastPlayed = lastPlayed;
+	}
+
+	public Date getLastPlayed() {
+		return lastPlayed;
 	}
 }
