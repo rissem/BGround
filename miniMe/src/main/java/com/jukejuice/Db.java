@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -185,19 +183,6 @@ public class Db {
 					boolean banned = resultSet.getBoolean("banned");
 					Song song = new Song(id, filename, artist, title, album, year,
 							length, banned);
-
-					PreparedStatement preparedStatement = conn
-							.prepareStatement("select * from song_set where id in (select set_id from set_membership where song_id = ?)");
-					preparedStatement.setInt(1, id);
-					ResultSet songSetResults = preparedStatement.executeQuery();
-					Set<SongSet> songSets = new HashSet<SongSet>();
-					while (songSetResults.next()) {
-						SongSet songSet = new SongSet();
-						songSet.setName(songSetResults.getString("name"));
-						songSet.setId(songSetResults.getInt("id"));
-						songSets.add(songSet);
-					}
-					song.setSongSets(songSets);
 					songs.add(song);
 				}
 				return songs;

@@ -3,7 +3,6 @@ package com.jukejuice;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -122,16 +121,6 @@ public class Song
 		song.put("year", getYear());
 		song.put("length", getLength());
 		song.put("filename", getFilename());
-		
-		JSONArray songSets = new JSONArray();
-		for (SongSet songSet: getSongSets())
-		{
-			JSONObject jsonSongSet = new JSONObject();
-			jsonSongSet.put("name", songSet.getSetName());
-			jsonSongSet.put("id", songSet.getId());
-			songSets.put(jsonSongSet);
-		}
-		song.put("songSets", songSets);
 		return song;
 	}
 
