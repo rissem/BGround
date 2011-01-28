@@ -32,8 +32,11 @@ function updateSearch()
     $.get("searchSongs?search="+query,
 	 function(data) {
 	     data = JSON.parse(data);
-	     $("#searchResults").html(miniMe.search({results:data}));
-	     $("#collectionTitle").html("Search Results for \"" + query + "\"");
+	     if (query == $("#searchBox").val()) {
+		 $("#searchResults").html(miniMe.search({results:data}));
+		 $("#collectionTitle").html("Search Results for \"" + query + "\"");		 
+	     }
 	 }
 	 );
 }
+updateSearch.searches = [];
