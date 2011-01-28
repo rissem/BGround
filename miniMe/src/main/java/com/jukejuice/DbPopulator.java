@@ -25,10 +25,27 @@ public class DbPopulator {
 	 * @throws InvalidAudioFrameException
 	 * @throws SQLException
 	 */
-	public void init () throws CannotReadException, IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException, SQLException
+	public void init ()
 	{
-		String [] mp3SongFilenames = Util.exec("find " + getMusicDirectory() + " -name *mp3").split("\n");
-		String [] m4aSongFilenames = Util.exec("find " + getMusicDirectory() + " -name *m4a").split("\n");
+		Db db = getDb();
+		try {
+			db.dropTables();
+			db.initDb();
+		}
+		catch (SQLException e)
+		{
+			log.error("", e);
+		}
+		
+		String[] mp3SongFilenames = new String[1];
+		String[] m4aSongFilenames = new String[1];
+		try {
+			mp3SongFilenames = Util.exec("find " + getMusicDirectory() + " -name *mp3").split("\n");
+			m4aSongFilenames = Util.exec("find " + getMusicDirectory() + " -name *m4a").split("\n");			
+		} catch (IOException e) {
+			log.error("", e);
+		}
+		
 		String[] songFilenames = new String[mp3SongFilenames.length + m4aSongFilenames.length];
 		System.arraycopy(mp3SongFilenames, 0, songFilenames, 0, mp3SongFilenames.length);
 		System.arraycopy(m4aSongFilenames, 0, songFilenames, mp3SongFilenames.length, m4aSongFilenames.length);
@@ -38,14 +55,17 @@ public class DbPopulator {
 		{
 			if (! "".equals(songFilename))
 			{
-				songInfos.add(new SongFileInfo(songFilename));
-				log.info("added song " + songFilename);
+				songInfos.add(0, new SongFileInfo(songFilename));
+				try {
+					db.addSongs(songInfos);
+					songInfos.remove(0);
+					log.info("added song " + songFilename);
+				} catch (SQLException e) {
+					log.error("", e);
+					songInfos.remove(0);
+				}
 			}
 		}
-		Db db = getDb();
-		db.dropTables();
-		db.initDb();
-		db.addSongs(songInfos);
 	}
 	
 	public Db getDb()
