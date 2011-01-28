@@ -28,8 +28,8 @@
 */
 {template .search}
    <ul> 
-      <li class="headline">Search Results for "{$results.query}"</li> 
-      {foreach $song in $results.songs}
+     {if $results.query }<li class="headline">Search Results for "{$results.query}"</li>{/if}
+     {foreach $song in $results.songs}
       <li><span style="cursor:pointer" onclick="enqueue({$song.id}, humanMsg.displayMsg);"><span class="band">{$song.artist} &#8194;</span>{$song.title}	&#8194;<span class="green-plus">+</span></span>{if $results.admin}<a href="/miniMe/ban?songId={$song.id}"><img src="/miniMe/images/x.png"></a>{/if}</li>     
       {ifempty}
       <li>No results were found</li>
