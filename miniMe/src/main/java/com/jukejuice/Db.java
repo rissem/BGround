@@ -48,8 +48,15 @@ public class Db {
 								.getFirst(FieldKey.TITLE));
 						preparedStatement.setString(3, info.tag
 								.getFirst(FieldKey.ALBUM));
-						preparedStatement.setInt(4, Integer.parseInt(info.tag
-								.getFirst(FieldKey.YEAR)));
+						Integer year = null;
+						try {
+							year = Integer.parseInt(info.tag.getFirst(FieldKey.YEAR));
+						}
+						catch (NumberFormatException e)
+						{
+							log.warn("", e);
+						}
+						preparedStatement.setInt(4, year);
 						preparedStatement.setInt(5, info.header
 								.getTrackLength());
 						preparedStatement.setString(6, info.filename);
