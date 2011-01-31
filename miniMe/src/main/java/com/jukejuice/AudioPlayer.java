@@ -15,19 +15,19 @@ public class AudioPlayer {
 	private static final Logger log = Logger.getLogger(AudioPlayer.class);
 	
 	public void pause() {
-		Util.fetchUrl("http://localhost:8081/pause.html");		
+		Util.fetchUrl("http://127.0.0.1:8081/pause.html");		
 	}
 
 	public void skip() {
-		Util.fetchUrl("http://localhost:8081/skip.html");
+		Util.fetchUrl("http://127.0.0.1:8081/skip.html");
 	}
 	
 	public void volumeUp() {
-		Util.fetchUrl("http://localhost:8081/requests/status.xml?command=volume&val=%2B20");
+		Util.fetchUrl("http://127.0.0.1:8081/requests/status.xml?command=volume&val=%2B20");
 	}
 	
 	public void volumeDown(){
-		Util.fetchUrl("http://localhost:8081/requests/status.xml?command=volume&val=-20");
+		Util.fetchUrl("http://127.0.0.1:8081/requests/status.xml?command=volume&val=-20");
 	}
 
 	/**
@@ -51,11 +51,11 @@ public class AudioPlayer {
 	}	
 
 	private String getStatus() {
-		return Util.fetchUrl("http://localhost:8081/status.html");
+		return Util.fetchUrl("http://127.0.0.1:8081/status.html");
 	}
 	
 	private void playSong(Song song) {
 		String escapedFilename = song.getFilename().replaceAll(" ", "%20");
-		Util.fetchUrl("http://localhost:8081/addPlay.html?songName=" + escapedFilename);
+		Util.fetchUrl("http://127.0.0.1:8081/addPlay.html?songName=" + escapedFilename);
 	}
 }
