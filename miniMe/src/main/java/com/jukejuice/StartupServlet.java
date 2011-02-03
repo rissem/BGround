@@ -30,7 +30,7 @@ public class StartupServlet
 		audioPlayer = new AudioPlayer();
 		Timer timer = new Timer();
 		timer.schedule(new VlcTask(), 0, 1000);
-		timer.schedule(new EnergyTask(), 0, 5 * 60 * 1000);
+		timer.schedule(new EnergyTask(), 0, 7 * 60 * 1000);
 		timer.schedule(new PlaylistTask(), 0, 5000);
 	}
 	
@@ -38,7 +38,14 @@ public class StartupServlet
 	{
 		@Override
 		public void run() {
-			audioPlayer.updatePlaylist(PlaylistManager.getInstance(getServletContext()));
+			try
+			{
+				audioPlayer.updatePlaylist(PlaylistManager.getInstance(getServletContext()));
+			}
+			catch (Exception e)
+			{
+				log.error("", e);
+			}
 		}
 	}
 	
@@ -46,8 +53,14 @@ public class StartupServlet
 	{
 		@Override
 		public void run() {
-			Db db = new Db();
-			db.regenerateEnergy();
+			try {
+				Db db = new Db();
+				db.regenerateEnergy();
+			}
+			catch (Exception e)
+			{
+				log.error("", e);
+			}
 		}
 	}
 	
@@ -55,7 +68,13 @@ public class StartupServlet
 	{
 		@Override
 		public void run() {
-			PlaylistManager.getInstance(getServletContext()).addRandomSongIfEmpty();
+			try {
+				PlaylistManager.getInstance(getServletContext()).addRandomSongIfEmpty();
+			}
+			catch (Exception e)
+			{
+				log.error("", e);
+			}
 		}
 	}
 }

@@ -39,6 +39,11 @@ function enqueue(songId, alertFunction)
 function updateSearch()
 {
     var query = $("#searchBox").val();
+
+    if ($("#searchBox").val() != "") {
+	$("#searchResults").html("Searching for " + $("#searchBox").val() + "...");
+    }
+
     $.get("searchSongs?search="+query,
 	 function(data) {
 	     data = JSON.parse(data);

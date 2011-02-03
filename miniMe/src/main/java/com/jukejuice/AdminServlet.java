@@ -21,7 +21,8 @@ public class AdminServlet
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		//TODO - make sure the logged in user is an admin
+		if (! req.getLocalAddr().equals(req.getRemoteAddr()))
+			return;
 		String action = req.getParameter("action");
 		AudioPlayer player = new AudioPlayer();
 		if ("pause".equals(action))

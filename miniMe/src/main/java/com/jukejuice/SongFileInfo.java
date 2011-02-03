@@ -22,11 +22,11 @@ public class SongFileInfo {
 	{
 		try {
 			f = AudioFileIO.read(new File(filename));
+			header = f.getAudioHeader();
+			tag = f.getTag();
 		} catch (Exception e) {
 			log.error("", e);
 		}
-		header = f.getAudioHeader();
-		tag = f.getTag();
 		this.filename = filename;
 	}
 }

@@ -22,8 +22,7 @@ public class Db {
 
 	private static final Logger log = Logger.getLogger(Db.class);
 
-	public void addSongs(final List<SongFileInfo> songInfos)
-			throws SQLException {
+	public void addSongs(final List<SongFileInfo> songInfos) {
 		DbTask<Void> dbTask = new DbTask<Void>() {
 
 			@Override
@@ -31,30 +30,22 @@ public class Db {
 				PreparedStatement preparedStatement = conn
 						.prepareStatement("insert into song (artist, title, album, year, length, filename, banned) values (?, ?, ?, ?, ?, ?, ?)");
 				for (SongFileInfo info : songInfos) {
+					if (info.tag != null)
 					try {
-						for (FieldKey fieldKey : FieldKey.values()) {
-							try {
-								log.info(info.filename + " " + fieldKey.name()
-										+ " " + info.tag.getFirst(fieldKey));
-								log.info(info.tag.getFirstArtwork());
-							} catch (Exception e) {
-								log.warn(e);
-							}
-						}
-
 						preparedStatement.setString(1, info.tag
 								.getFirst(FieldKey.ARTIST));
 						preparedStatement.setString(2, info.tag
 								.getFirst(FieldKey.TITLE));
 						preparedStatement.setString(3, info.tag
 								.getFirst(FieldKey.ALBUM));
-						Integer year = null;
+						int year = 0;
 						try {
 							year = Integer.parseInt(info.tag.getFirst(FieldKey.YEAR));
 						}
-						catch (NumberFormatException e)
+						catch (Exception e)
 						{
-							log.warn("", e);
+							log.warn("failed to parse year");
+							log.warn(e);
 						}
 						preparedStatement.setInt(4, year);
 						preparedStatement.setInt(5, info.header
@@ -67,10 +58,15 @@ public class Db {
 								+ info.f.getFile().toString(), e);
 					}
 				}
-				conn.setAutoCommit(false);
-				preparedStatement.executeBatch();
-				conn.setAutoCommit(true);
-				conn.close();
+				try {
+					conn.setAutoCommit(false);
+					preparedStatement.executeBatch();
+					conn.setAutoCommit(true);
+				}
+				catch (Exception e)
+				{
+					log.error("", e);
+				}
 				return null;
 			}
 		};
@@ -90,6 +86,9 @@ public class Db {
 				Statement statement = conn.createStatement();
 				conn.setAutoCommit(true);
 				statement.execute("create table if not exists song (id integer primary key, artist, title, album, year, length, filename, banned, lastPlayed)");
+				statement.execute("create index if not exists artist_idx on song(artist)");
+				statement.execute("create index if not exists title_idx on song(title)");
+				statement.execute("create unique index if not exists filename_idx on song(filename)");
 				statement.execute("create table if not exists user (id integer primary key, ip_address, used_energy, max_energy)");
 				statement.execute("create table if not exists song_set (id integer primary key, name)");
 				statement.execute("create table if not exists set_membership (id integer primary key, song_id, set_id)");				
@@ -100,6 +99,7 @@ public class Db {
 	}
 
 	public void dropTables() throws SQLException {
+		//does it make more sense to just remove the one db file so we can be certain that everything is deleted?
 		new DbTask<Void>() {
 			@Override
 			public Void exec() throws SQLException {

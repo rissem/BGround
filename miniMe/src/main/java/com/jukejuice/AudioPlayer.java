@@ -55,7 +55,14 @@ public class AudioPlayer {
 	}
 	
 	private void playSong(Song song) {
-		String escapedFilename = song.getFilename().replaceAll(" ", "%20");
-		Util.fetchUrl("http://127.0.0.1:8081/addPlay.html?songName=" + escapedFilename);
+		try
+		{
+			String escapedFilename = song.getFilename().replaceAll(" ", "%20");
+			Util.fetchUrl("http://127.0.0.1:8081/addPlay.html?songName=" + escapedFilename);
+		}
+		catch (Exception e)
+		{
+			log.error("", e);
+		}
 	}
 }

@@ -56,14 +56,10 @@ public class DbPopulator {
 			if (! "".equals(songFilename))
 			{
 				songInfos.add(0, new SongFileInfo(songFilename));
-				try {
-					db.addSongs(songInfos);
-					songInfos.remove(0);
-					log.info("added song " + songFilename);
-				} catch (SQLException e) {
-					log.error("", e);
-					songInfos.remove(0);
-				}
+				db.addSongs(songInfos);
+				songInfos.remove(0);
+				log.info("added song " + songFilename);
+
 			}
 		}
 	}
