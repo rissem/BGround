@@ -44,7 +44,7 @@ function updateSearch()
 	$("#searchResults").html("Searching for " + $("#searchBox").val() + "...");
     }
 
-    $.get("searchSongs?search="+query,
+    $.get("searchSongs?search="+escape(query),
 	 function(data) {
 	     data = JSON.parse(data);
 	     if (query == $("#searchBox").val()) {
