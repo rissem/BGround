@@ -1,5 +1,6 @@
 package com.jukejuice;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -57,7 +58,8 @@ public class AudioPlayer {
 	private void playSong(Song song) {
 		try
 		{
-			String escapedFilename = song.getFilename().replaceAll(" ", "%20");
+			String escapedFilename = URLEncoder.encode(song.getFilename(), "UTF-8").replaceAll("\\+", "%20");
+			log.info("escaped fileanme = " + escapedFilename);
 			Util.fetchUrl("http://127.0.0.1:8081/addPlay.html?songName=" + escapedFilename);
 		}
 		catch (Exception e)
