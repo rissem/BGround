@@ -212,3 +212,9 @@ tr.songRow:hover {
 tr.songRowAlt:hover {
     background-color:#ddddff;
 }
+
+.upcoming {
+    border-bottom: 1px solid gray;
+    padding-bottom: 4px;
+    padding-top: 6px;
+}

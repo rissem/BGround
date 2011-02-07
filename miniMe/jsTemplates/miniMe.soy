@@ -15,11 +15,9 @@
   <p class="title-w">COMING UP</p>
   <ul class="body-text-white">
     {foreach $song in $playlist.songs}
-    <li><span class="band">{$song.artist}<img src="images/purple-star.png" class="right"/></span><br/>{$song.title}<br />
-
-      {if $song.album}<span class="album-w">From {$song.album}</span></li>{/if}
-    <br />
-    {/foreach}
+    <li class="upcoming"><span class="band">{$song.artist}</span><br/>{$song.title}<br />
+     {if $song.album}<span class="album-w">From {$song.album}</span></li>{/if}
+   {/foreach}
   </ul>
 </div>
 </div>
