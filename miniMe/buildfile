@@ -69,5 +69,6 @@ define "miniMe" do
   task :dp => :templates do
     system "cp /Users/mike/BGround/miniMe/src/main/webapp/js/*js /Users/mike/BGround/apache-tomcat-6.0.29/webapps/miniMe/js"
     system "cp /Users/mike/BGround/miniMe/src/main/webapp/*.html /Users/mike/BGround/apache-tomcat-6.0.29/webapps/miniMe/"
+    system "cp /Users/mike/BGround/miniMe/src/main/webapp/css/*.css /Users/mike/BGround/apache-tomcat-6.0.29/webapps/miniMe/css"
   end
 end
