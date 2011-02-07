@@ -9,7 +9,7 @@
 
 .title {
 	font-size:14px;
-	color:#03436A;
+	color:#666666;
 	line-height:18px;
 	text-transform:uppercase;
 	letter-spacing: 1px;
@@ -23,12 +23,11 @@
 
 .headline {
 	font-size:28px;
-	color:#03436A;
+	color:#cc0066;
 	font-weight:200;
 	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	margin-bottom:20px;
 }
-
 
 
 .title-w {
@@ -46,7 +45,7 @@
 }
 
 .header {
-	background-color:#003c68;
+	background-color:#cc0066;
 	margin-top:0px;
 	height:40px;
 }
@@ -58,8 +57,7 @@
 
 .songlist {
 	line-height:32px;
-	padding:10px;
-	margin-top:5px;
+	padding: 0px 10px 0px 10px; 
 	margin-right:35px;
 }
 
@@ -119,7 +117,7 @@
 
 
 .comingup {
-	background-color:#057197;
+	background-color:#666666;
 	padding:10px;
 }
 
@@ -129,7 +127,7 @@ padding:10px;
 }
 
 .nowplaying {
-background-color:#003c68;
+background-color:#cc0066;
 padding:10px;
 }
 
@@ -197,4 +195,20 @@ html{
 #nav li ul {
 	padding-left:20px;
 	line-height:16px;
+}
+
+tr.songRow {
+    background-color:#e9e9e9
+}
+
+tr.songRowAlt {
+    background-color:#ffffff
+}
+
+tr.songRow:hover {
+    background-color:#ddddff;
+}
+
+tr.songRowAlt:hover {
+    background-color:#ddddff;
 }

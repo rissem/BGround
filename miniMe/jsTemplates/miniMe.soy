@@ -15,7 +15,9 @@
   <p class="title-w">COMING UP</p>
   <ul class="body-text-white">
     {foreach $song in $playlist.songs}
-    <li><span class="band">{$song.artist}<img src="images/purple-star.png" class="right"/></span><br/>{$song.title}<br /><span class="album-w">From {$song.album}</span></li>
+    <li><span class="band">{$song.artist}<img src="images/purple-star.png" class="right"/></span><br/>{$song.title}<br />
+
+      {if $song.album}<span class="album-w">From {$song.album}</span></li>{/if}
     <br />
     {/foreach}
   </ul>
@@ -27,18 +29,23 @@
 * @param results
 */
 {template .search}
-   <ul> 
-     {if $results.query }<li class="headline">Search Results for "{$results.query}"</li>{/if}
-     {if $results.title }<li class="headline">{$results.title}</li>{/if}
-     {foreach $song in $results.songs}
-      <li><span style="cursor:pointer" onclick="enqueue({$song.id}, humanMsg.displayMsg);"><span class="band">{$song.artist} &#8194;</span>{$song.title}	&#8194;<span class="green-plus">+</span></span>{if $results.admin}<a href="/miniMe/ban?songId={$song.id}"><img src="/miniMe/images/x.png"></a>{/if}</li>     
-      {ifempty}
-      <li>No results were found</li>
-      {/foreach}
 
-    </ul>
-  </div>
-</div>
+{if not $results.query and not $results.title}<div class="headline">All Songs</div>{/if}
+{if $results.query }<div class="headline">Search Results for "{$results.query}"</div>{/if}
+{if $results.title }<div class="headline">{$results.title}</div>{/if}
+{if $results.title or $results.query}<div style="width:250px;margin-top:-15px"><a href="javascript:showAll();">Show all songs</a></div>{/if}
+
+<table width="100%">
+ {foreach $song in $results.songs}
+ <tr{if index($song) % 2 == 0} class="songRow" {else} class="songRowAlt" {/if}>
+   <td><span class="green-plus">+&nbsp;&nbsp;</span></td>
+    <td style="cursor:pointer; padding-left:5px; padding-right:5px" onclick="enqueue({$song.id}, humanMsg.displayMsg);"><strong>{$song.artist}</strong>&nbsp&nbsp;&nbsp;</td>
+    <td style="cursor:pointer" onclick="enqueue({$song.id}, humanMsg.displayMsg);">{$song.title}</td>
+ </tr>
+  {ifempty}
+  No results were found
+  {/foreach}
+</table>
 {/template}
 
 /**

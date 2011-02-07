@@ -54,6 +54,12 @@ function updateSearch()
 	 );
 }
 
+function showAll()
+{
+    $("#searchBox").val("");
+    updateSearch();
+}
+
 function fetchSet(setId)
 {
     $.get("fetchSet?setId=" + setId,

@@ -85,7 +85,7 @@ public class Db {
 			public Void exec() throws SQLException {
 				Statement statement = conn.createStatement();
 				conn.setAutoCommit(true);
-				statement.execute("create table if not exists song (id integer primary key, artist, title, album, year, length, filename, banned, lastPlayed)");
+				statement.execute("create table if not exists song (id integer primary key, artist collate nocase, title collate nocase, album, year, length, filename, banned, lastPlayed)");
 				statement.execute("create index if not exists artist_idx on song(artist)");
 				statement.execute("create index if not exists title_idx on song(title)");
 				statement.execute("create unique index if not exists filename_idx on song(filename)");
@@ -141,7 +141,7 @@ public class Db {
 			@Override
 			public List<Song> exec() throws SQLException {
 				PreparedStatement statement = conn
-						.prepareStatement("select * from song where (artist like ? or title like ?) and banned = ?");
+						.prepareStatement("select * from song where (artist like ? or title like ?) and banned = ? order by artist,title");
 				statement.setString(1, "%" + search + "%");
 				statement.setString(2, "%" + search + "%");
 				statement.setBoolean(3, false);

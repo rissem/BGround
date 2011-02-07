@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Beatlist</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/text.css" />
+    <link rel="stylesheet" href="css/960_24_col.css" />
+    <link rel="stylesheet" href="css/style3.css" />
+    <link rel="stylesheet" href="css/humanmsg.css" />
+    <script type="text/javascript" src="http://use.typekit.com/xyt0dxf.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script type="text/javascript" src="js/soyutils.js"></script>
+    <script type="text/javascript" src="js/templates.js"></script>
+    <script type="text/javascript" src="js/jquery-1.4.4.js"></script>
+    <script type="text/javascript" src="js/miniMe.js"></script>
+    <script type="text/javascript" src="js/humanmsg.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+  </head>
+
+  <body>
+    <div class="header">     
+      <div class="container_24">
+    	
+        <!--TOP SECTION-->
+        <div class="grid_24">
+          <div class="grid_18">
+            <div class="grid_4">
+              <p class="list-white">
+                <img height="33px" width="113px" src="images/beatlist-logo.png"/></p></div>
+          </div>
+          <div class="grid_5">
+	    <p class="body-text-white">Your Credits&#8194;
+	      <span id="energy"></span>
+    	  </div>
+        </div>                    
+	<div>&nbsp;</div>
+
+	<!--MAIN SECTION-->
+	<div class="grid_24">
+
+	  <div class="grid_5" id="nowPlaying">
+	  </div>
+
+	  <div class="grid_18 push_1"> 
+	    <div class="grid_11 songlist" id="searchResults"> 
+	    </div>
+	    <div class="grid_5 comingup" style="margin-bottom:15px">
+              <p class="title-w">Search for Songs</p>
+              <input type="text" id="searchBox" onkeyup="updateSearch()"/> <br />
+	    </div>
+           <div id="sets" class="grid_5 playlist">
+              <p class="title">Sets</p>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>
