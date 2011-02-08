@@ -86,8 +86,9 @@ public class PlaylistManager
 	}	
 
 	public void enqueue(Song song) throws PlaylistException{
+		//don't allow songs to be played twice within two hours
 		Calendar cal= Calendar.getInstance();
-		cal.add(Calendar.MINUTE, -30);
+		cal.add(Calendar.MINUTE, -120);
 		Date thirtyMinutesAgo = cal.getTime();
 		if (song.getLastPlayed() != null && song.getLastPlayed().after(thirtyMinutesAgo))
 			throw new PlaylistException("Song was played too recently");
