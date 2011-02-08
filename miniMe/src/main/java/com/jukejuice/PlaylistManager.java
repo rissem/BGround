@@ -85,34 +85,43 @@ public class PlaylistManager
 		resort();
 	}	
 
-	public void enqueue(Song song){
+	public void enqueue(Song song) throws PlaylistException{
+		Calendar cal= Calendar.getInstance();
+		cal.add(Calendar.MINUTE, -30);
+		Date thirtyMinutesAgo = cal.getTime();
+		if (song.getLastPlayed() != null && song.getLastPlayed().after(thirtyMinutesAgo))
+			throw new PlaylistException("Song was played too recently");
+		if (playlist.contains(song))
+			throw new PlaylistException("Song already on playlist");
 		playlist.add(song);
 	}
 	
 	public String enqueue(int songId, User user, boolean charge) throws SQLException
 	{
-		Song song = getDb().findSongById(songId);
-		Calendar cal= Calendar.getInstance();
-		cal.add(Calendar.MINUTE, -30);
-		Date thirtyMinutesAgo = cal.getTime();
-		if (song.getLastPlayed() != null && song.getLastPlayed().after(thirtyMinutesAgo))
-			return "Song was played too recently";
-		if (playlist.contains(song))
-			return "Song already on playlist";
-		
-		if (! charge) {
-			enqueue(getDb().findSongById(songId));
-			return "Song added (free because you're on the beatlist player)";
-		}
-		
-		if (user.getEnergy() > 0)
+		try
 		{
-			user.useEnergy(1);
-			user.persist();
-			enqueue(getDb().findSongById(songId));
-			return "Song added";
+			if (! charge)
+			{
+				enqueue(getDb().findSongById(songId));
+				return "Song added";				
+			}
+			
+			if (user.getEnergy() > 0)
+			{
+				enqueue(getDb().findSongById(songId));
+				user.useEnergy(1);
+				user.persist();
+				return "Song added";
+			}
+			else
+			{
+				throw new PlaylistException("Not enough credits");
+			}
 		}
-		return "Not enough credits";
+		catch (PlaylistException e)
+		{
+			return e.getMessage();
+		}
 	}
 	
 	private void resort() {
@@ -153,7 +162,12 @@ public class PlaylistManager
 		{
 			Db db = new Db();
 			Song song = db.getRandomSong();
-			playlist.add(song);
+			try {
+				enqueue(song);
+			} catch (PlaylistException e) {
+				log.info("", e);
+				addRandomSongIfEmpty();
+			}
 		}
 	}	
 }
