@@ -3,7 +3,7 @@ $(document).ready(
 	updatePlaylist();
 	updateSets();
 	updateSearch();
-	window.setInterval("updatePlaylist();", 1000);
+	window.setInterval("updatePlaylist();", 5000);
 	//limit the # of results that can be returned, make sure request come back in order
 	$("#search").keypress(updateSearch);
     }
