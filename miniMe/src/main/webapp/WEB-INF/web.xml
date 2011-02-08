@@ -53,6 +53,11 @@
     </servlet>
     
     <servlet>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <servlet-class>com.jukejuice.FeedbackServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>SearchSongsServlet</servlet-name>
         <servlet-class>com.jukejuice.SearchSongsServlet</servlet-class>
     </servlet>    
@@ -111,6 +116,11 @@
 	<servlet-mapping>
 		<servlet-name>FetchSetServlet</servlet-name>
 		<url-pattern>/fetchSet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>FeedbackServlet</servlet-name>
+		<url-pattern>/feedback</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
