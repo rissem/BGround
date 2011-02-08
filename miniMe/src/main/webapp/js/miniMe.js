@@ -36,22 +36,27 @@ function enqueue(songId, alertFunction)
     return false;
 }
 
+updateSearch.timerRef = null;
 function updateSearch()
 {
-    var query = $("#searchBox").val();
+    if (updateSearch.timerRef != null)
+	clearTimeout(updateSearch.timerRef);
+    updateSearch.timerRef = setTimeout(
+	function(){
+	    var query = $("#searchBox").val();
 
-    if ($("#searchBox").val() != "") {
-	$("#searchResults").html("Searching for " + $("#searchBox").val() + "...");
-    }
-
-    $.get("searchSongs?search="+escape(query),
-	 function(data) {
-	     data = JSON.parse(data);
-	     if (query == $("#searchBox").val()) {
-		 $("#searchResults").html(miniMe.search({results:data}));
-	     }
-	 }
-	 );
+	    if ($("#searchBox").val() != "") {
+		$("#searchResults").html("Searching for " + $("#searchBox").val() + "...");
+	    }
+	    $.get("searchSongs?search="+escape(query),
+		  function(data) {
+		      data = JSON.parse(data);
+		      if (query == $("#searchBox").val()) {
+			  $("#searchResults").html(miniMe.search({results:data}));
+		      }
+		  }
+		 );
+	}, 200);
 }
 
 function showAll()
