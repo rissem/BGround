@@ -1,0 +1,2 @@
+#! /usr/bin/env bash
+pushd $BGROUND/miniMe && buildr clean templates deploy  && popd
