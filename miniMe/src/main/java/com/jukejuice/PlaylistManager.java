@@ -170,5 +170,10 @@ public class PlaylistManager
 				addRandomSongIfEmpty();
 			}
 		}
-	}	
+	}
+	
+	public Song pop() {
+		nowPlaying = playlist.remove(0);
+		return nowPlaying;
+	}
 }

@@ -24,7 +24,7 @@ public class AdminServlet
 		if (! req.getLocalAddr().equals(req.getRemoteAddr()))
 			return;
 		String action = req.getParameter("action");
-		AudioPlayer player = new AudioPlayer();
+		VlcPlayer player = new VlcPlayer();
 		if ("pause".equals(action))
 			player.pause();
 		if ("volumeUp".equals(action))

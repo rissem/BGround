@@ -11,9 +11,10 @@ import org.apache.log4j.Logger;
  * 
  * @author mike
  */
-public class AudioPlayer {
+public class VlcPlayer 
+{
 	
-	private static final Logger log = Logger.getLogger(AudioPlayer.class);
+	private static final Logger log = Logger.getLogger(VlcPlayer.class);
 	
 	public void pause() {
 		Util.fetchUrl("http://127.0.0.1:8081/pause.html");		

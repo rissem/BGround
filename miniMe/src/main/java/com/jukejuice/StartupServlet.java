@@ -1,6 +1,9 @@
 package com.jukejuice;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,7 +17,7 @@ public class StartupServlet
 	private static final long serialVersionUID = 1579930295271758659L;
 	private static final Logger log = Logger.getLogger(StartupServlet.class);
 	
-	AudioPlayer audioPlayer;
+	VlcPlayer audioPlayer;
 	
 	public void init()
 	{
@@ -27,9 +30,33 @@ public class StartupServlet
 			log.error("", e);
 		}
 		
-		audioPlayer = new AudioPlayer();
+		audioPlayer = new VlcPlayer();
 		Timer timer = new Timer();
-		timer.schedule(new VlcTask(), 0, 1000);
+		Properties env = new Properties();
+		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("env.properties");
+		log.info("stream = " + stream);
+		if (stream != null) {
+			try {
+				env.load(stream);
+				log.info(env);
+			} catch (IOException e) {
+				log.error("", e);
+			}
+		}
+		log.info(env.getProperty("fakePlayer"));
+		if (env != null && "true".equals(env.getProperty("fakePlayer"))) {
+			log.info("Faking playback instead of using VLC");
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					log.info("popping song");
+					PlaylistManager.getInstance(getServletContext()).pop();
+				}
+			}, 1000*20, 1000 * 30);
+		}
+		else {
+			timer.schedule(new VlcTask(), 0, 1000);
+		}
 		timer.schedule(new EnergyTask(), 0, 7 * 60 * 1000);
 		timer.schedule(new PlaylistTask(), 0, 5000);
 	}
