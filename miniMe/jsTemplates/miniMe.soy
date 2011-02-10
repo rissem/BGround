@@ -36,7 +36,7 @@
 <table width="100%">
  {foreach $song in $results.songs}
  <tr{if index($song) % 2 == 0} class="songRow" {else} class="songRowAlt" {/if}>
-   <td><span class="green-plus">+&nbsp;&nbsp;</span></td>
+   <td onclick="enqueue({$song.id}, humanMsg.displayMsg);"><span class="green-plus">+&nbsp;&nbsp;</span></td>
     <td style="cursor:pointer; padding-left:5px; padding-right:5px" onclick="enqueue({$song.id}, humanMsg.displayMsg);"><strong>{$song.artist}</strong>&nbsp&nbsp;&nbsp;</td>
     <td style="cursor:pointer" onclick="enqueue({$song.id}, humanMsg.displayMsg);">{$song.title}</td>
  </tr>
