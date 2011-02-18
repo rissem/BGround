@@ -29,11 +29,11 @@ define "miniMe" do
     it.should contain('WEB-INF/web.xml')
   end
 
-  check package(:war), 'should contain a web.xml' do
+  check package(:war), 'should contain soyutils' do
     it.should contain('js/soyutils.js')
   end  
 
-  check package(:war), 'should contain a web.xml' do
+  check package(:war), 'should contain js templates' do
     it.should contain('js/templates.js')
   end
 
@@ -52,18 +52,15 @@ define "miniMe" do
   end
 
   task :dist => :deploy do
-    #TODO clear out tomcat logs
-
-    #copy over VLC
-    FileUtils.cp_r("../dep/VLC.app", "dist")
     #copy over VLC html interface pages
     FileUtils.cp_r("../vlcHttpInterface", "dist")
     #copy over tomcat server
     FileUtils.cp_r("../apache-tomcat-6.0.29", "dist")
-    #copy over the shell script that will start vlc and tomcat
-    FileUtils.cp("startUp.sh", "dist")
+    #remove logs from distribution
+    FileUtils.rm_r("dist/apache-tomcat-6.0.29/logs", :force => true)
+    #remove database
+    FileUtils.rm("dist/apache-tomcat-6.0.29/prod.db", :force => true)
     system "zip -r jbox.zip dist"
-    #zip it up intos omething for distribution
   end
 
   task :dp => :templates do
