@@ -2,16 +2,12 @@ package com.jukejuice;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.TagException;
 
@@ -45,17 +41,16 @@ public class RemoteDbPopulator {
 		System.arraycopy(mp3SongFilenames, 0, songFilenames, 0, mp3SongFilenames.length);
 		System.arraycopy(m4aSongFilenames, 0, songFilenames, mp3SongFilenames.length, m4aSongFilenames.length);
 
-		List<SongFileInfo> songInfos = new ArrayList<SongFileInfo>();
 		for (String songFilename: songFilenames)
 		{
 			if (! "".equals(songFilename)) {
 				try {
-					SongFileInfo songFileInfo = new SongFileInfo(songFilename);
+//					SongFileInfo songFileInfo = new SongFileInfo(songFilename);
 					StringBuffer url= new StringBuffer();
 					url.append("http://localhost:8124/addSong");
-					url.append("?artist=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ARTIST))); 				
-					url.append("&title=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.TITLE)));
-					url.append("&album=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ALBUM)));
+//					url.append("?artist=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ARTIST))); 				
+//					url.append("&title=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.TITLE)));
+//					url.append("&album=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ALBUM)));
 				}
 				catch (Exception e)
 				{
