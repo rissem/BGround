@@ -10,11 +10,9 @@ import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.log4j.Logger;
-
 public class Util {
 
-	private static final Logger log = Logger.getLogger(Util.class);
+	//private static final Logger log = Logger.getLogger(Util.class);
 	
 	public static String exec(String command) throws IOException
 	{
@@ -57,18 +55,12 @@ public class Util {
 		}
 	}
 	
-	public static String fetchUrl (String urlString)
+	public static String fetchUrl (String urlString) throws IOException
 	{
-		try
-		{
-			URL url = new URL(urlString);
-			URLConnection conn = url.openConnection();
-			String content = Util.convertStreamToString(conn.getInputStream());
-			return content;
-		} catch (IOException e) {
-			log.error("", e);
-		}
-		return null;		
+		URL url = new URL(urlString);
+		URLConnection conn = url.openConnection();
+		String content = Util.convertStreamToString(conn.getInputStream());
+		return content;
 	}
 	
 	public static String resource (String filename)

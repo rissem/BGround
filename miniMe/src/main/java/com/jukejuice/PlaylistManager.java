@@ -26,7 +26,14 @@ public class PlaylistManager
 	
 	public static PlaylistManager getInstance(ServletContext context)
 	{
-		PlaylistManager playlistManager = (PlaylistManager) context.getAttribute(PLAYLIST_MANAGER);
+		PlaylistManager playlistManager = null; 
+		try {	
+			playlistManager = (PlaylistManager) context.getAttribute(PLAYLIST_MANAGER);
+		}
+		catch (Exception e)
+		{
+			log.error("", e);
+		}
 		if (playlistManager == null)
 		{
 			playlistManager = new PlaylistManager();

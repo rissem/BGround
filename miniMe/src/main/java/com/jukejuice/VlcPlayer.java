@@ -1,5 +1,6 @@
 package com.jukejuice;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -17,19 +18,35 @@ public class VlcPlayer
 	private static final Logger log = Logger.getLogger(VlcPlayer.class);
 	
 	public void pause() {
-		Util.fetchUrl("http://127.0.0.1:8081/pause.html");		
+		try {
+			Util.fetchUrl("http://127.0.0.1:8081/pause.html");
+		} catch (IOException e) {
+			log.error("", e);
+		}
 	}
 
 	public void skip() {
-		Util.fetchUrl("http://127.0.0.1:8081/skip.html");
+		try {
+			Util.fetchUrl("http://127.0.0.1:8081/skip.html");
+		} catch (IOException e) {
+			log.error("", e);
+		}
 	}
 	
 	public void volumeUp() {
-		Util.fetchUrl("http://127.0.0.1:8081/requests/status.xml?command=volume&val=%2B20");
+		try {
+			Util.fetchUrl("http://127.0.0.1:8081/requests/status.xml?command=volume&val=%2B20");
+		} catch (IOException e) {
+			log.error("", e);
+		}
 	}
 	
 	public void volumeDown(){
-		Util.fetchUrl("http://127.0.0.1:8081/requests/status.xml?command=volume&val=-20");
+		try {
+			Util.fetchUrl("http://127.0.0.1:8081/requests/status.xml?command=volume&val=-20");
+		} catch (IOException e) {
+			log.error("", e);
+		}
 	}
 
 	/**
@@ -53,7 +70,15 @@ public class VlcPlayer
 	}	
 
 	private String getStatus() {
-		return Util.fetchUrl("http://127.0.0.1:8081/status.html");
+		try
+		{
+			return Util.fetchUrl("http://127.0.0.1:8081/status.html");
+		}
+		catch (IOException e)
+		{
+			log.error("", e);
+			return "NOT_RUNNING";
+		}
 	}
 	
 	private void playSong(Song song) {
@@ -66,6 +91,15 @@ public class VlcPlayer
 		catch (Exception e)
 		{
 			log.error("", e);
+		}
+	}
+	
+	public boolean isAlive() {
+		try {
+			Util.fetchUrl("http://127.0.0.1:8081/status.html");
+			return true;
+		} catch (IOException e) {
+			return false;
 		}
 	}
 }
