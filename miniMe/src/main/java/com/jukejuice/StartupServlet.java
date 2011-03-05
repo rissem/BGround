@@ -18,6 +18,7 @@ public class StartupServlet
 	private static final Logger log = Logger.getLogger(StartupServlet.class);
 	
 	VlcPlayer audioPlayer;
+	Properties env;
 	
 	public void init()
 	{
@@ -32,7 +33,7 @@ public class StartupServlet
 		
 		audioPlayer = new VlcPlayer();
 		Timer timer = new Timer();
-		Properties env = new Properties();
+		env = new Properties();
 		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("env.properties");
 		log.info("stream = " + stream);
 		if (stream != null) {
@@ -59,6 +60,7 @@ public class StartupServlet
 		}
 		timer.schedule(new EnergyTask(), 0, 7 * 60 * 1000);
 		timer.schedule(new PlaylistTask(), 0, 5000);
+		timer.schedule(new KeepVlcAliveTask(),0, 5 *1000); 
 	}
 	
 	class VlcTask extends TimerTask
@@ -101,6 +103,21 @@ public class StartupServlet
 			catch (Exception e)
 			{
 				log.error("", e);
+			}
+		}
+	}
+	
+	class KeepVlcAliveTask extends TimerTask
+	{
+		@Override
+		public void run() {
+			if (!audioPlayer.isAlive()) {
+				try {
+					log.error("vlc server is down; attempting to restart");
+					Util.exec(env.getProperty("vlcScript"));
+				} catch (IOException e) {
+					log.error("", e);
+				}
 			}
 		}
 	}
