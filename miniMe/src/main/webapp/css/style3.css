@@ -23,7 +23,7 @@
 
 .headline {
 	font-size:28px;
-	color:#cc0066;
+	color:#59d0da;
 	font-weight:200;
 	font:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	margin-bottom:20px;
@@ -45,7 +45,7 @@
 }
 
 .header {
-	background-color:#cc0066;
+	background-color:#59d0da;
 	margin-top:0px;
 	height:40px;
 }
@@ -129,7 +129,7 @@ padding:10px;
 }
 
 .nowplaying {
-background-color:#cc0066;
+background-color:#59d0da;
 padding:10px;
 }
 
