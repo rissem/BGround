@@ -3,19 +3,19 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Beatlist</title>
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/text.css" />
-    <link rel="stylesheet" href="css/960_24_col.css" />
-    <link rel="stylesheet" href="css/style3.css" />
-    <link rel="stylesheet" href="css/humanmsg.css" />
+    <link rel="stylesheet" href="http://beatlist.us/static/css/reset.css" />
+    <link rel="stylesheet" href="http://beatlist.us/static/css/text.css" />
+    <link rel="stylesheet" href="http://beatlist.us/static/css/960_24_col.css" />
+    <link rel="stylesheet" href="http://beatlist.us/static/css/style3.css" />
+    <link rel="stylesheet" href="http://beatlist.us/static/css/humanmsg.css" />
     <script type="text/javascript" src="http://use.typekit.com/xyt0dxf.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    <script type="text/javascript" src="js/soyutils.js"></script>
-    <script type="text/javascript" src="js/templates.js"></script>
-    <script type="text/javascript" src="js/jquery-1.4.4.js"></script>
-    <script type="text/javascript" src="js/miniMe.js"></script>
-    <script type="text/javascript" src="js/humanmsg.js"></script>
-    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="http://beatlist.us/static/js/soyutils.js"></script>
+    <script type="text/javascript" src="http://beatlist.us/static/js/templates.js"></script>
+    <script type="text/javascript" src="http://beatlist.us/static/js/jquery-1.4.4.js"></script>
+    <script type="text/javascript" src="http://beatlist.us/static/js/miniMe.js"></script>
+    <script type="text/javascript" src="http://beatlist.us/static/js/humanmsg.js"></script>
+    <script type="text/javascript" src="http://beatlist.us/static/js/jquery.easing.1.3.js"></script>
   </head>
 
   <body>
@@ -58,8 +58,9 @@
 	      We’d love your thoughts on beatlist and any new
 	      music you’d like to hear.<br /><br />
 	      <form action="/miniMe/feedback">
-		<textarea rows="6" name="feedback"></textarea><br /><br />
-		<input type="submit" value="Submit"></input>
+		<textarea id="feedbackBox" rows="6" name="feedback"></textarea><br /><br />
+		<input type="button"
+		onclick="$.get('/miniMe/feedback?feedback=), funtion(){});('#feedbackBox')[0].value); return false" value="Submit"></input>
 	      </form>
 	    </div>
 	  </div>
