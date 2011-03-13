@@ -1,8 +1,11 @@
 package com.jukejuice;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -26,21 +29,18 @@ public class RemoteDbPopulator {
 	 * @throws InvalidAudioFrameException
 	 * @throws SQLException
 	 */
-	public void init () throws UnsupportedEncodingException, KeyNotFoundException
-	{
-		String[] mp3SongFilenames = new String[1];
-		String[] m4aSongFilenames = new String[1];
-		try {
-			mp3SongFilenames = Util.exec("find " + getMusicDirectory() + " -name *mp3").split("\n");
-			m4aSongFilenames = Util.exec("find " + getMusicDirectory() + " -name *m4a").split("\n");			
-		} catch (IOException e) {
-			log.error("", e);
-		}
+	public List<File> sync () {
+		//store the lastUpdated time in a file?
 		
-		String[] songFilenames = new String[mp3SongFilenames.length + m4aSongFilenames.length];
-		System.arraycopy(mp3SongFilenames, 0, songFilenames, 0, mp3SongFilenames.length);
-		System.arraycopy(m4aSongFilenames, 0, songFilenames, mp3SongFilenames.length, m4aSongFilenames.length);
+		List<File> files = getAudioFiles(new File(getMusicDirectory()), 0l);
+		log.info(files);
+		return files;
+		//what songs have been deleted?
+		//get a list of all songs from the database
+		//build up a list of songs that no longer exist
+		//submit this list back to the server for removal from the database
 
+		/*
 		for (String songFilename: songFilenames)
 		{
 			if (! "".equals(songFilename)) {
@@ -60,6 +60,28 @@ public class RemoteDbPopulator {
 
 			}
 		}
+		*/
+	}
+	
+	//TODO only process files after a specified timestamp
+	public List<File> getAudioFiles(File directory, long lastUpdated)
+	{
+		List<File> audioFiles = new ArrayList<File>();
+		for (File file: directory.listFiles()) {
+			if (file.isFile() && (file.getName().endsWith("mp3") || file.getName().endsWith("m4a"))) {
+				if (file.lastModified() > lastUpdated) 
+					audioFiles.add(file);
+			}
+			else if (file.isDirectory() && ! file.getAbsolutePath().equals(directory.getAbsolutePath()))
+			{
+				log.info(file.getAbsolutePath());
+				log.info(directory.getAbsolutePath());
+				log.info(file.equals(directory));
+				log.info(file.getAbsolutePath().equals(directory.getAbsolutePath()));
+				audioFiles.addAll(getAudioFiles(file, lastUpdated));
+			}
+		}
+		return audioFiles;
 	}
 	
 	public String getMusicDirectory()
