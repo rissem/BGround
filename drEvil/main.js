@@ -32,13 +32,22 @@ http.createServer(function (req, res) {
 
 	"/add" : function() {
 	    songDb.findById(url.query.id, function(song) {
-		playlist.addToPlaylist(song);
-		res.end(JSON.stringify({success:true}));
+		if (song != null && song != undefined){
+		    playlist.addToPlaylist(song);
+		    res.end(JSON.stringify({success:true}));
+		}
+		else {
+		    res.end(JSON.stringify({success:false}));
+		}
 	    });
 	},
 
 	"/playlist" : function() {
 	    res.end(JSON.stringify(playlist.songs));
+	},
+
+	"/pullFromPlaylist" : function() {
+	    res.end(JSON.stringify(playlist.pull()));
 	}
     };
 
@@ -52,7 +61,8 @@ http.createServer(function (req, res) {
 	handler()
     }
     else {
-	res.writeHead(404, {'Content-Type': 'text/plain'});
+	console.log("attempt to access " + url.pathname);
+	res.writeHead(404, {'Content-Type': 'text/html'});
 	res.end("<h1>404</h1>");	
     }
 }).listen(8124, "127.0.0.1");

@@ -3,15 +3,16 @@ var Db = require('mongodb').Db,
 Connection = require('mongodb').Connection,
 Server = require('mongodb').Server,
 BSON = require('mongodb').BSONNative;
-bl = require('bl');
+bl = require('bl'); //custom beatlist functions
+mydb = require('mydb'); //custom mongodb functions
 
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
 
-var db = new Db('beatlist', new Server(host, port, {}), {native_parser:true});
+var DB_NAME = "beatlist";
 
 function ensureIndices() {
-    db.open(bl.onSuccess(function(db){
+    mydb.exec(DB_NAME, function(db){
 	db.collection("song",  bl.onSuccess (function(collection) {
 	    //TODO worry about case insensitivity
 	    //matching parts of a query..lonely should match "show me the meaning of being lonely"
@@ -20,23 +21,22 @@ function ensureIndices() {
 	    collection.createIndex([['filename', 1]], bl.onSuccess(function(index) {console.log("created index " + index)}));
 	    db.close();
 	}));
-    }));
+    });
 }
 
 function add (song, callback) {
-    db.open(bl.onSuccess(function(db){
+    mydb.exec(DB_NAME, function(db){
 	db.collection("song", bl.onSuccess (function(collection) {
 	    collection.insert(song);
-	    db.close();
 	    callback(song);
+	    db.close();
 	}));
-    }));
+    });
 }
 
 function getAll (callback) {
-    console.log("fetching all songs");
     var songs = [];
-    db.open(bl.onSuccess(function(db){
+    mydb.exec(DB_NAME, function(db) {
 	db.collection("song", bl.onSuccess (function(collection) {
 	    collection.find(bl.onSuccess(function(cursor) {
 		cursor.toArray(bl.onSuccess(function(results) {
@@ -45,13 +45,12 @@ function getAll (callback) {
 		}));
 	    }));
 	}));
-    }));
+    });
 }
 
 function search (query, callback) {
-    db.open(bl.onSuccess(function(db) {
+    mydb.exec(DB_NAME, function(db) {
 	db.collection("song", bl.onSuccess(function(collection) {
-	    console.log(query);
 	    var regex = new RegExp(query, "i");
 	    collection.find({ $or:[{artist:{$regex : regex}}, {title:{$regex : regex}}]}, bl.onSuccess(function(cursor) {
 		cursor.toArray(bl.onSuccess(function(results) {
@@ -60,17 +59,18 @@ function search (query, callback) {
 		}));
 	    }));	    
 	}));
-    }));
+    });
 }
 
 function findById(id, callback) {
-    db.open(bl.onSuccess(function(db) {
+    mydb.exec(DB_NAME, function(db) {
 	db.collection("song", bl.onSuccess(function(collection) {
 	    collection.findOne({ _id:new BSON.ObjectID(id)}, bl.onSuccess(function(song) {
 		callback(song);
+		db.close();
 	    }));
 	}));
-    }));     
+    });
 }
 
 exports.add = add;

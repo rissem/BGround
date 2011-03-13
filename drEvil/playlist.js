@@ -1,7 +1,7 @@
 var songs = [];
 
 //remove the song from the top of the playlist
-function pullFromPlaylist()
+function pull()
 {
     return songs.shift();
 }
@@ -11,6 +11,6 @@ function addToPlaylist(song)
     songs.push(song);
 }
 
-exports.pullFromPlaylist = pullFromPlaylist;
+exports.pull = pull;
 exports.addToPlaylist = addToPlaylist;
 exports.songs = songs;

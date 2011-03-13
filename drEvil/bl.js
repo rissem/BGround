@@ -3,7 +3,7 @@ function onSuccess (func)
     return function (err, arg)
     {
 	if (err) {
-	    console.log(err)
+	    throw err;
 	}
 	else {
 	    if (func == null || func == undefined) {
