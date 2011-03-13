@@ -8,7 +8,6 @@ bl = require('bl');
 var host = process.env['MONGO_NODE_DRIVER_HOST'] != null ? process.env['MONGO_NODE_DRIVER_HOST'] : 'localhost';
 var port = process.env['MONGO_NODE_DRIVER_PORT'] != null ? process.env['MONGO_NODE_DRIVER_PORT'] : Connection.DEFAULT_PORT;
 
-console.log("Connecting to " + host + ":" + port);
 var db = new Db('beatlist', new Server(host, port, {}), {native_parser:true});
 
 function ensureIndices() {
@@ -64,7 +63,18 @@ function search (query, callback) {
     }));
 }
 
+function findById(id, callback) {
+    db.open(bl.onSuccess(function(db) {
+	db.collection("song", bl.onSuccess(function(collection) {
+	    collection.findOne({ _id:new BSON.ObjectID(id)}, bl.onSuccess(function(song) {
+		callback(song);
+	    }));
+	}));
+    }));     
+}
+
 exports.add = add;
+exports.findById = findById;
 exports.getAll = getAll;
 exports.search = search;
 exports.ensureIndices = ensureIndices;
