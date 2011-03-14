@@ -1,6 +1,7 @@
 var repl = require("repl");
 sys = require("sys");
 songDb = require("songDb");
+userDb = require("userDb");
 playlist = require("playlist");
 var http = require('http');
 
@@ -51,20 +52,26 @@ http.createServer(function (req, res) {
 	}
     };
 
-    //does the user have a uid cookie?
-    //TODO regex to pull out the value
-    console.log(req.headers["cookie"]);
-    res.setHeader("Set-Cookie", "uid=blahblahblah");
-
-    handler = handlers[url.pathname];
-    if (handler) {
-	handler()
+    
+    var cookie = req.headers["cookie"];
+    var uid = undefined;
+    if (cookie != null) {
+	uid = cookie.split("=")[1];
     }
-    else {
-	console.log("attempt to access " + url.pathname);
-	res.writeHead(404, {'Content-Type': 'text/html'});
-	res.end("<h1>404</h1>");	
-    }
+    var user = userDb.getUser(uid, function(user) {
+	console.log("user = " + sys.inspect(user));
+	//TODO only set cookie when a new users is created
+	res.setHeader("Set-Cookie", "uid=" + user._id + "; Expires=Wed, 13-Jan-2021 22:23:01 GMT;HttpOnly");	
+	handler = handlers[url.pathname];
+	if (handler) {
+	    handler()
+	}
+	else {
+	    console.log("attempt to access " + url.pathname);
+	    res.writeHead(404, {'Content-Type': 'text/html'});
+	    res.end("<h1>404</h1>");	
+	}
+    });
 }).listen(8124, "127.0.0.1");
 
 ctx = repl.start().context;

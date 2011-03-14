@@ -16,10 +16,14 @@ function ensureIndices() {
 	db.collection("song",  bl.onSuccess (function(collection) {
 	    //TODO worry about case insensitivity
 	    //matching parts of a query..lonely should match "show me the meaning of being lonely"
-	    collection.createIndex([['artist', 1]], bl.onSuccess());
-	    collection.createIndex([['title', 1]], bl.onSuccess());
-	    collection.createIndex([['filename', 1]], bl.onSuccess(function(index) {console.log("created index " + index)}));
-	    db.close();
+	    collection.createIndex([['artist', 1]], bl.onSuccess(function() {
+		collection.createIndex([['title', 1]], bl.onSuccess(function() {
+		    collection.createIndex([['filename', 1]], bl.onSuccess(function(index) {
+			console.log("created index " + index);
+			db.close();
+		    }));
+		}));
+	    }));
 	}));
     });
 }
@@ -28,7 +32,6 @@ function add (song, callback) {
     mydb.exec(DB_NAME, function(db){
 	db.collection("song", bl.onSuccess (function(collection) {
 	    collection.insert(song);
-	    callback(song);
 	    db.close();
 	}));
     });
