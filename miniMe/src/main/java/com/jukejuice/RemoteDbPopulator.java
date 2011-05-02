@@ -3,6 +3,9 @@ package com.jukejuice;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +14,13 @@ import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.TagException;
 
 public class RemoteDbPopulator {
 	private String musicDirectory;
+	private String venue;
 	private Logger log = Logger.getLogger(RemoteDbPopulator.class);
 
 	/**
@@ -29,38 +34,29 @@ public class RemoteDbPopulator {
 	 * @throws InvalidAudioFrameException
 	 * @throws SQLException
 	 */
-	public List<File> sync () {
+	public void sync () {
 		//store the lastUpdated time in a file?
 		
-		List<File> files = getAudioFiles(new File(getMusicDirectory()), 0l);
-		log.info(files);
-		return files;
-		//what songs have been deleted?
-		//get a list of all songs from the database
-		//build up a list of songs that no longer exist
-		//submit this list back to the server for removal from the database
-
-		/*
-		for (String songFilename: songFilenames)
+		List<File> mp3s = getAudioFiles(new File(getMusicDirectory()), 0l);
+		for (File mp3: mp3s)
 		{
-			if (! "".equals(songFilename)) {
-				try {
-//					SongFileInfo songFileInfo = new SongFileInfo(songFilename);
-					StringBuffer url= new StringBuffer();
-					url.append("http://localhost:8124/addSong");
-//					url.append("?artist=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ARTIST))); 				
-//					url.append("&title=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.TITLE)));
-//					url.append("&album=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ALBUM)));
-				}
-				catch (Exception e)
-				{
-					log.error(e);
-				}
-				log.info("added song " + songFilename);
-
+			try {
+				SongFileInfo songFileInfo = new SongFileInfo(mp3.getAbsolutePath());
+				StringBuffer address = new StringBuffer();
+				address.append("http://localhost:3000/" + getVenue() + "/add_mp3.json");
+				address.append("?artist=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ARTIST))); 				
+				address.append("&title=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.TITLE)));
+				address.append("&album=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ALBUM)));
+		        URL url = new URL(address.toString());
+				URLConnection connection = url.openConnection();
+				String content = (String) connection.getContent();
+				System.out.println(content);
+			}
+			catch (Exception e)
+			{
+				log.error(e);
 			}
 		}
-		*/
 	}
 	
 	//TODO only process files after a specified timestamp
@@ -74,20 +70,26 @@ public class RemoteDbPopulator {
 			}
 			else if (file.isDirectory() && ! file.getAbsolutePath().equals(directory.getAbsolutePath()))
 			{
-				log.info(file.getAbsolutePath());
-				log.info(directory.getAbsolutePath());
-				log.info(file.equals(directory));
-				log.info(file.getAbsolutePath().equals(directory.getAbsolutePath()));
 				audioFiles.addAll(getAudioFiles(file, lastUpdated));
 			}
 		}
 		return audioFiles;
 	}
 	
+	public String getVenue()
+	{
+		return venue;
+	}
+	
+	public void setVenue(String venue)
+	{
+		this.venue = venue;
+	}
+	
 	public String getMusicDirectory()
 	{
 		if (musicDirectory == null)
-			musicDirectory = System.getProperty("user.home") + "/Music";			
+			musicDirectory = System.getProperty("user.home") + "/Music";	
 		return musicDirectory;
 	}
 	
