@@ -39,6 +39,7 @@ define "miniMe" do
 
   task :deploy => :package do
     FileUtils.cp("target/miniMe-1.0.0.war", "../apache-tomcat-6.0.29/webapps/miniMe.war")
+    FileUtils.rm_r("../apache-tomcat-6.0.29/webapps/miniMe")
   end
 
   task :templates do

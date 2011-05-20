@@ -47,10 +47,10 @@ public class RemoteDbPopulator {
 				address.append("?artist=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ARTIST))); 				
 				address.append("&title=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.TITLE)));
 				address.append("&album=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ALBUM)));
+				address.append("&file_path=" + URLEncoder.encode(mp3.getAbsolutePath()));
 		        URL url = new URL(address.toString());
 				URLConnection connection = url.openConnection();
-				String content = (String) connection.getContent();
-				System.out.println(content);
+				connection.getContent();
 			}
 			catch (Exception e)
 			{

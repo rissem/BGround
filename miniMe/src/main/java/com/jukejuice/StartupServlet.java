@@ -22,7 +22,8 @@ public class StartupServlet
 	
 	public void init()
 	{
-		log.info("Server has been initialized.");
+		/*
+		TODO - add back db for more efficient addition of songs (don't add songs) 
 		
 		Db db = new Db();
 		try {
@@ -30,37 +31,23 @@ public class StartupServlet
 		} catch (SQLException e) {
 			log.error("", e);
 		}
-		
-		audioPlayer = new VlcPlayer();
 		Timer timer = new Timer();
 		env = new Properties();
 		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("env.properties");
-		log.info("stream = " + stream);
 		if (stream != null) {
 			try {
 				env.load(stream);
-				log.info(env);
 			} catch (IOException e) {
 				log.error("", e);
 			}
 		}
-		log.info(env.getProperty("fakePlayer"));
-		if (env != null && "true".equals(env.getProperty("fakePlayer"))) {
-			log.info("Faking playback instead of using VLC");
-			timer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					log.info("popping song");
-					PlaylistManager.getInstance(getServletContext()).pop();
-				}
-			}, 1000*20, 1000 * 30);
-		}
-		else {
-			timer.schedule(new VlcTask(), 0, 1000);
-		}
-		timer.schedule(new EnergyTask(), 0, 7 * 60 * 1000);
-		timer.schedule(new PlaylistTask(), 0, 5000);
-		timer.schedule(new KeepVlcAliveTask(),0, 5 *1000); 
+	*/
+		audioPlayer = new VlcPlayer();
+		Timer timer = new Timer();
+		log.info("starting it up");
+		timer.schedule(new VlcTask(), 0, 20000);
+		timer.schedule(new KeepVlcAliveTask(),0, 5 *1000);
+
 	}
 	
 	class VlcTask extends TimerTask
@@ -69,7 +56,7 @@ public class StartupServlet
 		public void run() {
 			try
 			{
-				audioPlayer.updatePlaylist(PlaylistManager.getInstance(getServletContext()));
+				audioPlayer.updatePlaylist();
 			}
 			catch (Exception e)
 			{

@@ -46,6 +46,11 @@
         <servlet-name>BanSongServlet</servlet-name>
         <servlet-class>com.jukejuice.BanSongServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>UpdateRemoteDbServlet</servlet-name>
+        <servlet-class>com.jukejuice.UpdateRemoteDbServlet</servlet-class>
+    </servlet>    
 
     <servlet>
         <servlet-name>InitDbServlet</servlet-name>
@@ -156,5 +161,10 @@
 	<servlet-mapping>
 		<servlet-name>SetNamesServlet</servlet-name>
 		<url-pattern>/sets</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>UpdateRemoteDbServlet</servlet-name>
+		<url-pattern>/updateRemoteDb</url-pattern>
 	</servlet-mapping>
 </web-app>

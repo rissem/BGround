@@ -28,7 +28,7 @@ public class GlobalFilter
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-
+/*
 		Db db = new Db();
 		String userCookie = getCookie(request, "user");
 		if (userCookie != null)
@@ -42,6 +42,7 @@ public class GlobalFilter
 			addCookie(response, "user", "" + user.getId());
 			request.setAttribute("user", user);
 		}
+	*/
 		chain.doFilter(request, response);
 	}
 
