@@ -45,7 +45,7 @@ public class StartupServlet
 		audioPlayer = new VlcPlayer();
 		Timer timer = new Timer();
 		log.info("starting it up");
-		timer.schedule(new VlcTask(), 0, 20000);
+		timer.schedule(new VlcTask(), 0, 1000);
 		timer.schedule(new KeepVlcAliveTask(),0, 5 *1000);
 
 	}
