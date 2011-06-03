@@ -32,16 +32,10 @@ public class StartupServlet
 			log.error("", e);
 		}
 		Timer timer = new Timer();
-		env = new Properties();
-		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("env.properties");
-		if (stream != null) {
-			try {
-				env.load(stream);
-			} catch (IOException e) {
-				log.error("", e);
-			}
-		}
+		
 	*/
+		env = Util.getEnvProperties();
+		
 		audioPlayer = new VlcPlayer();
 		Timer timer = new Timer();
 		log.info("starting it up");

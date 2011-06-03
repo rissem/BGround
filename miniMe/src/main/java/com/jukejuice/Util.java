@@ -9,10 +9,13 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
 
 public class Util {
 
-	//private static final Logger log = Logger.getLogger(Util.class);
+	private static final Logger log = Logger.getLogger(Util.class);
 	
 	public static String exec(String command) throws IOException
 	{
@@ -66,5 +69,18 @@ public class Util {
 	public static String resource (String filename)
 	{
 		return ClassLoader.getSystemClassLoader().getResource(filename).getFile();
+	}
+	
+	public static Properties getEnvProperties() {
+		Properties env = new Properties();
+		InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("env.properties");
+		if (stream != null) {
+			try {
+				env.load(stream);
+			} catch (IOException e) {
+				log.error("", e);
+			}
+		}		
+		return env;
 	}
 }

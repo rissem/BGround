@@ -18,7 +18,7 @@ public class UpdateRemoteDbServlet
 		log.info("testing123");
 		RemoteDbPopulator dbPopulator = new RemoteDbPopulator();
 		dbPopulator.setMusicDirectory("/tmp/music");
-		dbPopulator.setVenue("summit");
+		dbPopulator.setVenue(Util.getEnvProperties().getProperty("venue"));
 		dbPopulator.sync();		
 	}
 }

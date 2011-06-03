@@ -65,7 +65,7 @@ public class VlcPlayer
 		log.info("updating...");
 		if (getStatus().startsWith("stop"))
 		{
-			String venue = "summit"; 
+			String venue = Util.getEnvProperties().getProperty("venue");
 			try {
 				log.info("status is stop");
 				URL url = new URL("http://localhost:3000/" + venue + "/pop.json");
