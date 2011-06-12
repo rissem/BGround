@@ -64,7 +64,7 @@ public class RemoteDbPopulator {
 	{
 		List<File> audioFiles = new ArrayList<File>();
 		for (File file: directory.listFiles()) {
-			if (file.isFile() && (file.getName().endsWith("mp3") || file.getName().endsWith("m4a"))) {
+			if (file.isFile() && (file.getName().toLowerCase().endsWith("mp3") || file.getName().toLowerCase().endsWith("m4a"))) {
 				if (file.lastModified() > lastUpdated) 
 					audioFiles.add(file);
 			}
