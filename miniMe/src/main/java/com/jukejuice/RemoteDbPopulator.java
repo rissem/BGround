@@ -22,6 +22,7 @@ public class RemoteDbPopulator {
 	private String musicDirectory;
 	private String venue;
 	private Logger log = Logger.getLogger(RemoteDbPopulator.class);
+	private String host;
 
 	/**
 	 * find all of the mp3s and m4as in the musicDirectory, parse their ID3 tags and add them to the database
@@ -43,7 +44,7 @@ public class RemoteDbPopulator {
 			try {
 				SongFileInfo songFileInfo = new SongFileInfo(mp3.getAbsolutePath());
 				StringBuffer address = new StringBuffer();
-				address.append("http://localhost:3000/" + getVenue() + "/add_mp3.json");
+				address.append("http://" + getHost() + "/" + getVenue() + "/add_mp3.json");
 				address.append("?artist=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ARTIST))); 				
 				address.append("&title=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.TITLE)));
 				address.append("&album=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ALBUM)));
@@ -96,5 +97,13 @@ public class RemoteDbPopulator {
 	public void setMusicDirectory(String musicDirectory)
 	{
 		this.musicDirectory = musicDirectory;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+	
+	public String getHost() {
+		return host;
 	}
 }

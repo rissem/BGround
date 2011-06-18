@@ -17,8 +17,9 @@ public class UpdateRemoteDbServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 		log.info("testing123");
 		RemoteDbPopulator dbPopulator = new RemoteDbPopulator();
-		dbPopulator.setMusicDirectory("/tmp/music");
+		dbPopulator.setMusicDirectory(req.getParameter("musicDir"));
 		dbPopulator.setVenue(Util.getEnvProperties().getProperty("venue"));
+		dbPopulator.setHost(Util.getEnvProperties().getProperty("host"));
 		dbPopulator.sync();		
 	}
 }

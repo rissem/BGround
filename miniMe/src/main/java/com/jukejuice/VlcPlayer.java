@@ -62,13 +62,13 @@ public class VlcPlayer
 	 * @param playlistManager
 	 */
 	public void updatePlaylist() {
-		log.info("updating...");
 		if (getStatus().startsWith("stop"))
 		{
 			String venue = Util.getEnvProperties().getProperty("venue");
+			String host = Util.getEnvProperties().getProperty("host");
 			try {
 				log.info("status is stop");
-				URL url = new URL("http://localhost:3000/" + venue + "/pop.json");
+				URL url = new URL("http://" + host + "/" + venue + "/pop.json");
 				URLConnection connection = url.openConnection();
 				BufferedReader in;
 				in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
