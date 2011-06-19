@@ -21,8 +21,6 @@ public class AdminServlet
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		if (! req.getLocalAddr().equals(req.getRemoteAddr()))
-			return;
 		String action = req.getParameter("action");
 		VlcPlayer player = new VlcPlayer();
 		if ("pause".equals(action))

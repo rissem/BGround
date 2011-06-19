@@ -1,17 +1,4 @@
-<script type="text/javascript" src="js/soyutils.js"></script>
-<script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/jquery-1.4.4.js"></script>
-<script type="text/javascript" src="js/miniMe.js"></script>
 
-<div id="admin">
-<a href="#" onclick="$.get('admin?action=pause', function(data){});">Pause/Unpause</a><br />
-<a href="#" onclick="$.get('admin?action=skip', function(data){});">Skip</a><br />
-<a href="#" onclick="$.get('admin?action=volumeUp', function(data){});">Volume Up</a><br />
-<a href="#" onclick="$.get('admin?action=volumeDown', function(data){});">Volume Down</a><br />
-</div>
-
-<form action="/miniMe/importSet" method="post" enctype="multipart/form-data">
-<input type="text" name="setName" />
-<input type="file" name="file" id="file" />
-<input type="submit" />
-</form>
+<input type="button" value="UP" onclick="$.get('admin?action=volumeUp', function(data){});" />
+<input type="button" value="DOWN" onclick="$.get('admin?action=volumeDown', function(data){});" />
