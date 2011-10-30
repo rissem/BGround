@@ -6,11 +6,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
 public class Util {
@@ -82,5 +93,22 @@ public class Util {
 			}
 		}		
 		return env;
+	}
+	
+	public static String postUrl(String urlString, Map<String,String> data) throws ClientProtocolException, IOException {
+		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+		for (String key: data.keySet())
+			formparams.add(new BasicNameValuePair(key, data.get(key)));
+		UrlEncodedFormEntity entity;
+		try {
+			entity = new UrlEncodedFormEntity(formparams, "UTF-8");
+			HttpPost httpPost = new HttpPost(urlString);
+			httpPost.setEntity(entity);
+			HttpClient httpclient = new DefaultHttpClient();
+			httpclient.execute(httpPost);
+		} catch (UnsupportedEncodingException e) {
+			log.error("", e);
+		}
+		return null;
 	}
 }
