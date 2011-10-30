@@ -3,13 +3,13 @@ package com.jukejuice;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.http.client.methods.HttpPost;
 import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
@@ -17,6 +17,8 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.KeyNotFoundException;
 import org.jaudiotagger.tag.TagException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class RemoteDbPopulator {
 	private String musicDirectory;
@@ -36,27 +38,37 @@ public class RemoteDbPopulator {
 	 * @throws SQLException
 	 */
 	public void sync () {
-		//store the lastUpdated time in a file?
-		
-		List<File> mp3s = getAudioFiles(new File(getMusicDirectory()), 0l);
-		for (File mp3: mp3s)
+		List<File> mp3Files = getAudioFiles(new File(getMusicDirectory()), 0l);
+		JSONArray mp3s = new JSONArray();
+		for (File mp3: mp3Files)
 		{
+			JSONObject mp3Info = new JSONObject();
 			try {
 				SongFileInfo songFileInfo = new SongFileInfo(mp3.getAbsolutePath());
-				StringBuffer address = new StringBuffer();
-				address.append("http://" + getHost() + "/" + getVenue() + "/add_mp3.json");
-				address.append("?artist=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ARTIST))); 				
-				address.append("&title=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.TITLE)));
-				address.append("&album=" + URLEncoder.encode(songFileInfo.tag.getFirst(FieldKey.ALBUM)));
-				address.append("&file_path=" + URLEncoder.encode(mp3.getAbsolutePath()));
-		        URL url = new URL(address.toString());
-				URLConnection connection = url.openConnection();
-				connection.getContent();
+				mp3Info.put("artist", songFileInfo.tag.getFirst(FieldKey.ARTIST));
+				mp3Info.put("title", songFileInfo.tag.getFirst(FieldKey.TITLE));
+				mp3Info.put("album", songFileInfo.tag.getFirst(FieldKey.ALBUM));
+				mp3Info.put("file_path", mp3.getAbsolutePath());
+				mp3s.put(mp3Info);
 			}
 			catch (Exception e)
 			{
-				log.error(e);
+				log.error("", e);
 			}
+		}
+
+
+		try {
+			String address = "http://" + getHost() + "/" + getVenue() + "/sync_library.json";
+			log.info("calling " + address);
+			Map<String,String> data = new HashMap<String,String>();
+			data.put("mp3s", mp3s.toString());
+			log.info("mp3s string = "+ mp3s.toString());
+			data.put("insane", "no");
+			Util.postUrl(address, data);
+		}
+		catch (Exception e) {
+			log.error("", e);
 		}
 	}
 	
