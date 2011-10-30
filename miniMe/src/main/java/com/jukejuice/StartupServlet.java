@@ -1,8 +1,5 @@
 package com.jukejuice;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,7 +20,7 @@ public class StartupServlet
 	public void init()
 	{
 		/*
-		TODO - add back db for more efficient addition of songs (don't add songs) 
+		TODO - add back db for more efficient addition of songs (don't readd songs) 
 		
 		Db db = new Db();
 		try {
@@ -95,8 +92,9 @@ public class StartupServlet
 			if (!audioPlayer.isAlive()) {
 				try {
 					log.error("vlc server is down; attempting to restart");
-					Util.exec(env.getProperty("vlcScript"));
-				} catch (IOException e) {
+					String result = Util.exec(env.getProperty("vlcScript"));
+					log.error(env.getProperty("vlcScript") + " returned " + result);
+				} catch (Exception e) {
 					log.error("", e);
 				}
 			}
